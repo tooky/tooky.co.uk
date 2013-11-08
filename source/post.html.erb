@@ -1,6 +1,14 @@
 <% wrap_layout :layout do %>
   <article>
-    <h1><%= current_page.title %></h1>
-    <%= yield %>
+    <header>
+      <h1><%= current_page.title %></h1>
+      <section class="author">
+        <p class="byline">by <%= author.name %></p>
+        <time datetime="<%= current_page.date.strftime("%Y-%m-%d") %>" itemprop="datePublished">Posted on <%= current_page.date.to_date.to_s(:long_ordinal) %></time>
+      </section>
+    </header>
+    <section class="article-body">
+      <%= yield %>
+    </section>
   </article>
 <% end %>

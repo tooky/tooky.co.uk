@@ -9,9 +9,9 @@ activate :blog do |blog|
   blog.permalink = ":title.html"
   blog.sources = "posts/:year-:month-:day-:title.html"
   # blog.taglink = "tags/:tag.html"
-  # blog.layout = "layout"
+  blog.layout = "post"
   # blog.summary_separator = /(READMORE)/
-  # blog.summary_length = 250
+  blog.summary_length = 300
   # blog.year_link = ":year.html"
   # blog.month_link = ":year/:month.html"
   # blog.day_link = ":year/:month/:day.html"
@@ -72,11 +72,11 @@ activate :directory_indexes
 # activate :automatic_image_sizes
 
 # Methods defined in the helpers block are available in templates
-# helpers do
-#   def some_helper
-#     "Helping"
-#   end
-# end
+ helpers do
+   def author
+     data.people[current_page.data.author]
+   end
+ end
 
 set :css_dir, 'stylesheets'
 
