@@ -27,6 +27,13 @@ end
 
 page "/feed.xml", :layout => false
 
+ignore "tag_feed.xml"
+ready do
+  sitemap.resources.map { |p| p.data["tags"] }.flatten.compact.uniq.map(&:parameterize).map do |tag|
+    proxy "/tags/#{tag}.xml", "tag_feed.xml", :layout => false,
+      :locals => { :tag => tag }
+  end
+end
 activate :directory_indexes
 
 set :markdown_engine, :redcarpet
@@ -67,6 +74,8 @@ activate :syntax, line_numbers: true
 # page "/this-page-has-no-template.html", :proxy => "/template-file.html" do
 #   @which_fake_page = "Rendering a fake page with a variable"
 # end
+#
+
 
 ###
 # Helpers

@@ -73,7 +73,7 @@ GEM
     rouge (0.3.10)
       thor
     sass (3.2.12)
-    sprockets (2.10.0)
+    sprockets (2.10.1)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
