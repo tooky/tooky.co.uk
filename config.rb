@@ -10,7 +10,7 @@ activate :blog do |blog|
   blog.sources = "posts/:year-:month-:day-:title.html"
   # blog.taglink = "tags/:tag.html"
   blog.layout = "post"
-  # blog.summary_separator = /(READMORE)/
+  blog.summary_separator = /(READMORE)/
   blog.summary_length = 300
   # blog.year_link = ":year.html"
   # blog.month_link = ":year/:month.html"
@@ -77,8 +77,8 @@ activate :syntax, line_numbers: true
 
 # Methods defined in the helpers block are available in templates
  helpers do
-   def author
-     data.people[current_page.data.author]
+   def author(page_data = current_page.data)
+     data.people[page_data.author]
    end
  end
 

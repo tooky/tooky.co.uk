@@ -1,23 +1,25 @@
 ---
-pageable: true
-per_page: 10
 ---
-<% if paginate && num_pages > 1 %>
-  <p>Page <%= page_number %> of <%= num_pages %></p>
+<% current, *recent = *blog.articles.first(4) %>
+<article>
+  <header>
+    <h1><%= link_to current.title, current %> </h1>
+    <section class="author">
+      <p class="byline">by <%= author(current.data).name %></p>
+      <time datetime="<%= current.date.strftime("%Y-%m-%d") %>" itemprop="datePublished"><%= current.date.to_date.to_s(:long_ordinal) %></time>
+    </section>
+  </header>
+  <section class="article-body">
+    <%= current.body %>
+  </section>
+</article>
 
-  <% if prev_page %>
-    <p><%= link_to 'Previous page', prev_page %></p>
+<ul id="suggested-reading">
+  <% recent.each_with_index do |article, i| %>
+    <li class="suggested-reading-card">
+      <h2><%= link_to article.title, article %></h2>
+      <%= article.summary %>
+      <%= link_to 'Read more…', article %>
+    </li>
   <% end %>
-<% end %>
-
-<% page_articles.each_with_index do |article, i| %>
-  <h2><%= link_to article.title, article %> <span><%= article.date.strftime('%b %e') %></span></h2>
-  <%= article.summary %>
-  <%= link_to 'Read more…', article %>
-<% end %>
-
-<% if paginate %>
-  <% if next_page %>
-    <p><%= link_to 'Next page', next_page %></p>
-  <% end %>
-<% end %>
+</ul>

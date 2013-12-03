@@ -5,27 +5,40 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
     <title>Steve Tooke<%= ' - ' + current_article.title unless current_article.nil? %></title>
     <%= stylesheet_link_tag 'highlight' %>
+    <%= stylesheet_link_tag 'blog' %>
   </head>
   <body>
 
+  <div id='site-header'>
+    <div id="site-header-wrapper">
+      <h1>
+        <a href="/">
+          Steve Tooke
+        </a>
+      </h1>
+      <h2>software development flavoured with agile, bdd, ruby and javascript</h2>
+    </div>
+  </div>
+  <div id='main-wrapper'>
     <div id="main" role="main">
       <%= yield %>
     </div>
 
-    <aside>
+    <aside id="sidebar">
       <h2>Recent Articles</h2>
       <ol>
         <% blog.articles[0...10].each do |article| %>
           <li><%= link_to article.title, article %> <span><%= article.date.strftime('%b %e') %></span></li>
-        <% end %>
+      <% end %>
       </ol>
 
       <h2>Tags</h2>
       <ul>
         <% blog.tags.sort.each do |tag, articles| %>
           <li><%= link_to tag, tag_path(tag) %></a></li>
-        <% end %>
-      </ul>
-    </aside>
+    <% end %>
+    </ul>
+  </aside>
+</div>
   </body>
 </html>
