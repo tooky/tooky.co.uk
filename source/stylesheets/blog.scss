@@ -2,7 +2,7 @@
 
 $main-font:    'Source Sans Pro', sans-serif;
 $article-font: 'Merriweather', serif;
-$code-font:    monospace;
+$code-font:    'Source Code Pro', monospace;
 a, a:visited, a:active {color: #045FB4 }
 a {transition: color ease 0.3s;
   &:hover {color: #0080FF;}
@@ -54,7 +54,16 @@ body { font: 16px/21px $main-font;}
   }
 }
 
-pre.highlight * {font-family: monospace !important}
+pre.highlight {
+  padding: 0.5em;
+  overflow: scroll;
+  margin-bottom: 1em;
+  font-family: $code-font !important;
+}
+
+code {
+  font-family: $code-font !important;
+}
 /* apply a natural box layout model to all elements */
 *, *:before, *:after { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
