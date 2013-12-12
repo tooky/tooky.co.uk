@@ -154,6 +154,20 @@ footer {
   border-top: 1px solid #CCC;
   clear: both; 
 }
-.author {margin: 1em 0}
+.author {
+  @include clearfix;
+
+  margin: 1em 0;
+
+  .avatar {
+    float: left;
+    width: 40px;
+    margin-right: 1em;
+    clip-path: circle(20px, 20px, 20px);
+    -webkit-clip-path: circle(20px, 20px, 20px);
+    -o-webkit-clip-path: circle(20px, 20px, 20px);
+    -moz-webkit-clip-path: circle(20px, 20px, 20px);
+  }
+}
 
 h2 .feed { font-size: 0.6125em; float: right; padding-top: 0.25em;} 

@@ -3,8 +3,9 @@
     <header>
       <h1><%= current_page.title %></h1>
       <section class="author">
+        <img class="avatar" src="<%= author.avatar %>">
         <p class="byline">by <%= author.name %></p>
-        <time datetime="<%= current_page.date.strftime("%Y-%m-%d") %>" itemprop="datePublished">Posted on <%= current_page.date.to_date.to_s(:long_ordinal) %></time>
+        <time datetime="<%= current_page.date.strftime("%Y-%m-%d") %>" itemprop="datePublished"><%= current_page.date.to_date.to_s(:long_ordinal) %></time>
       </section>
     </header>
     <section class="article-body">
