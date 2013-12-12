@@ -30,8 +30,7 @@ page "/feed.xml", :layout => false
 ignore "tag_feed.xml"
 ready do
   sitemap.resources.map { |p| p.data["tags"] }.flatten.compact.uniq.map(&:parameterize).map do |tag|
-    proxy "/tags/#{tag}.xml", "tag_feed.xml", :layout => false,
-      :locals => { :tag => tag }
+    proxy "/tags/#{tag}.xml", "tag_feed.xml", :layout => false, :locals => { :tag => tag }
   end
 end
 activate :directory_indexes

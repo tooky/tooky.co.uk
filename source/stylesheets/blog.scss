@@ -1,28 +1,101 @@
-* {font-family: sans-serif; font-weight: 100;}
+@import 'compass';
+
+$main-font:    'Source Sans Pro', sans-serif;
+$article-font: 'Merriweather', serif;
+$code-font:    monospace;
+a, a:visited, a:active {color: #03C}
+
+h1, h2, h3, h4, h5, h6 { 
+  font-weight: 300 !important;
+  line-height: 1;
+  margin: 0.5em 0;
+  a {text-decoration: none;}
+}
+
+h1 { font-size: 200% }
+h2 { font-size: 150% }
+h3 { font-size: 125% }
+
+body { font: 16px/21px $main-font;}
+.article-body  { 
+  font: 18px/28px $article-font;
+  color: #444;
+  h1, h2, h3, h4, h5, h6 {font-family: $main-font; }
+
+  p {
+    margin-bottom: 1em;
+  }
+
+  ul, ol {
+    margin-left: 0.5em;
+    list-style-position: inside;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  ol { 
+    list-style-type: decimal;
+  }
+
+  blockquote {
+    background: #F8F8F8;
+    color: #666;
+    border-left: 3px solid #DDD;
+    padding: 1em;
+    margin-bottom: 1em;
+    font-style: italic;
+
+    p:last-child {margin-bottom: 0}
+  }
+}
+
 pre.highlight * {font-family: monospace !important}
 /* apply a natural box layout model to all elements */
 *, *:before, *:after { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
 html, body {background: white; padding: 0; margin: 0;}
 #site-header {
-  background: #444;
+  background: url('/images/header.jpg');
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+    -moz-background-size: cover;
+      -o-background-size: cover;
+         background-size: cover;
   border-bottom: 1px solid #222;
-  padding-top: 1em;
+  padding: 7em 0;
+  margin-bottom: 1em;
   color: white;
   text-align: center;
+
+  @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+  only screen and (-moz-min-device-pixel-ratio: 1.5),
+  only screen and (-o-min-device-pixel-ratio: 3/2),
+  only screen and (min-device-pixel-ratio: 1.5) {
+    background: url('/images/header-2x.jpg');
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+
   h1 {
     margin-top: 0;
     a, a:visited, a:hover, a:active { color: white !important; }
   }
 }
 #main-wrapper, #site-header-wrapper { width: 90%; overflow: auto; margin: 0 auto;}
-#main { float: left; width: 70%; 
+#main { float: left; width: 70%;
   article img {max-width: 100%; height: auto;}
 }
 
 #suggested-reading {
   overflow: auto;
-  .suggested-reading-card { 
+  .suggested-reading-card {
     float: left;
     width: 32%;
     margin-left: 2%;
@@ -35,12 +108,36 @@ html, body {background: white; padding: 0; margin: 0;}
 
 .date {
   font-size: 50%;
-} 
+}
 
 
-#sidebar{ float: right; width: 28%; padding: 0 1em;}
+#sidebar{ float: right; width: 28%; padding: 0 1em;
+  ol li {margin: 0 0 0.5em; @include clearfix; border-bottom: 1px solid #DDD; padding-bottom: 0.5em;}
+  #recent-articles li {
+    a {float: left; width: 70%}
+    span {float: right; width: 25%;}
+  }
+}
 
 ul, ol, {
-  list-style: none; 
+  list-style: none;
   padding-left: 0;
+  @include clearfix;
+
+  &#tags li{
+    float: left;
+    margin: 0.5em 0.5em 0.5em 0;
+    a {
+      color: white;
+      text-decoration: none;
+      background: #CCC;
+      border-radius: 5px;
+      padding: 0.25em 0.5em 0.35em;
+      white-space: nowrap;
+
+      &:hover {background: #03C}
+    }
+  }
 }
+
+.author {margin: 1em 0}
