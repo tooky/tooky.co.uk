@@ -3,7 +3,10 @@
 $main-font:    'Source Sans Pro', sans-serif;
 $article-font: 'Merriweather', serif;
 $code-font:    monospace;
-a, a:visited, a:active {color: #03C}
+a, a:visited, a:active {color: #045FB4 }
+a {transition: color ease 0.3s;
+  &:hover {color: #0080FF;}
+}
 
 h1, h2, h3, h4, h5, h6 { 
   font-weight: 300 !important;
@@ -64,7 +67,7 @@ html, body {background: white; padding: 0; margin: 0;}
     -moz-background-size: cover;
       -o-background-size: cover;
          background-size: cover;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid #666;
   padding: 7em 0;
   margin-bottom: 1em;
   color: white;
@@ -95,6 +98,7 @@ html, body {background: white; padding: 0; margin: 0;}
 
 #suggested-reading {
   overflow: auto;
+  @include clearfix;
   .suggested-reading-card {
     float: left;
     width: 32%;
@@ -103,6 +107,8 @@ html, body {background: white; padding: 0; margin: 0;}
     border-left: 1px solid #DDD;
     height: 100%;
     &:first-child { margin-left: 0; padding-left: 0; width: 32%; border-left: none;}
+
+    p { font-family: $article-font}
   }
 }
 
@@ -134,10 +140,20 @@ ul, ol, {
       border-radius: 5px;
       padding: 0.25em 0.5em 0.35em;
       white-space: nowrap;
-
-      &:hover {background: #03C}
+      transition: background ease 0.3s;
+      &:hover {background: #0080FF}
     }
   }
 }
 
+footer {
+  float: left;
+  width: 100%;
+  margin-top: 2em;
+  padding: 2em 0;
+  border-top: 1px solid #CCC;
+  clear: both; 
+}
 .author {margin: 1em 0}
+
+h2 .feed { font-size: 0.6125em; float: right; padding-top: 0.25em;} 

@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
     <title>Steve Tooke<%= ' - ' + current_article.title unless current_article.nil? %></title>
-    <link href='http://fonts.googleapis.com/css?family=Merriweather:300italic,300' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300' rel='stylesheet' type='text/css'>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:300italic,300|Source+Sans+Pro:300' rel='stylesheet' type='text/css'>
     <%= stylesheet_link_tag 'reset' %>
     <%= stylesheet_link_tag 'highlight' %>
     <%= stylesheet_link_tag 'blog' %>
@@ -28,7 +28,9 @@
     </div>
 
     <aside id="sidebar">
-      <h2>Recent Articles</h2>
+      <h2>Recent Articles
+        <a href="/feed.xml" class="feed"><i class="fa fa-rss"></i> subscribe</a>
+      </h2>
       <ol id="recent-articles">
         <% blog.articles[0...5].each do |article| %>
           <li><%= link_to article.title, article %> <span><%= article.date.strftime('%b %e') %></span></li>
@@ -39,9 +41,15 @@
       <ul id="tags">
         <% blog.tags.sort.each do |tag, articles| %>
           <li><%= link_to tag, tag_path(tag) %></a></li>
-    <% end %>
-    </ul>
-  </aside>
-</div>
+        <% end %>
+      </ul>
+    </aside>
+    <footer>
+      <div id='site-footer'>
+        <p>All content copyright Steve Tooke &copy; <%= Time.now.year %> &middot; All rights reserved.</p>
+        <p>Find me on <a href="http://twitter.com/tooky">Twitter</a> | <a href="https://plus.google.com/+SteveTooke-Heavies/">Google+</a></a></p>
+    </div>
+    </footer>
+  </div>
   </body>
 </html>
