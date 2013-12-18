@@ -1,6 +1,6 @@
 ---
 pageable: true
-per_page: 12
+per_page: 6
 ---
 <h1>Articles tagged '<%= tagname %>'</h1>
 
@@ -12,9 +12,22 @@ per_page: 12
   <% end %>
 <% end %>
 
-<ul>
-  <% page_articles.each_with_index do |article, i| %>
-    <li><%= link_to article.title, article %> <span><%= article.date.strftime('%b %e') %></span></li>
+<ul id="suggested-reading">
+  <% page_articles.each_slice(3) do |articles| %>
+    <div class="suggested-reading-row">
+      <% articles.each do |article| %>
+        <li class="suggested-reading-card">
+          <h2>
+            <%= link_to article.title, article %>
+            <span class="date">
+              <time datetime="<%= article.date.strftime("%Y-%m-%d") %>" itemprop="datePublished"><%= article.date.strftime('%b %e') %></time>
+            </span>
+          </h2>
+          <%= article.summary %>
+          <%= link_to 'Read more…', article %>
+        </li>
+      <% end %>
+    </div>
   <% end %>
 </ul>
 

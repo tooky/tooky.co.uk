@@ -8,7 +8,7 @@ a {transition: color ease 0.3s;
   &:hover {color: #0080FF;}
 }
 
-h1, h2, h3, h4, h5, h6 { 
+h1, h2, h3, h4, h5, h6 {
   font-weight: 300 !important;
   line-height: 1;
   margin: 0.5em 0;
@@ -20,7 +20,7 @@ h2 { font-size: 150% }
 h3 { font-size: 125% }
 
 body { font: 16px/21px $main-font;}
-.article-body  { 
+.article-body  {
   font: 18px/28px $article-font;
   color: #444;
   h1, h2, h3, h4, h5, h6 {font-family: $main-font; }
@@ -38,7 +38,7 @@ body { font: 16px/21px $main-font;}
     list-style-type: disc;
   }
 
-  ol { 
+  ol {
     list-style-type: decimal;
   }
 
@@ -112,26 +112,30 @@ html, body {background: white; padding: 0; margin: 0;}
 #suggested-reading {
   overflow: auto;
   @include clearfix;
+  .suggested-reading-row {
+    @include clearfix;
+    margin-bottom: 1em;
+  }
   .suggested-reading-card {
     float: left;
     width: 32%;
     margin-left: 2%;
     padding-left: 2%;
     border-left: 1px solid #DDD;
-    height: 100%;
-    &:first-child { margin-left: 0; padding-left: 0; width: 32%; border-left: none;}
 
-    p { 
+    &:nth-child(3n+1) { margin-left: 0; padding-left: 0; width: 32%; border-left: none;}
+
+    p {
       font-family: $article-font;
       &:last-of-type a { font-family: $main-font }
     }
+
+    .date {
+      font-size: 80%;
+    }
+
   }
 }
-
-.date {
-  font-size: 50%;
-}
-
 
 #sidebar{
   float: right; width: 28%; padding: 0 1em;
@@ -194,7 +198,7 @@ footer {
   margin-top: 2em;
   padding: 2em 0;
   border-top: 1px solid #DDD;
-  clear: both; 
+  clear: both;
 }
 .author {
   @include clearfix;
@@ -217,7 +221,7 @@ footer {
     float: none;
     width: 100%;
   }
-  #sidebar{ 
+  #sidebar{
     float: none;
     width: 100%;
     padding: 0;
@@ -239,7 +243,7 @@ footer {
     float: none;
     width: 100%;
   }
-  #sidebar{ 
+  #sidebar{
     float: none;
     width: 100%;
     padding: 0;
@@ -266,7 +270,7 @@ footer {
       height: auto;
       &:first-child { margin-left: 0; padding-left: 0; width: 100%; border-left: none;}
 
-      p { 
+      p {
         font-family: $article-font;
         &:last-of-type a { font-family: $main-font }
       }
