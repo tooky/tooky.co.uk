@@ -24,19 +24,19 @@ Here are the posters the group created.
 
 ### Single Responsibility Principle
 
-![Single Responsibility Principle](http://tooky.co.uk/content/images/2013/Oct/single_responsibility.jpg)
+![Single Responsibility Principle](https://dl.dropboxusercontent.com/u/41915/otb-solid/single-responsibility.jpg)
 
 ### Open-Closed Principle
-![Open-Closed Principle](http://tooky.co.uk/content/images/2013/Nov/open_closed.jpg)
+![Open-Closed Principle](https://dl.dropboxusercontent.com/u/41915/otb-solid/open-closed.jpg)
 
 ### Liskov Substitution Principle
-![Liskov Substitution Principle](http://tooky.co.uk/content/images/2013/Nov/liskov_substitution.jpg)
+![Liskov Substitution Principle](https://dl.dropboxusercontent.com/u/41915/otb-solid/liskov-substitution.jpg)
 
 ### Interface Segregation Principle
-![Interface Segregation Principle](http://tooky.co.uk/content/images/2013/Nov/interface_segregation.jpg)
+![Interface Segregation Principle](https://dl.dropboxusercontent.com/u/41915/otb-solid/interface-segregation.jpg)
 
 ### Dependency Inversion Principle
-![Dependency Inversion Principle](http://tooky.co.uk/content/images/2013/Nov/dependency_inversion.jpg)
+![Dependency Inversion Principle](https://dl.dropboxusercontent.com/u/41915/otb-solid/dependency-inversion.jpg)
 
 [kickstart]: http://kickstartacademy.io/
 [otb]: https://www.onthebeach.co.uk/
