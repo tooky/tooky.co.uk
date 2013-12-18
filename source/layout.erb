@@ -28,21 +28,42 @@
     </div>
 
     <aside id="sidebar">
-      <h2>Recent Articles
-        <a href="/feed.xml" class="feed"><i class="fa fa-rss"></i> subscribe</a>
-      </h2>
       <ol id="recent-articles">
+        <h2>Recent Articles
+          <a href="/feed.xml" class="feed"><i class="fa fa-rss"></i> subscribe</a>
+        </h2>
         <% blog.articles[0...5].each do |article| %>
           <li><%= link_to article.title, article %> <span><%= article.date.strftime('%b %e') %></span></li>
       <% end %>
       </ol>
 
-      <h2>Tags</h2>
       <ul id="tags">
+        <h2>Tags</h2>
         <% blog.tags.sort.each do |tag, articles| %>
           <li><%= link_to tag, tag_path(tag) %></a></li>
         <% end %>
       </ul>
+
+      <div id="bio">
+        <img class="avatar" src="/images/tooky-avatar.jpg">
+        <h2>Steve Tooke</h2>
+        <p>
+        I am a programmer &mdash; consultant, trainer and coach &mdash;
+        passionate about improving my craft and helping others improve
+        theirs. I specialise in helping teams continue to deliver
+        valuable software by improving their team practices and
+        communication, and keeping their code maintainable.
+        </p>
+        <p>
+        I co-organised Bootstrapd, a non-profit conference for
+        bootstrapped startups in Europe. I am the co-founder of the
+        Software Craftsmanship UK user group, and the HampshiRB ruby
+        user group. I have spoken at the Scottish Ruby
+        Conference and have run workshops at the London Software
+        Craftsmanship Community. I am a member of the Cucumber core
+        team.
+        </p>
+      </div>
     </aside>
     <footer>
       <div id='site-footer'>

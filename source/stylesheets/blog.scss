@@ -139,8 +139,24 @@ html, body {background: white; padding: 0; margin: 0;}
     border-top: 1px solid #DDD;
     padding-top: 0.5em;
     li {
-      a {float: left; width: 70%}
+      a {font-size: 1.1em; float: left; width: 70%}
       span {float: right; width: 25%; text-align: right}
+    }
+  }
+
+  #bio {
+    @include clearfix;
+    .avatar {
+      float: right;
+      width: 80px;
+      margin-right: 1em;
+      clip-path: circle(40px, 40px, 40px);
+      -webkit-clip-path: circle(40px, 40px, 40px);
+      -o-webkit-clip-path: circle(40px, 40px, 40px);
+      -moz-webkit-clip-path: circle(40px, 40px, 40px);
+    }
+    p {
+      margin-bottom: 1em;
     }
   }
 }
