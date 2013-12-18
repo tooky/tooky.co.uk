@@ -118,3 +118,11 @@ configure :build do
   # Or use a different image path
   # set :http_path, "/Content/images/"
 end
+
+activate :deploy do |deploy|
+  deploy.method = :rsync
+  deploy.host   = "lonlin1.heavi.es"
+  deploy.path   = "/var/www/apps/tooky.co.uk/public"
+  deploy.user   = "deploy"
+  deploy.clean  = true
+end
