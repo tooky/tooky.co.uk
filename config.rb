@@ -110,9 +110,8 @@ configure :build do
 end
 
 activate :deploy do |deploy|
-  deploy.method = :rsync
-  deploy.host   = "lonlin1.heavi.es"
-  deploy.path   = "/var/www/apps/tooky.co.uk/public"
-  deploy.user   = "deploy"
-  deploy.clean  = true
+  deploy.method = :git
+  deploy.remote = 'origin'
+  deploy.branch = 'gh-pages'
+  deploy.strategy = :force_push
 end
