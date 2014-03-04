@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Steve Tooke - ruby</title>
+  <id>http://tooky.co.uk/</id>
+  <link href="http://tooky.co.uk/tags/ruby/"/>
+  <link href="http://tooky.co.uk/tags/ruby.xml" rel="self"/>
+  <updated>2012-08-08T00:00:00Z</updated>
+  <entry>
+    <title>Delegation is not inheritance</title>
+    <link rel="alternate" href="http://tooky.co.uk/delegation-is-not-inheritance/"/>
+    <id>http://tooky.co.uk/delegation-is-not-inheritance/</id>
+    <published>2012-08-08T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;On the train home last night I watched the excellent &lt;a href="https://peepcode.com/products/play-by-play-jimweirich-ruby"&gt;Jim Weirich Play-by-play&lt;/a&gt; from &lt;a href="https://peepcode.com/"&gt;PeepCode&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;During the screencast Jim develops a library that &amp;ldquo;protects against unauthorized data model modification by users in less-privileged roles.&amp;rdquo; The screencast provides a great insight into the way Jim approaches problems, designs apis, and how he&amp;#39;s customised his environment to suit the way he works.&lt;/p&gt;
+
+&lt;p&gt;His approach is to build a proxy object which wraps the object to be updated, and provides a whitelist for fields which can be updated. He also inadvertantly demonstrates an easy mistake to make when using proxy objects.&lt;/p&gt;
+
+&lt;p&gt;Here is a simplified version of Jim&amp;#39;s solution -  without any of the api for creating / finding proxies - which we will use to demonstrate this pitfall and its effects.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;delegate&amp;#39;&lt;/span&gt;
+&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;ProtectionProxy&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;SimpleDelegator&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;writable_fields&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@writable_fields&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;writable_fields&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method_missing&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;method&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;block&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;method_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;method&lt;/span&gt;&lt;span class="nf"&gt;.to_s&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;method_name&lt;/span&gt;&lt;span class="nf"&gt;.end_with?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;=&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="k"&gt;super&lt;/span&gt;
+    &lt;span class="k"&gt;elsif&lt;/span&gt; &lt;span class="vi"&gt;@writable_fields&lt;/span&gt;&lt;span class="nf"&gt;.include?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;method_name&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="nf"&gt;...-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="nf"&gt;.to_sym&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="k"&gt;super&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;This approach works great for silently dropping calls to the accessor methods that are not in the provided whitelist. Here are some rspec examples which show how it works.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rspec-given&amp;#39;&lt;/span&gt;
+&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;protection_proxy&amp;#39;&lt;/span&gt;
+
+&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;User&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;Struct&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:email&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:membership_level&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="n"&gt;describe&lt;/span&gt; &lt;span class="no"&gt;ProtectionProxy&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="no"&gt;Given&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Jim&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;jim@somewhere&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Beginner&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="no"&gt;Given&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:proxy&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="no"&gt;ProtectionProxy&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:membership_level&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="no"&gt;Then&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="nf"&gt;.name.should&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Jim&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;when modifiying a writable field&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="no"&gt;When&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="nf"&gt;.membership_level&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Advanced&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="no"&gt;Then&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="nf"&gt;.membership_level.should&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Advanced&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;when modifiying a non-writable field&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="no"&gt;When&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="nf"&gt;.name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Joe&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="no"&gt;Then&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="nf"&gt;.name.should&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Jim&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Now if we imagine we have a rails project, we can create a proxy to wrap our ActiveRecord object, and specify an attribute whitelist.  This should then prevent mass-assignment of any non-whitelist attributes - it could be used in a controller like this:&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;UserController&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActionController&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;update&lt;/span&gt;
+    &lt;span class="n"&gt;user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:id&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;proxy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;ProtectionProxy&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:email&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="nf"&gt;.update_attributes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="c1"&gt;# happy path&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;
+      &lt;span class="c1"&gt;# error&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Unfortunately this won&amp;#39;t work as we might expect.&lt;/p&gt;
+
+&lt;p&gt;Proxying like this is a great way to add new behaviour to existing objects, without modifying them - or creating new subclasses. but there is one thing to be aware of when you are using delegation in this way.&lt;/p&gt;
+
+&lt;p&gt;Methods called on the wrapped object have &lt;strong&gt;no&lt;/strong&gt; knowledge of the methods in the proxy object.&lt;/p&gt;
+
+&lt;p&gt;So what happens when we call &lt;code&gt;proxy.update_attributes&lt;/code&gt;?&lt;/p&gt;
+
+&lt;p&gt;The proxy object immediately delegates that method call to the user object, it will call &lt;code&gt;user.update_attributes&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you have used ActiveRecord, you will be aware of the way that &lt;code&gt;ActiveRecord::Base#update_attrbiutes&lt;/code&gt; will make use of the accessor methods on its instances to set the field names.&lt;/p&gt;
+
+&lt;p&gt;So, &lt;code&gt;user.update_attributes name: &amp;#39;Joe&amp;#39;&lt;/code&gt; will call &lt;code&gt;user.name = &amp;#39;Joe&amp;#39;&lt;/code&gt;, not the accessor methods on the proxy.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="update attributes sequence diagram" src="http://dl.dropbox.com/u/41915/update_attributes_sequence_diagram.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;As we are not calling the accessor methods on the proxy, we aren&amp;#39;t filtering out the fields that don&amp;#39;t appear in the whitelist and our attribute protection won&amp;#39;t work when we use &lt;code&gt;update_attributes&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here is another example. &lt;code&gt;Capitalise&lt;/code&gt; wraps an object and provides a upper case version of its name method.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;delegate&amp;#39;&lt;/span&gt;
+&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Capitalise&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;SimpleDelegator&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@source&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;source&lt;/span&gt;
+    &lt;span class="k"&gt;super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;name&lt;/span&gt;
+    &lt;span class="vi"&gt;@source&lt;/span&gt;&lt;span class="nf"&gt;.name.upcase&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Person&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;Struct&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;greet&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;Hello, &lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="n"&gt;john&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Person&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;john&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;capital_john&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Capitalise&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;john&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;john&lt;/span&gt;&lt;span class="nf"&gt;.greet&lt;/span&gt; &lt;span class="c1"&gt;#=&amp;gt; &amp;quot;Hello, john&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;capital_john&lt;/span&gt;&lt;span class="nf"&gt;.greet&lt;/span&gt; &lt;span class="c1"&gt;#=&amp;gt; &amp;quot;Hello, john&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Because &lt;code&gt;greet&lt;/code&gt; is defined in the &lt;code&gt;Person&lt;/code&gt; class, when it calls &lt;code&gt;name&lt;/code&gt; it will always call &lt;code&gt;Person#name&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This has caught me out a couple times. It&amp;#39;s so easy in ruby to create proxy objects or decorators that its easy to forget that you have a different object.&lt;/p&gt;
+
+&lt;p&gt;One solution is to implement a version of &lt;code&gt;update_attributes&lt;/code&gt; on the proxy object.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;ProtectionProxy&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;SimpleDelegator&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;writable_fields&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@object&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;object&lt;/span&gt;
+    &lt;span class="vi"&gt;@writable_fields&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;writable_fields&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;update_attributes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;attributes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{})&lt;/span&gt;
+    &lt;span class="n"&gt;attrs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;attributes&lt;/span&gt;&lt;span class="nf"&gt;.select&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;field_name&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+      &lt;span class="vi"&gt;@writable_fields&lt;/span&gt;&lt;span class="nf"&gt;.include?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;field_name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="vi"&gt;@object&lt;/span&gt;&lt;span class="nf"&gt;.update_attributes&lt;/span&gt; &lt;span class="n"&gt;attrs&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Here we add an &lt;code&gt;update_attributes&lt;/code&gt; method to the &lt;code&gt;ProtectionProxy&lt;/code&gt; class - this only allows attributes allowed by the whitelist through to &lt;code&gt;User#update_attributes&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href="https://peepcode.com/products/play-by-play-jimweirich-ruby"&gt;screencast&lt;/a&gt; ends with a note that Jim noticed this error later after recording of the screen cast finished. Jim&amp;#39;s complete solution, including the nice api, can be found on &lt;a href="https://github.com/jimweirich/protection_proxy"&gt;github&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://gist.github.com/3294185.js"&gt;Here is the whole of the &lt;code&gt;ProxyProtection&lt;/code&gt; implementation&lt;/a&gt;, with rspec examples.&lt;/p&gt;
+</content>
+  </entry>
+</feed>

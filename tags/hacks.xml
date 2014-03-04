@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Steve Tooke - hacks</title>
+  <id>http://tooky.co.uk/</id>
+  <link href="http://tooky.co.uk/tags/hacks/"/>
+  <link href="http://tooky.co.uk/tags/hacks.xml" rel="self"/>
+  <updated>2009-02-20T00:00:00Z</updated>
+  <entry>
+    <title>Simple Old-school webcam using iSightcapture and dropbox</title>
+    <link rel="alternate" href="http://tooky.co.uk/webcam-with-isightcapture-and-dropbox/"/>
+    <id>http://tooky.co.uk/webcam-with-isightcapture-and-dropbox/</id>
+    <published>2009-02-20T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;I&amp;#39;ve been having a bit of trouble with my shoulder and back for the last couple of weeks - mostly rugby related I think - and I&amp;#39;ve been seeing my osteopath to get it sorted. He suggested that I might be making things worse by the way I&amp;#39;m sitting at my desk. He&amp;#39;s probably right, I think I&amp;#39;m a chronic sloucher. His idea was to get someone at the office to keep an eye on me, or take photos of me every now and again&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Well I didn&amp;#39;t think that sounded too great, so I decided I could just use my macbook pro&amp;#39;s built in iSight to do the job - throw in &lt;a href="http://www.intergalactic.de/pages/iSight.html"&gt;isightcapture&lt;/a&gt; with a cron job and I have an image of how i&amp;#39;m sitting every 20 mins.&lt;/p&gt;
+
+&lt;p&gt;After doing that I couldn&amp;#39;t resist putting up a page with of &lt;a href="/me.html"&gt;me&lt;/a&gt; with the updated image, in the old-school webcam style. I&amp;#39;m just using dropbox to sync the image to my public folder as it seemed the simplest thing.&lt;/p&gt;
+</content>
+  </entry>
+</feed>

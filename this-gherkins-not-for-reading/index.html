@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <title>Steve Tooke - This Gherkin's Not For Reading</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:300italic,300|Source+Sans+Pro:300|Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <link href="/stylesheets/reset.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/highlight.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/blog.css" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+
+  <div id='site-header'>
+    <div id="site-header-wrapper">
+      <h1>
+        <a href="/">
+          Steve Tooke
+        </a>
+      </h1>
+      <h2>software development flavoured with agile, bdd, ruby and javascript</h2>
+    </div>
+  </div>
+  <div id='main-wrapper'>
+    <div id="main" role="main">
+        <article>
+    <header>
+      <h1>This Gherkin's Not For Reading</h1>
+      <section class="author">
+        <img class="avatar" src="/images/tooky-avatar.jpg">
+        <p class="byline">by Steve Tooke</p>
+        <time datetime="2013-10-24" itemprop="datePublished">October 24th, 2013</time>
+      </section>
+    </header>
+    <section class="article-body">
+      <p>Recently <a href="http://www.8thlight.com/our-team/kevin-liddle">Kevin Liddle</a> made his <a href="http://blog.8thlight.com/kevin-liddle/2013/09/18/a-case-against-cucumber.html">case against cucumber</a>. In the article he outlines several problems he experiences working with cucumber. One of his key arguments is that non-technical team members don&#39;t read the scenarios written by developers.</p>
+
+<blockquote>
+<p>In theory, this is a valuable thing, a bridge between the divergent worlds of
+developers and managers. In practice, however, I’ve never seen Cucumber used
+this way. Non-technical people don’t read code, no matter how easy it is to
+read. They care about the actual use cases and that means using the
+application. And if they use the application, who cares if there is some text
+claiming the application works!</p>
+</blockquote>
+
+<p>So why don&#39;t non-technical people read the scenarios written by developers or testers?</p>
+
+<p>Because they aren&#39;t written for non-technical people to read! They probably aren&#39;t even written with non-technical people in mind. They are written as a test script, they are written as a set of instructions for a computer to follow so they can execute a test plan. At best they&#39;re written as set of steps that the developer will go through to get the feature finished.</p>
+
+<p>Gherkin isn&#39;t a scripting language for tests. Cucumber isn&#39;t a testing tool. BDD isn&#39;t a testing process. Kevin says that &ldquo;non-technical people don&#39;t read code&rdquo; and that they &ldquo;care about the actual use cases&rdquo;.</p>
+
+<p>We don&#39;t want them to read our code, or our test plans. We want to talk to them about the behaviour, we want to discuss the impact they are looking to create and collaborate on how we can achieve that.</p>
+
+<p>Gherkin&#39;s value isn&#39;t when it&#39;s read. It&#39;s when it&#39;s written - it&#39;s value is as a communication tool. It is close enough to natural language that both technical and non-technical people can collaborate but it has enough constraints to encourage thinking in terms of behaviour.</p>
+
+<p>Writing scenarios with non-technical people, allows you to document the conversations you have about the behaviour of the system. It provides an avenue to explore new features and their value without building anything.</p>
+
+<p>Kevin&#39;s article goes on to highlight the value of gherkin when &ldquo;gathering requirements&rdquo;, but he argues that automating those scenarios using cucumber adds a level of overhead and’ indirection that is not worthwhile.</p>
+
+<p>I have more to say about that, but that&#39;s another post.</p>
+
+<p>For now try sitting down with with your stakeholders and use gherkin to document examples of how they expect your software to behave. Use those examples to help you when you&#39;re writing the code, but also check the assumptions with other people on the team. Do other non-technical stakeholders find them more readable?</p>
+
+    </section>
+  </article>
+
+    </div>
+
+    <aside id="sidebar">
+      <ol id="recent-articles">
+        <h2>
+          Recent Articles
+          <a href="/feed.xml" class="feed" title="Subscribe!"><i class="fa fa-rss"></i></a>
+        </h2>
+        
+          <li><a href="/discovering-bdd/">Discovering BDD</a> <span>Dec 11</span></li>
+        
+          <li><a href="/learning-by-teaching/">Learning by Teaching</a> <span>Nov  6</span></li>
+        
+          <li><a href="/stop-writing-scenarios-that-test-everything-through-the-view/">Stop Writing Scenarios That Test Everything Through The View</a> <span>Oct 29</span></li>
+        
+          <li><a href="/this-gherkins-not-for-reading/">This Gherkin's Not For Reading</a> <span>Oct 24</span></li>
+        
+          <li><a href="/cucumber-and-full-stack-testing/">Cucumber and Full Stack Testing</a> <span>Jan 18</span></li>
+        
+      </ol>
+
+      <ul id="tags">
+        <h2>Tags</h2>
+        
+          <li><a href="/tags/apprenticeship/">apprenticeship</a></a></li>
+        
+          <li><a href="/tags/atdd/">atdd</a></a></li>
+        
+          <li><a href="/tags/bdd/">bdd</a></a></li>
+        
+          <li><a href="/tags/bletchley-park/">bletchley park</a></a></li>
+        
+          <li><a href="/tags/coderetreat/">coderetreat</a></a></li>
+        
+          <li><a href="/tags/craft/">craft</a></a></li>
+        
+          <li><a href="/tags/craftsmanship/">craftsmanship</a></a></li>
+        
+          <li><a href="/tags/cucumber/">cucumber</a></a></li>
+        
+          <li><a href="/tags/development/">development</a></a></li>
+        
+          <li><a href="/tags/eden/">eden</a></a></li>
+        
+          <li><a href="/tags/fitnesse/">fitnesse</a></a></li>
+        
+          <li><a href="/tags/git/">git</a></a></li>
+        
+          <li><a href="/tags/github/">github</a></a></li>
+        
+          <li><a href="/tags/hacks/">hacks</a></a></li>
+        
+          <li><a href="/tags/javascript/">javascript</a></a></li>
+        
+          <li><a href="/tags/jekyll/">jekyll</a></a></li>
+        
+          <li><a href="/tags/kickstartac/">kickstartac</a></a></li>
+        
+          <li><a href="/tags/macosx/">macosx</a></a></li>
+        
+          <li><a href="/tags/oo/">oo</a></a></li>
+        
+          <li><a href="/tags/pairing/">pairing</a></a></li>
+        
+          <li><a href="/tags/practices/">practices</a></a></li>
+        
+          <li><a href="/tags/project/">project</a></a></li>
+        
+          <li><a href="/tags/retrospective/">retrospective</a></a></li>
+        
+          <li><a href="/tags/ruby/">ruby</a></a></li>
+        
+          <li><a href="/tags/sinatra/">sinatra</a></a></li>
+        
+          <li><a href="/tags/software/">software</a></a></li>
+        
+          <li><a href="/tags/solid/">solid</a></a></li>
+        
+          <li><a href="/tags/tdd/">tdd</a></a></li>
+        
+          <li><a href="/tags/tools/">tools</a></a></li>
+        
+          <li><a href="/tags/training/">training</a></a></li>
+        
+          <li><a href="/tags/vim/">vim</a></a></li>
+        
+          <li><a href="/tags/xp/">xp</a></a></li>
+        
+      </ul>
+
+      <div id="bio">
+        <img class="avatar" src="/images/tooky-avatar.jpg">
+        <h2>Steve Tooke</h2>
+        <p>
+        I am a programmer &mdash; consultant, trainer and coach &mdash;
+        passionate about improving my craft and helping others improve
+        theirs. I specialise in helping teams continue to deliver
+        valuable software by improving their team practices and
+        communication, and keeping their code maintainable.
+        </p>
+        <p>
+        I co-organised Bootstrapd, a non-profit conference for
+        bootstrapped startups in Europe. I am the co-founder of the
+        Software Craftsmanship UK user group, and the HampshiRB ruby
+        user group. I have spoken at the Scottish Ruby
+        Conference and have run workshops at the London Software
+        Craftsmanship Community. I am a member of the Cucumber core
+        team.
+        </p>
+        <p>
+        <a href="http://heavi.es">Heavies</a>
+        |
+        <a href="http://kickstartacademy.io">Kickstart Academy</a>
+        </p>
+      </div>
+    </aside>
+    <footer>
+      <div id='site-footer'>
+        <p>All content copyright Steve Tooke &copy; 2014 &middot; All rights reserved.</p>
+        <p>Find me on <a href="http://twitter.com/tooky">Twitter</a> | <a href="https://plus.google.com/+SteveTooke-Heavies/">Google+</a></a></p>
+    </div>
+    </footer>
+  </div>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-37664795-2', 'tooky.co.uk');
+    ga('send', 'pageview');
+
+  </script>
+  </body>
+</html>

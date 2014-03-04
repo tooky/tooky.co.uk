@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Steve Tooke - solid</title>
+  <id>http://tooky.co.uk/</id>
+  <link href="http://tooky.co.uk/tags/solid/"/>
+  <link href="http://tooky.co.uk/tags/solid.xml" rel="self"/>
+  <updated>2013-11-06T00:00:00Z</updated>
+  <entry>
+    <title>Learning by Teaching</title>
+    <link rel="alternate" href="http://tooky.co.uk/learning-by-teaching/"/>
+    <id>http://tooky.co.uk/learning-by-teaching/</id>
+    <published>2013-11-06T00:00:00Z</published>
+    <updated>2013-12-18T12:36:38+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;For the last few weeks I&amp;#39;ve been working with &lt;a href="http://kickstartacademy.io/"&gt;Kickstart Academy&lt;/a&gt; teaching the &lt;a href="https://www.onthebeach.co.uk/"&gt;On The Beach&lt;/a&gt; ruby academy. We&amp;#39;ve been introducing a group of graduate and experienced developers to software development using ruby, bdd and git. Much of the teaching in the academy was based on ideas from &lt;a href="http://www.bowperson.com/books.htm"&gt;Training from the Back of the Room&lt;/a&gt; by Sharon Bowman and I wanted to share one of the exercises that we ran.&lt;/p&gt;
+
+&lt;p&gt;Bowman&amp;#39;s book has had quite an influence on the way that I approach training. The book focuses on leaving behind traditional training methods where learners are a passive audience as the trainer pushes information through lectures and slides. Instead, Bowman suggests that trainers should try to connect learners to past experiences, use shorter presented segments, and focus on giving learners lots of oppurtunity for concrete practice through exercises and activities.&lt;/p&gt;
+
+&lt;p&gt;Another major theme in the book is the idea that trainers should &amp;ldquo;step aside&amp;rdquo; and let the learners teach and learn from each other. This really stood out to me as I have found that whenever I&amp;#39;m teaching something to someone else, it helps me understand it more.&lt;/p&gt;
+
+&lt;p&gt;We set the group a task to go and spend some time researching the &lt;a href="http://en.wikipedia.org/wiki/SOLID_(object-oriented_design"&gt;SOLID principles&lt;/a&gt;). They worked in twos or threes and each group took one of the principles.&lt;/p&gt;
+
+&lt;p&gt;We gave them 45 minutes to produce a poster about the principle before we got back together and presented back to the group. Each group had the chance to think about their principle and how it affected some of the things we&amp;#39;d been working on. After each presentation we had a group discussion about the benefits and drawbacks that following the principle presented. Working through them together made the connections between the principles obvious.&lt;/p&gt;
+
+&lt;p&gt;This exercise, it&amp;#39;s output and the discussion between the learners really highlighted to me the role of a trainer. As a trainer we aren&amp;#39;t there to teach, or to talk at learners. We are trying to facilitate learning. We want to create an environment where the learners are able to discover ideas and try them out for themselves, offering guidance and help when they are stuck. Not only does this make the training more interesting and relevant for the learners, but it makes it more satisfying to teach. You get fast feedback about how the group are doing, and what topics you might need to spend more time on.&lt;/p&gt;
+
+&lt;p&gt;Here are the posters the group created.&lt;/p&gt;
+
+&lt;h3&gt;Single Responsibility Principle&lt;/h3&gt;
+
+&lt;p&gt;&lt;img alt="Single Responsibility Principle" src="https://dl.dropboxusercontent.com/u/41915/otb-solid/single-responsibility.jpg" /&gt;&lt;/p&gt;
+
+&lt;h3&gt;Open-Closed Principle&lt;/h3&gt;
+
+&lt;p&gt;&lt;img alt="Open-Closed Principle" src="https://dl.dropboxusercontent.com/u/41915/otb-solid/open-closed.jpg" /&gt;&lt;/p&gt;
+
+&lt;h3&gt;Liskov Substitution Principle&lt;/h3&gt;
+
+&lt;p&gt;&lt;img alt="Liskov Substitution Principle" src="https://dl.dropboxusercontent.com/u/41915/otb-solid/liskov-substitution.jpg" /&gt;&lt;/p&gt;
+
+&lt;h3&gt;Interface Segregation Principle&lt;/h3&gt;
+
+&lt;p&gt;&lt;img alt="Interface Segregation Principle" src="https://dl.dropboxusercontent.com/u/41915/otb-solid/interface-segregation.jpg" /&gt;&lt;/p&gt;
+
+&lt;h3&gt;Dependency Inversion Principle&lt;/h3&gt;
+
+&lt;p&gt;&lt;img alt="Dependency Inversion Principle" src="https://dl.dropboxusercontent.com/u/41915/otb-solid/dependency-inversion.jpg" /&gt;&lt;/p&gt;
+</content>
+  </entry>
+</feed>

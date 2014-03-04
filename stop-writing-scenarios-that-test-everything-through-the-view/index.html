@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <title>Steve Tooke - Stop Writing Scenarios That Test Everything Through The View</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:300italic,300|Source+Sans+Pro:300|Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <link href="/stylesheets/reset.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/highlight.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/blog.css" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+
+  <div id='site-header'>
+    <div id="site-header-wrapper">
+      <h1>
+        <a href="/">
+          Steve Tooke
+        </a>
+      </h1>
+      <h2>software development flavoured with agile, bdd, ruby and javascript</h2>
+    </div>
+  </div>
+  <div id='main-wrapper'>
+    <div id="main" role="main">
+        <article>
+    <header>
+      <h1>Stop Writing Scenarios That Test Everything Through The View</h1>
+      <section class="author">
+        <img class="avatar" src="/images/tooky-avatar.jpg">
+        <p class="byline">by Steve Tooke</p>
+        <time datetime="2013-10-29" itemprop="datePublished">October 29th, 2013</time>
+      </section>
+    </header>
+    <section class="article-body">
+      <p>Following on from my <a href="http://tooky.co.uk/this-gherkins-not-for-reading/">last post</a>, I wanted to mention a common anti-pattern that <a href="http://blog.8thlight.com/kevin-liddle/2013/09/18/a-case-against-cucumber.html">Kevin&#39;s case against cucumber</a> mentioned. Scenarios that are too focussed on the user interface. Scenarios written as an imperative set of instructions for a machine to follow.</p>
+
+<p></p>
+
+<p>Scenarios like this.</p>
+<pre class="highlight gherkin"><span class="nf">Given</span> I go to the homepage
+<span class="nf">And</span> I fill in my username
+<span class="nf">And</span> I click sign in
+<span class="nf">When</span> I click <span class="s">&quot;Accounts&quot;</span>
+<span class="nf">Then</span> I see <span class="s">&quot;Current Account&quot;</span>
+<span class="nf">And</span> I see <span class="s">&quot;Savings Account&quot;</span>
+</pre>
+<p><em>sigh</em></p>
+
+<p>There has been quite a lot written about this, the <a href="http://benmabey.com/2008/05/19/imperative-vs-declarative-scenarios-in-user-stories.html">canonical post</a> is from 2008. The cucumber team made a mistake including <code>web_steps.rb</code> - they were <a href="https://github.com/cucumber/cucumber-rails/commit/f027440965b96b780e84e50dd47203a2838e8d7d">removed</a> 2 years ago.</p>
+
+<p>The problem here isn&#39;t just isolated to the imperative style of this scenario, but also that the scenario is highly coupled to the view.</p>
+
+<p>Testing through the view is something you have to be wary of with any tool. It&#39;s slow and brittle. That isn&#39;t to say it has no value, but you don&#39;t need every test to go through the UI. Beware the <a href="http://watirmelon.com/2012/01/31/introducing-the-software-testing-ice-cream-cone/">ice cream cone</a> anti-pattern.</p>
+
+<p>I&#39;ve written a little more about this <a href="http://tooky.co.uk/cucumber-and-full-stack-testing/">here</a>, Seb has introduced the <a href="http://claysnow.co.uk/the-testing-iceberg/">Testing Iceberg</a> and <a href="http://mattwynne.net">Matt</a> talks more about it <a href="http://skillsmatter.com/podcast/agile-testing/why-your-step-definitions-should-be-one-liners-and-other-pro-tips">here</a>.</p>
+
+    </section>
+  </article>
+
+    </div>
+
+    <aside id="sidebar">
+      <ol id="recent-articles">
+        <h2>
+          Recent Articles
+          <a href="/feed.xml" class="feed" title="Subscribe!"><i class="fa fa-rss"></i></a>
+        </h2>
+        
+          <li><a href="/discovering-bdd/">Discovering BDD</a> <span>Dec 11</span></li>
+        
+          <li><a href="/learning-by-teaching/">Learning by Teaching</a> <span>Nov  6</span></li>
+        
+          <li><a href="/stop-writing-scenarios-that-test-everything-through-the-view/">Stop Writing Scenarios That Test Everything Through The View</a> <span>Oct 29</span></li>
+        
+          <li><a href="/this-gherkins-not-for-reading/">This Gherkin's Not For Reading</a> <span>Oct 24</span></li>
+        
+          <li><a href="/cucumber-and-full-stack-testing/">Cucumber and Full Stack Testing</a> <span>Jan 18</span></li>
+        
+      </ol>
+
+      <ul id="tags">
+        <h2>Tags</h2>
+        
+          <li><a href="/tags/apprenticeship/">apprenticeship</a></a></li>
+        
+          <li><a href="/tags/atdd/">atdd</a></a></li>
+        
+          <li><a href="/tags/bdd/">bdd</a></a></li>
+        
+          <li><a href="/tags/bletchley-park/">bletchley park</a></a></li>
+        
+          <li><a href="/tags/coderetreat/">coderetreat</a></a></li>
+        
+          <li><a href="/tags/craft/">craft</a></a></li>
+        
+          <li><a href="/tags/craftsmanship/">craftsmanship</a></a></li>
+        
+          <li><a href="/tags/cucumber/">cucumber</a></a></li>
+        
+          <li><a href="/tags/development/">development</a></a></li>
+        
+          <li><a href="/tags/eden/">eden</a></a></li>
+        
+          <li><a href="/tags/fitnesse/">fitnesse</a></a></li>
+        
+          <li><a href="/tags/git/">git</a></a></li>
+        
+          <li><a href="/tags/github/">github</a></a></li>
+        
+          <li><a href="/tags/hacks/">hacks</a></a></li>
+        
+          <li><a href="/tags/javascript/">javascript</a></a></li>
+        
+          <li><a href="/tags/jekyll/">jekyll</a></a></li>
+        
+          <li><a href="/tags/kickstartac/">kickstartac</a></a></li>
+        
+          <li><a href="/tags/macosx/">macosx</a></a></li>
+        
+          <li><a href="/tags/oo/">oo</a></a></li>
+        
+          <li><a href="/tags/pairing/">pairing</a></a></li>
+        
+          <li><a href="/tags/practices/">practices</a></a></li>
+        
+          <li><a href="/tags/project/">project</a></a></li>
+        
+          <li><a href="/tags/retrospective/">retrospective</a></a></li>
+        
+          <li><a href="/tags/ruby/">ruby</a></a></li>
+        
+          <li><a href="/tags/sinatra/">sinatra</a></a></li>
+        
+          <li><a href="/tags/software/">software</a></a></li>
+        
+          <li><a href="/tags/solid/">solid</a></a></li>
+        
+          <li><a href="/tags/tdd/">tdd</a></a></li>
+        
+          <li><a href="/tags/tools/">tools</a></a></li>
+        
+          <li><a href="/tags/training/">training</a></a></li>
+        
+          <li><a href="/tags/vim/">vim</a></a></li>
+        
+          <li><a href="/tags/xp/">xp</a></a></li>
+        
+      </ul>
+
+      <div id="bio">
+        <img class="avatar" src="/images/tooky-avatar.jpg">
+        <h2>Steve Tooke</h2>
+        <p>
+        I am a programmer &mdash; consultant, trainer and coach &mdash;
+        passionate about improving my craft and helping others improve
+        theirs. I specialise in helping teams continue to deliver
+        valuable software by improving their team practices and
+        communication, and keeping their code maintainable.
+        </p>
+        <p>
+        I co-organised Bootstrapd, a non-profit conference for
+        bootstrapped startups in Europe. I am the co-founder of the
+        Software Craftsmanship UK user group, and the HampshiRB ruby
+        user group. I have spoken at the Scottish Ruby
+        Conference and have run workshops at the London Software
+        Craftsmanship Community. I am a member of the Cucumber core
+        team.
+        </p>
+        <p>
+        <a href="http://heavi.es">Heavies</a>
+        |
+        <a href="http://kickstartacademy.io">Kickstart Academy</a>
+        </p>
+      </div>
+    </aside>
+    <footer>
+      <div id='site-footer'>
+        <p>All content copyright Steve Tooke &copy; 2014 &middot; All rights reserved.</p>
+        <p>Find me on <a href="http://twitter.com/tooky">Twitter</a> | <a href="https://plus.google.com/+SteveTooke-Heavies/">Google+</a></a></p>
+    </div>
+    </footer>
+  </div>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-37664795-2', 'tooky.co.uk');
+    ga('send', 'pageview');
+
+  </script>
+  </body>
+</html>

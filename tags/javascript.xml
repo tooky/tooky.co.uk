@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Steve Tooke - javascript</title>
+  <id>http://tooky.co.uk/</id>
+  <link href="http://tooky.co.uk/tags/javascript/"/>
+  <link href="http://tooky.co.uk/tags/javascript.xml" rel="self"/>
+  <updated>2010-03-02T00:00:00Z</updated>
+  <entry>
+    <title>Exploring Harmony for javascript BDD with RSpec</title>
+    <link rel="alternate" href="http://tooky.co.uk/exploring-harmony-for-unit-testing-with-rspec/"/>
+    <id>http://tooky.co.uk/exploring-harmony-for-unit-testing-with-rspec/</id>
+    <published>2010-03-02T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;We try to BDD all of our production code, but the one area we always seem to struggle with is our javascript. There are various test/spec frameworks for javascript, but we&amp;#39;ve never quite found one we&amp;#39;ve been totally happy with.&lt;/p&gt;
+
+&lt;p&gt;There&amp;#39;s been a fair amount of interest lately in a new ruby gem which allows you to execute javascript against a DOM from within a ruby process. &lt;a href="http://github.com/mynyml/harmony"&gt;Harmony&lt;/a&gt; uses &lt;a href="http://github.com/jbarnette/johnson/"&gt;Johnson&lt;/a&gt; a ruby wrapper for the &lt;a href="http://www.mozilla.org/js/spidermonkey/"&gt;Mozilla SpiderMonkey&lt;/a&gt; javascript runtime.&lt;/p&gt;
+
+&lt;p&gt;To get started figuring out how I might be able to integrate harmony into my workflow, I&amp;#39;ve created a very simple &lt;a href="http://gist.github.com/319235"&gt;project&lt;/a&gt; which uses rspec to make some very simple assertions about javascript behaviour.&lt;/p&gt;
+
+&lt;script src="http://gist.github.com/319235.js?file=rspec_with_harmony.rb"&gt;&lt;/script&gt;
+
+&lt;p&gt;The 3rd and 4th specs are probably the most interesting. They show how how you can use an HTML fixture file, and load the javascript you want to test. This feels like a nice way of isolating your javascript, and would probably encourage me to write much more modular javascript.&lt;/p&gt;
+
+&lt;p&gt;Please fork the &lt;a href="http://gist.github.com/319235"&gt;gist&lt;/a&gt; and play with some more detailed specs.&lt;/p&gt;
+</content>
+  </entry>
+</feed>

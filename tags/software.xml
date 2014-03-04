@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Steve Tooke - software</title>
+  <id>http://tooky.co.uk/</id>
+  <link href="http://tooky.co.uk/tags/software/"/>
+  <link href="http://tooky.co.uk/tags/software.xml" rel="self"/>
+  <updated>2009-09-02T00:00:00Z</updated>
+  <entry>
+    <title>How I'm going to try to become a better pair.</title>
+    <link rel="alternate" href="http://tooky.co.uk/how-to-improve-my-pairing/"/>
+    <id>http://tooky.co.uk/how-to-improve-my-pairing/</id>
+    <published>2009-09-02T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;I started my new job with &lt;a href="http://www.edendevelopment.co.uk"&gt;Eden Development&lt;/a&gt; about 2 months ago now. So far its been going great, I&amp;#39;ve been working on an interesting project (which I hope to speak more about soon) with a great team.&lt;/p&gt;
+
+&lt;p&gt;One of our core practices at Eden is &lt;a href="http://en.wikipedia.org/wiki/Pair_programming"&gt;pair programming&lt;/a&gt;, which is something I&amp;#39;ve only had limited experience of in the past, but after 2 months of doing it every day with a variety of people, I&amp;#39;m convinced of its &lt;a href="http://en.wikipedia.org/wiki/Pair_programming#Benefits"&gt;merits&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Pairing is hard though. Doing it well is a skill, and because its now something I do every day I want to get better at it. &lt;a href="http://www.markhneedham.com"&gt;Mark Needham&lt;/a&gt; posted an interesting article on &lt;a href="http://www.markhneedham.com/blog/2009/08/27/pair-programming-observations-on-anti-patterns/"&gt;pair programming anti-patterns&lt;/a&gt; which I really identified with.&lt;/p&gt;
+
+&lt;p&gt;I can definitely recognise the anti-pattern behaviour he describes in my own pairing, and I&amp;#39;ve been frustrated by the same behaviour by my pair!&lt;/p&gt;
+
+&lt;p&gt;What I take away from Mark&amp;#39;s post is that effective pairing is really about good communication! You have to let your pair know what your doing and you have to listen to what their saying. &lt;/p&gt;
+
+&lt;p&gt;When I&amp;#39;m driving I&amp;#39;m going to try to slow down a little - rather than just diving headlong into solving the problem, and racing around the code I am going to try to spend more time explaining what I&amp;#39;m doing and why I&amp;#39;m doing it.&lt;/p&gt;
+
+&lt;p&gt;I&amp;#39;m pretty sure that taking the time to explain my thinking will not only help my pair stay involved but will give us both chance to think about it, and pick up on any potential problems or wrong assumptions.&lt;/p&gt;
+
+&lt;p&gt;Hopefully talking more will make it easier for my pair to offer an alternative strategy. If we&amp;#39;ve slowed down, and we&amp;#39;re talking more about the solution its less work to stop and change direction to try an alternative - it feels less like an interruption perhaps.&lt;/p&gt;
+</content>
+  </entry>
+</feed>

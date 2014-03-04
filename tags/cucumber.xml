@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Steve Tooke - cucumber</title>
+  <id>http://tooky.co.uk/</id>
+  <link href="http://tooky.co.uk/tags/cucumber/"/>
+  <link href="http://tooky.co.uk/tags/cucumber.xml" rel="self"/>
+  <updated>2013-12-11T00:00:00Z</updated>
+  <entry>
+    <title>Discovering BDD</title>
+    <link rel="alternate" href="http://tooky.co.uk/discovering-bdd/"/>
+    <id>http://tooky.co.uk/discovering-bdd/</id>
+    <published>2013-12-11T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;I graduated from UMIST in 2002 with a Software Engineering degree, and I started work with a company who provided document scanning services, mostly to the public sector - NHS trusts and local authorities. I came into the company thinking I knew it all - I had a software engineering degreee!&lt;/p&gt;
+
+&lt;p&gt;Wow - I had a &lt;em&gt;LOT&lt;/em&gt; to learn!&lt;/p&gt;
+
+&lt;p&gt;I met Shane Paterson while I was there. Shane was another developer at the company, and even though he was based in New Zealand, he was responsible for pointing me in the direction of XP and TDD. There&amp;#39;s some more about this story in the &lt;a href="http://chimera.labs.oreilly.com/books/1234000001813/ch04.html#solution_id19"&gt;Apprenticeship Patterns&lt;/a&gt; book.&lt;/p&gt;
+
+&lt;p&gt;I started reading a lot of blogs and participating in the various mailing lists. I found an &lt;a href="http://groups.yahoo.com/neo/groups/extremeprogramming/conversations/messages/116122"&gt;old post&lt;/a&gt; on the XP mailing list where I was introducing a colleague to TDD using the bowling game kata which made me smile as I used the same exercise during some recent ruby/tdd training.&lt;/p&gt;
+
+&lt;p&gt;This colleague and I were about to start working on the new version of our main software application. A decision had been taken to rewrite the application with a completely new look and feel, to move to the new (at the time) .NET technology stack and to support MS SQL server as well as MS Access. The company had great success with application up until then because it could be set up and installed by anyone with file sharing permissions, so no need to involve corporate IT. This kind of culture was coming to an end though, so we needed to fit in with what the IT departments demanded.&lt;/p&gt;
+
+&lt;p&gt;We ran it as close to a proper XP project as the business would allow. In particular we were pair programming and we were writing our tests first! Not just unit tests, we were also writing acceptance tests with our &amp;#39;customer&amp;#39; to help us understand the requirements.&lt;/p&gt;
+
+&lt;p&gt;We used a tool called &lt;a href="http://en.wikipedia.org/wiki/Framework_for_Integrated_Test"&gt;FIT&lt;/a&gt;. This allowed us to create word documents (!!) that contained tables of examples of what the software should do. We would then hook these tables up to some test classes which would run the tests and colour the tables appropriately.&lt;/p&gt;
+
+&lt;p&gt;Using tables to describe the requirements was fantastic. We were able to communicate clearly with our project sponsors about the business rules, using concrete examples to support our understanding.&lt;/p&gt;
+
+&lt;p&gt;Brian Marick&amp;#39;s foreword from the book really sums up what the FIT community were trying to do:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;A software project is a place where different cultures come together. Some people face towards the business and its concerns; other people face toward the computer and its demands.&lt;/p&gt;
+
+&lt;p&gt;To an expert in financial trading, a &amp;ldquo;bond&amp;rdquo; is something that&amp;#39;s tangled up in all sorts of explicit and implicit legal, social, historical and emotional meanings.&lt;/p&gt;
+
+&lt;p&gt;To programmers, a Bond is an object in their program that they&amp;#39;re trying to keep from getting too tangled up with other objects, lest their brains explode.&lt;/p&gt;
+
+&lt;p&gt;Somehow these people have to work together, and they do it by creating a shared language. Most of that creating happens through the conversation that threads through the whole project. But some of it happens through writing.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Brian Marick, Feb 2005 (foreword of &lt;a href="http://www.pearsoned.co.uk/bookshop/detail.asp?item=100000000079971"&gt;Fit for Developing Software&lt;/a&gt;)&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;At about the same time as this I came across the term &lt;em&gt;Behaviour Driven Development&lt;/em&gt; in &lt;a href="http://blog.daveastels.com/2005/07/a-new-look-at-test-driven-development/"&gt;this post&lt;/a&gt; by Dave Astels. It was about trying to change the focus of TDD from testing to specifying behaviour.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;The problem I have with TDD is that its mindset takes us in a different direction… a wrong direction.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;We need to start thinking in terms of behavior specifications, not verification tests.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The value of doing this will be thinking more clearly about each behaviour, relying less on testing by class or by method, and having better executable documentation.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Since TDD is what it is, and everyone isn’t about to change their meaning of that name (nor should we expect them to), we need a new name for this new way of working… BDD: Behaviour Driven Development.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This post really struck a chord with me. I was still getting to grips with TDD but when it had worked well for me it was when I was working how Dave described. The timing of this is a little fuzzy for me now, but it was right around the time I first started to use Ruby and Rails, so I picked up RSpec as my testing tool of choice.&lt;/p&gt;
+
+&lt;p&gt;The FIT toolchain didn&amp;#39;t exist in ruby, but in August 2007 the &lt;a href="http://rubyforge.org/pipermail/rspec-devel/2007-August/003756.html"&gt;RSpec Story Runner was released&lt;/a&gt; which gave us the tools to do similar things in ruby. The story runner gave way to &lt;a href="http://cukes.info/"&gt;cucumber&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Cucumber and Gherkin (the formal language for writing cucumber specifcations), have spread. It is now possible to write Gherkin specifications &lt;a href="https://github.com/cucumber/cucumber-jvm"&gt;on&lt;/a&gt; &lt;a href="https://github.com/cucumber/cucumber-js"&gt;a&lt;/a&gt; &lt;a href="http://www.specflow.org/"&gt;huge&lt;/a&gt; &lt;a href="https://github.com/cucumber/cucumber-cpp"&gt;range&lt;/a&gt; &lt;a href="http://behat.org/"&gt;of&lt;/a&gt; &lt;a href="https://github.com/gabrielfalcao/lettuce"&gt;platforms&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I think I made a mistake using these tools that many people have done. I used them to write tests. Sometimes they were very brittle tests, &lt;a href="http://tooky.co.uk/stop-writing-scenarios-that-test-everything-through-the-view/"&gt;overly focussed on the view&lt;/a&gt;. Often they were boring lists of instructions. I learnt to be more &lt;a href="http://benmabey.com/2008/05/19/imperative-vs-declarative-scenarios-in-user-stories.html"&gt;declarative&lt;/a&gt;, and my tests became more readable. But&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;They were still written as tests by me (and my colleagues) for the computer to run. &lt;a href="http://lizkeogh.com/2011/03/04/step-away-from-the-tools/"&gt;BDD isn&amp;#39;t about the tools&lt;/a&gt; its about the &lt;a href="http://dannorth.net/2010/08/30/introducing-deliberate-discovery/"&gt;discovery&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;BDD enables communication. Our teams are made up of those who need the capabilities some new software will provide, and those who are able to create that software. These people come from different backgrounds, different experiences. Using stories and examples helps to create a shared language which we can then use to explore the problem space and begin to discover the things we don&amp;#39;t know!&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Cucumber and Full Stack Testing</title>
+    <link rel="alternate" href="http://tooky.co.uk/cucumber-and-full-stack-testing/"/>
+    <id>http://tooky.co.uk/cucumber-and-full-stack-testing/</id>
+    <published>2013-01-18T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;There has been two similar questions asked on two different mailing lists I subscribe to (Corey Haines&amp;#39; &lt;a title="Build an app with Corey Haines" href="http://www.cleancoders.com/codecast/bawch-episode-1/show"&gt;BAWCH&lt;/a&gt; mailing list, and &lt;a href="http://rubyrogues.com/"&gt;Ruby Rogues&lt;/a&gt; Parley list). Both of these lists are private so I thought it would be worthwhile posting my answer here.&lt;/p&gt;
+
+&lt;p&gt;Both of the questions were concerned with out-side-in development, full-stack integration testing, and how much of the application needs to be tested through the entire system.&lt;/p&gt;
+
+&lt;p&gt;Firstly consider why we write &lt;a href="http://cukes.info/"&gt;cucumber&lt;/a&gt; scenarios (or &lt;a href="http://fitnesse.org/"&gt;fitnesse&lt;/a&gt; test cases). These tests are business facing acceptance tests. They are a medium through which we can engage with the business people on our team and to help us understand how the system should behave. They give us an opportunity to check &lt;em&gt;our&lt;/em&gt; understanding of what the system should do &amp;mdash; to check the &lt;em&gt;business&lt;/em&gt;&amp;#39;s understanding of what the system should do. We automate these tests to give the business confidence that the system behaves as expected.&lt;/p&gt;
+
+&lt;p&gt;Full-stack, end-to-end, integration tests are there to give us confidence that the system fits together correctly, that we have all the different pieces in place, and they are able to talk to each other.&lt;/p&gt;
+
+&lt;p&gt;It&amp;#39;s very easy to conflate these two concerns. I have worked on many systems where the business facing acceptance tests were also the end-to-end integration tests. The test runs end up being slow, and the tests are cumbersome to work with.&lt;/p&gt;
+
+&lt;p&gt;I&amp;#39;ve been talking about this with &lt;a href="https://twitter.com/mattwynne"&gt;Matt Wynne&lt;/a&gt; and he drew the following diagram:&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="Business Facing Acceptance Tests vs End-To-End Tests" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/business-facing-vs-end-to-end.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;The circle on the left represents the tests that we would write in cucumber (or fitnesse). The circle on the right the tests which exercise the whole system end-to-end. In the centre we have the intersection &amp;mdash; our cucumber scenarios which we run end-to-end against the whole system.&lt;/p&gt;
+
+&lt;p&gt;The key thing is that your business acceptance tests do not all have to drive the whole system end-to-end. We only a need a few scenarios to go end-to-end to give us the confidence the system as a whole is working. We can also write system tests, that aren&amp;#39;t part of the acceptance suite, to test specific integrations&lt;/p&gt;
+
+&lt;p&gt;Try to write acceptance tests that directly drive the domain objects. Use these to accurately describe your application&amp;#39;s behaviour. Focus them on the behaviour by not having them integrate the UI and the database.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Getting started with Cucumber and Sinatra</title>
+    <link rel="alternate" href="http://tooky.co.uk/getting-started-with-cucumber-and-sinatra/"/>
+    <id>http://tooky.co.uk/getting-started-with-cucumber-and-sinatra/</id>
+    <published>2009-02-05T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;strong&gt;UPDATE&lt;/strong&gt; Sinatra and cucumber integration has changed now, Rob Holland updated the &lt;a href="https://github.com/cucumber/cucumber/wiki/sinatra"&gt;wiki&lt;/a&gt; to reflect it. There is also a more full featured example on his &lt;a href="http://github.com/robholland/cucumber/commit/0e12d8100ca8541af014abe6a480c53a90b6aebd"&gt;branch&lt;/a&gt; of cucumber. I&amp;#39;ve updated the blog to reflect that.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://sinatra.github.com"&gt;Sinatra&lt;/a&gt; is probably the most popular ruby micro web framework at the moment. Its simple dsl for quickly creating web apps, it give you &amp;ldquo;just enough&amp;rdquo; framework to get things done.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://cukes.info"&gt;Cucumber&lt;/a&gt; is that latest development from the &lt;a href="http://dannorth.net/introducing-bdd"&gt;BDD&lt;/a&gt; / &lt;a href="http://rspec.info"&gt;RSpec&lt;/a&gt; guys. &lt;a href="http://cukes.info"&gt;Cucumber&lt;/a&gt; lets you describe the behaviour of your software in plain text. These files then serve as automated tests and documentation.&lt;/p&gt;
+
+&lt;p&gt;I&amp;#39;ve been considering using both of these tools for an upcoming project so I wanted to make sure they worked happily together. A quick google seemed to suggest that some work had been done, but I could find a tutorial for getting up and running. Happily the latest releases of Cucumber (and &lt;a href="http://github.com/brynary/webrat/tree/master"&gt;Webrat&lt;/a&gt;) have Sinatra support built in so its really very easy!&lt;/p&gt;
+
+&lt;p&gt;With cucumber you write your plain text specifications in terms of &amp;#39;features&amp;#39;, by convention they are in a features directory with the .feature extension. So for our purposes we will start with a very simple feature:&lt;/p&gt;
+&lt;pre class="highlight text"&gt;Feature: view pages
+
+  Scenario: Home page
+    Given I am viewing &amp;quot;/&amp;quot;
+    Then I should see &amp;quot;Hello, world!
+&lt;/pre&gt;
+&lt;p&gt;To run our feature (and test our code against it) is as simple as &lt;code&gt;cucumber feature/home.feature&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="cucumber pending steps" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber1.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Cucumber parses the feature and looks for matching step definitions. As we can see in the screenshot we need to implement the steps in our feature so cucumber knows how to run it. Step definitions are implemented in ruby.&lt;/p&gt;
+&lt;pre class="highlight text"&gt;Given /^I am viewing &amp;quot;(.+)&amp;quot;$/ do |url|
+  visit(url)
+end
+
+Then /^I should see &amp;quot;(.+)&amp;quot;$/ do |text|
+  response_body.should =~ Regexp.new(Regexp.escape(text))
+end
+&lt;/pre&gt;
+&lt;p&gt;These two simple steps make use of webrat to request the url from our app and check that the response contains the text we&amp;#39;re looking for.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="cucumber failing without webrat" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber2.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;The feature is currently failing as a method we have used in our step definition doesn&amp;#39;t exist. &lt;code&gt;visit&lt;/code&gt; is a method from webrat so we need to configure cucumber&amp;#39;s environment to use webrat. Webrat has a &lt;code&gt;SinatraSession&lt;/code&gt; specifically for testing sinatra web apps. We will also need to require the RSpec expectations as we are using them to check the response.&lt;/p&gt;
+&lt;pre class="highlight text"&gt;require &amp;#39;spec/expectations&amp;#39;
+require &amp;#39;webrat&amp;#39;
+Webrat.configure do |config|
+  config.mode = :sinatra
+end
+
+World do
+  Webrat::SinatraSession.new
+end
+&lt;/pre&gt;
+&lt;p&gt;Running the scenario again, and we see that everything is hooked up properly and the scenario is failing (as expected because we haven&amp;#39;t written any code).&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="cucumber failing no code" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber3.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now we have our failing scenario we can start putting together our web app and make sure we&amp;#39;re running with a green light!&lt;/p&gt;
+&lt;pre class="highlight text"&gt;require &amp;#39;sinatra&amp;#39;
+
+get &amp;#39;/&amp;#39; do
+  &amp;quot;Hello, world!&amp;quot;
+end
+&lt;/pre&gt;
+&lt;p&gt;Now if we run out scenario again unfortunately it still fails, we need to hook cucumber up to our app.&lt;/p&gt;
+&lt;pre class="highlight text"&gt;require &amp;#39;spec/expectations&amp;#39;
+require &amp;#39;webrat&amp;#39;
+Webrat.configure do |config|
+  config.mode = :sinatra
+end
+
+World do
+  Webrat::SinatraSession.new
+end
+
+require File.dirname(__FILE__) + &amp;#39;/../../hello&amp;#39;&amp;#39;
+&lt;/pre&gt;
+&lt;p&gt;Finally running cucumber gives us that nice green feeling.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="green cucumber" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber4.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;The only thing left to do is to add a rake file to run our features for us.&lt;/p&gt;
+&lt;pre class="highlight text"&gt;require &amp;#39;rubygems&amp;#39;
+require &amp;#39;cucumber/rake/task&amp;#39;
+
+Cucumber::Rake::Task.new(:features) do |t|
+  t.cucumber_opts = &amp;quot;--format pretty&amp;quot;
+end
+&lt;/pre&gt;
+&lt;p&gt;&lt;img alt="rake features" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber5.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;All of the code for this getting started guide is available from &lt;a href="http://gist.github.com/58647"&gt;gist&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
+</feed>

@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Steve Tooke</title>
+  <id>http://tooky.co.uk/</id>
+  <link href="http://tooky.co.uk/"/>
+  <link href="http://tooky.co.uk/feed.xml" rel="self"/>
+  <updated>2013-12-11T00:00:00Z</updated>
+  <entry>
+    <title>Discovering BDD</title>
+    <link rel="alternate" href="http://tooky.co.uk/discovering-bdd/"/>
+    <id>http://tooky.co.uk/discovering-bdd/</id>
+    <published>2013-12-11T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;I graduated from UMIST in 2002 with a Software Engineering degree, and I started work with a company who provided document scanning services, mostly to the public sector - NHS trusts and local authorities. I came into the company thinking I knew it all - I had a software engineering degreee!&lt;/p&gt;
+
+&lt;p&gt;Wow - I had a &lt;em&gt;LOT&lt;/em&gt; to learn!&lt;/p&gt;
+
+&lt;p&gt;I met Shane Paterson while I was there. Shane was another developer at the company, and even though he was based in New Zealand, he was responsible for pointing me in the direction of XP and TDD. There&amp;#39;s some more about this story in the &lt;a href="http://chimera.labs.oreilly.com/books/1234000001813/ch04.html#solution_id19"&gt;Apprenticeship Patterns&lt;/a&gt; book.&lt;/p&gt;
+
+&lt;p&gt;I started reading a lot of blogs and participating in the various mailing lists. I found an &lt;a href="http://groups.yahoo.com/neo/groups/extremeprogramming/conversations/messages/116122"&gt;old post&lt;/a&gt; on the XP mailing list where I was introducing a colleague to TDD using the bowling game kata which made me smile as I used the same exercise during some recent ruby/tdd training.&lt;/p&gt;
+
+&lt;p&gt;This colleague and I were about to start working on the new version of our main software application. A decision had been taken to rewrite the application with a completely new look and feel, to move to the new (at the time) .NET technology stack and to support MS SQL server as well as MS Access. The company had great success with application up until then because it could be set up and installed by anyone with file sharing permissions, so no need to involve corporate IT. This kind of culture was coming to an end though, so we needed to fit in with what the IT departments demanded.&lt;/p&gt;
+
+&lt;p&gt;We ran it as close to a proper XP project as the business would allow. In particular we were pair programming and we were writing our tests first! Not just unit tests, we were also writing acceptance tests with our &amp;#39;customer&amp;#39; to help us understand the requirements.&lt;/p&gt;
+
+&lt;p&gt;We used a tool called &lt;a href="http://en.wikipedia.org/wiki/Framework_for_Integrated_Test"&gt;FIT&lt;/a&gt;. This allowed us to create word documents (!!) that contained tables of examples of what the software should do. We would then hook these tables up to some test classes which would run the tests and colour the tables appropriately.&lt;/p&gt;
+
+&lt;p&gt;Using tables to describe the requirements was fantastic. We were able to communicate clearly with our project sponsors about the business rules, using concrete examples to support our understanding.&lt;/p&gt;
+
+&lt;p&gt;Brian Marick&amp;#39;s foreword from the book really sums up what the FIT community were trying to do:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;A software project is a place where different cultures come together. Some people face towards the business and its concerns; other people face toward the computer and its demands.&lt;/p&gt;
+
+&lt;p&gt;To an expert in financial trading, a &amp;ldquo;bond&amp;rdquo; is something that&amp;#39;s tangled up in all sorts of explicit and implicit legal, social, historical and emotional meanings.&lt;/p&gt;
+
+&lt;p&gt;To programmers, a Bond is an object in their program that they&amp;#39;re trying to keep from getting too tangled up with other objects, lest their brains explode.&lt;/p&gt;
+
+&lt;p&gt;Somehow these people have to work together, and they do it by creating a shared language. Most of that creating happens through the conversation that threads through the whole project. But some of it happens through writing.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Brian Marick, Feb 2005 (foreword of &lt;a href="http://www.pearsoned.co.uk/bookshop/detail.asp?item=100000000079971"&gt;Fit for Developing Software&lt;/a&gt;)&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;At about the same time as this I came across the term &lt;em&gt;Behaviour Driven Development&lt;/em&gt; in &lt;a href="http://blog.daveastels.com/2005/07/a-new-look-at-test-driven-development/"&gt;this post&lt;/a&gt; by Dave Astels. It was about trying to change the focus of TDD from testing to specifying behaviour.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;The problem I have with TDD is that its mindset takes us in a different direction… a wrong direction.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;We need to start thinking in terms of behavior specifications, not verification tests.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The value of doing this will be thinking more clearly about each behaviour, relying less on testing by class or by method, and having better executable documentation.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Since TDD is what it is, and everyone isn’t about to change their meaning of that name (nor should we expect them to), we need a new name for this new way of working… BDD: Behaviour Driven Development.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This post really struck a chord with me. I was still getting to grips with TDD but when it had worked well for me it was when I was working how Dave described. The timing of this is a little fuzzy for me now, but it was right around the time I first started to use Ruby and Rails, so I picked up RSpec as my testing tool of choice.&lt;/p&gt;
+
+&lt;p&gt;The FIT toolchain didn&amp;#39;t exist in ruby, but in August 2007 the &lt;a href="http://rubyforge.org/pipermail/rspec-devel/2007-August/003756.html"&gt;RSpec Story Runner was released&lt;/a&gt; which gave us the tools to do similar things in ruby. The story runner gave way to &lt;a href="http://cukes.info/"&gt;cucumber&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Cucumber and Gherkin (the formal language for writing cucumber specifcations), have spread. It is now possible to write Gherkin specifications &lt;a href="https://github.com/cucumber/cucumber-jvm"&gt;on&lt;/a&gt; &lt;a href="https://github.com/cucumber/cucumber-js"&gt;a&lt;/a&gt; &lt;a href="http://www.specflow.org/"&gt;huge&lt;/a&gt; &lt;a href="https://github.com/cucumber/cucumber-cpp"&gt;range&lt;/a&gt; &lt;a href="http://behat.org/"&gt;of&lt;/a&gt; &lt;a href="https://github.com/gabrielfalcao/lettuce"&gt;platforms&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I think I made a mistake using these tools that many people have done. I used them to write tests. Sometimes they were very brittle tests, &lt;a href="http://tooky.co.uk/stop-writing-scenarios-that-test-everything-through-the-view/"&gt;overly focussed on the view&lt;/a&gt;. Often they were boring lists of instructions. I learnt to be more &lt;a href="http://benmabey.com/2008/05/19/imperative-vs-declarative-scenarios-in-user-stories.html"&gt;declarative&lt;/a&gt;, and my tests became more readable. But&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;They were still written as tests by me (and my colleagues) for the computer to run. &lt;a href="http://lizkeogh.com/2011/03/04/step-away-from-the-tools/"&gt;BDD isn&amp;#39;t about the tools&lt;/a&gt; its about the &lt;a href="http://dannorth.net/2010/08/30/introducing-deliberate-discovery/"&gt;discovery&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;BDD enables communication. Our teams are made up of those who need the capabilities some new software will provide, and those who are able to create that software. These people come from different backgrounds, different experiences. Using stories and examples helps to create a shared language which we can then use to explore the problem space and begin to discover the things we don&amp;#39;t know!&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Learning by Teaching</title>
+    <link rel="alternate" href="http://tooky.co.uk/learning-by-teaching/"/>
+    <id>http://tooky.co.uk/learning-by-teaching/</id>
+    <published>2013-11-06T00:00:00Z</published>
+    <updated>2013-12-18T12:36:38+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;For the last few weeks I&amp;#39;ve been working with &lt;a href="http://kickstartacademy.io/"&gt;Kickstart Academy&lt;/a&gt; teaching the &lt;a href="https://www.onthebeach.co.uk/"&gt;On The Beach&lt;/a&gt; ruby academy. We&amp;#39;ve been introducing a group of graduate and experienced developers to software development using ruby, bdd and git. Much of the teaching in the academy was based on ideas from &lt;a href="http://www.bowperson.com/books.htm"&gt;Training from the Back of the Room&lt;/a&gt; by Sharon Bowman and I wanted to share one of the exercises that we ran.&lt;/p&gt;
+
+&lt;p&gt;Bowman&amp;#39;s book has had quite an influence on the way that I approach training. The book focuses on leaving behind traditional training methods where learners are a passive audience as the trainer pushes information through lectures and slides. Instead, Bowman suggests that trainers should try to connect learners to past experiences, use shorter presented segments, and focus on giving learners lots of oppurtunity for concrete practice through exercises and activities.&lt;/p&gt;
+
+&lt;p&gt;Another major theme in the book is the idea that trainers should &amp;ldquo;step aside&amp;rdquo; and let the learners teach and learn from each other. This really stood out to me as I have found that whenever I&amp;#39;m teaching something to someone else, it helps me understand it more.&lt;/p&gt;
+
+&lt;p&gt;We set the group a task to go and spend some time researching the &lt;a href="http://en.wikipedia.org/wiki/SOLID_(object-oriented_design"&gt;SOLID principles&lt;/a&gt;). They worked in twos or threes and each group took one of the principles.&lt;/p&gt;
+
+&lt;p&gt;We gave them 45 minutes to produce a poster about the principle before we got back together and presented back to the group. Each group had the chance to think about their principle and how it affected some of the things we&amp;#39;d been working on. After each presentation we had a group discussion about the benefits and drawbacks that following the principle presented. Working through them together made the connections between the principles obvious.&lt;/p&gt;
+
+&lt;p&gt;This exercise, it&amp;#39;s output and the discussion between the learners really highlighted to me the role of a trainer. As a trainer we aren&amp;#39;t there to teach, or to talk at learners. We are trying to facilitate learning. We want to create an environment where the learners are able to discover ideas and try them out for themselves, offering guidance and help when they are stuck. Not only does this make the training more interesting and relevant for the learners, but it makes it more satisfying to teach. You get fast feedback about how the group are doing, and what topics you might need to spend more time on.&lt;/p&gt;
+
+&lt;p&gt;Here are the posters the group created.&lt;/p&gt;
+
+&lt;h3&gt;Single Responsibility Principle&lt;/h3&gt;
+
+&lt;p&gt;&lt;img alt="Single Responsibility Principle" src="https://dl.dropboxusercontent.com/u/41915/otb-solid/single-responsibility.jpg" /&gt;&lt;/p&gt;
+
+&lt;h3&gt;Open-Closed Principle&lt;/h3&gt;
+
+&lt;p&gt;&lt;img alt="Open-Closed Principle" src="https://dl.dropboxusercontent.com/u/41915/otb-solid/open-closed.jpg" /&gt;&lt;/p&gt;
+
+&lt;h3&gt;Liskov Substitution Principle&lt;/h3&gt;
+
+&lt;p&gt;&lt;img alt="Liskov Substitution Principle" src="https://dl.dropboxusercontent.com/u/41915/otb-solid/liskov-substitution.jpg" /&gt;&lt;/p&gt;
+
+&lt;h3&gt;Interface Segregation Principle&lt;/h3&gt;
+
+&lt;p&gt;&lt;img alt="Interface Segregation Principle" src="https://dl.dropboxusercontent.com/u/41915/otb-solid/interface-segregation.jpg" /&gt;&lt;/p&gt;
+
+&lt;h3&gt;Dependency Inversion Principle&lt;/h3&gt;
+
+&lt;p&gt;&lt;img alt="Dependency Inversion Principle" src="https://dl.dropboxusercontent.com/u/41915/otb-solid/dependency-inversion.jpg" /&gt;&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Stop Writing Scenarios That Test Everything Through The View</title>
+    <link rel="alternate" href="http://tooky.co.uk/stop-writing-scenarios-that-test-everything-through-the-view/"/>
+    <id>http://tooky.co.uk/stop-writing-scenarios-that-test-everything-through-the-view/</id>
+    <published>2013-10-29T00:00:00Z</published>
+    <updated>2013-12-18T10:30:28+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;Following on from my &lt;a href="http://tooky.co.uk/this-gherkins-not-for-reading/"&gt;last post&lt;/a&gt;, I wanted to mention a common anti-pattern that &lt;a href="http://blog.8thlight.com/kevin-liddle/2013/09/18/a-case-against-cucumber.html"&gt;Kevin&amp;#39;s case against cucumber&lt;/a&gt; mentioned. Scenarios that are too focussed on the user interface. Scenarios written as an imperative set of instructions for a machine to follow.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;Scenarios like this.&lt;/p&gt;
+&lt;pre class="highlight gherkin"&gt;&lt;span class="nf"&gt;Given&lt;/span&gt; I go to the homepage
+&lt;span class="nf"&gt;And&lt;/span&gt; I fill in my username
+&lt;span class="nf"&gt;And&lt;/span&gt; I click sign in
+&lt;span class="nf"&gt;When&lt;/span&gt; I click &lt;span class="s"&gt;&amp;quot;Accounts&amp;quot;&lt;/span&gt;
+&lt;span class="nf"&gt;Then&lt;/span&gt; I see &lt;span class="s"&gt;&amp;quot;Current Account&amp;quot;&lt;/span&gt;
+&lt;span class="nf"&gt;And&lt;/span&gt; I see &lt;span class="s"&gt;&amp;quot;Savings Account&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;sigh&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;There has been quite a lot written about this, the &lt;a href="http://benmabey.com/2008/05/19/imperative-vs-declarative-scenarios-in-user-stories.html"&gt;canonical post&lt;/a&gt; is from 2008. The cucumber team made a mistake including &lt;code&gt;web_steps.rb&lt;/code&gt; - they were &lt;a href="https://github.com/cucumber/cucumber-rails/commit/f027440965b96b780e84e50dd47203a2838e8d7d"&gt;removed&lt;/a&gt; 2 years ago.&lt;/p&gt;
+
+&lt;p&gt;The problem here isn&amp;#39;t just isolated to the imperative style of this scenario, but also that the scenario is highly coupled to the view.&lt;/p&gt;
+
+&lt;p&gt;Testing through the view is something you have to be wary of with any tool. It&amp;#39;s slow and brittle. That isn&amp;#39;t to say it has no value, but you don&amp;#39;t need every test to go through the UI. Beware the &lt;a href="http://watirmelon.com/2012/01/31/introducing-the-software-testing-ice-cream-cone/"&gt;ice cream cone&lt;/a&gt; anti-pattern.&lt;/p&gt;
+
+&lt;p&gt;I&amp;#39;ve written a little more about this &lt;a href="http://tooky.co.uk/cucumber-and-full-stack-testing/"&gt;here&lt;/a&gt;, Seb has introduced the &lt;a href="http://claysnow.co.uk/the-testing-iceberg/"&gt;Testing Iceberg&lt;/a&gt; and &lt;a href="http://mattwynne.net"&gt;Matt&lt;/a&gt; talks more about it &lt;a href="http://skillsmatter.com/podcast/agile-testing/why-your-step-definitions-should-be-one-liners-and-other-pro-tips"&gt;here&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>This Gherkin's Not For Reading</title>
+    <link rel="alternate" href="http://tooky.co.uk/this-gherkins-not-for-reading/"/>
+    <id>http://tooky.co.uk/this-gherkins-not-for-reading/</id>
+    <published>2013-10-24T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;Recently &lt;a href="http://www.8thlight.com/our-team/kevin-liddle"&gt;Kevin Liddle&lt;/a&gt; made his &lt;a href="http://blog.8thlight.com/kevin-liddle/2013/09/18/a-case-against-cucumber.html"&gt;case against cucumber&lt;/a&gt;. In the article he outlines several problems he experiences working with cucumber. One of his key arguments is that non-technical team members don&amp;#39;t read the scenarios written by developers.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;In theory, this is a valuable thing, a bridge between the divergent worlds of
+developers and managers. In practice, however, I’ve never seen Cucumber used
+this way. Non-technical people don’t read code, no matter how easy it is to
+read. They care about the actual use cases and that means using the
+application. And if they use the application, who cares if there is some text
+claiming the application works!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;So why don&amp;#39;t non-technical people read the scenarios written by developers or testers?&lt;/p&gt;
+
+&lt;p&gt;Because they aren&amp;#39;t written for non-technical people to read! They probably aren&amp;#39;t even written with non-technical people in mind. They are written as a test script, they are written as a set of instructions for a computer to follow so they can execute a test plan. At best they&amp;#39;re written as set of steps that the developer will go through to get the feature finished.&lt;/p&gt;
+
+&lt;p&gt;Gherkin isn&amp;#39;t a scripting language for tests. Cucumber isn&amp;#39;t a testing tool. BDD isn&amp;#39;t a testing process. Kevin says that &amp;ldquo;non-technical people don&amp;#39;t read code&amp;rdquo; and that they &amp;ldquo;care about the actual use cases&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;We don&amp;#39;t want them to read our code, or our test plans. We want to talk to them about the behaviour, we want to discuss the impact they are looking to create and collaborate on how we can achieve that.&lt;/p&gt;
+
+&lt;p&gt;Gherkin&amp;#39;s value isn&amp;#39;t when it&amp;#39;s read. It&amp;#39;s when it&amp;#39;s written - it&amp;#39;s value is as a communication tool. It is close enough to natural language that both technical and non-technical people can collaborate but it has enough constraints to encourage thinking in terms of behaviour.&lt;/p&gt;
+
+&lt;p&gt;Writing scenarios with non-technical people, allows you to document the conversations you have about the behaviour of the system. It provides an avenue to explore new features and their value without building anything.&lt;/p&gt;
+
+&lt;p&gt;Kevin&amp;#39;s article goes on to highlight the value of gherkin when &amp;ldquo;gathering requirements&amp;rdquo;, but he argues that automating those scenarios using cucumber adds a level of overhead and’ indirection that is not worthwhile.&lt;/p&gt;
+
+&lt;p&gt;I have more to say about that, but that&amp;#39;s another post.&lt;/p&gt;
+
+&lt;p&gt;For now try sitting down with with your stakeholders and use gherkin to document examples of how they expect your software to behave. Use those examples to help you when you&amp;#39;re writing the code, but also check the assumptions with other people on the team. Do other non-technical stakeholders find them more readable?&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Cucumber and Full Stack Testing</title>
+    <link rel="alternate" href="http://tooky.co.uk/cucumber-and-full-stack-testing/"/>
+    <id>http://tooky.co.uk/cucumber-and-full-stack-testing/</id>
+    <published>2013-01-18T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;There has been two similar questions asked on two different mailing lists I subscribe to (Corey Haines&amp;#39; &lt;a title="Build an app with Corey Haines" href="http://www.cleancoders.com/codecast/bawch-episode-1/show"&gt;BAWCH&lt;/a&gt; mailing list, and &lt;a href="http://rubyrogues.com/"&gt;Ruby Rogues&lt;/a&gt; Parley list). Both of these lists are private so I thought it would be worthwhile posting my answer here.&lt;/p&gt;
+
+&lt;p&gt;Both of the questions were concerned with out-side-in development, full-stack integration testing, and how much of the application needs to be tested through the entire system.&lt;/p&gt;
+
+&lt;p&gt;Firstly consider why we write &lt;a href="http://cukes.info/"&gt;cucumber&lt;/a&gt; scenarios (or &lt;a href="http://fitnesse.org/"&gt;fitnesse&lt;/a&gt; test cases). These tests are business facing acceptance tests. They are a medium through which we can engage with the business people on our team and to help us understand how the system should behave. They give us an opportunity to check &lt;em&gt;our&lt;/em&gt; understanding of what the system should do &amp;mdash; to check the &lt;em&gt;business&lt;/em&gt;&amp;#39;s understanding of what the system should do. We automate these tests to give the business confidence that the system behaves as expected.&lt;/p&gt;
+
+&lt;p&gt;Full-stack, end-to-end, integration tests are there to give us confidence that the system fits together correctly, that we have all the different pieces in place, and they are able to talk to each other.&lt;/p&gt;
+
+&lt;p&gt;It&amp;#39;s very easy to conflate these two concerns. I have worked on many systems where the business facing acceptance tests were also the end-to-end integration tests. The test runs end up being slow, and the tests are cumbersome to work with.&lt;/p&gt;
+
+&lt;p&gt;I&amp;#39;ve been talking about this with &lt;a href="https://twitter.com/mattwynne"&gt;Matt Wynne&lt;/a&gt; and he drew the following diagram:&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="Business Facing Acceptance Tests vs End-To-End Tests" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/business-facing-vs-end-to-end.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;The circle on the left represents the tests that we would write in cucumber (or fitnesse). The circle on the right the tests which exercise the whole system end-to-end. In the centre we have the intersection &amp;mdash; our cucumber scenarios which we run end-to-end against the whole system.&lt;/p&gt;
+
+&lt;p&gt;The key thing is that your business acceptance tests do not all have to drive the whole system end-to-end. We only a need a few scenarios to go end-to-end to give us the confidence the system as a whole is working. We can also write system tests, that aren&amp;#39;t part of the acceptance suite, to test specific integrations&lt;/p&gt;
+
+&lt;p&gt;Try to write acceptance tests that directly drive the domain objects. Use these to accurately describe your application&amp;#39;s behaviour. Focus them on the behaviour by not having them integrate the UI and the database.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Delegation is not inheritance</title>
+    <link rel="alternate" href="http://tooky.co.uk/delegation-is-not-inheritance/"/>
+    <id>http://tooky.co.uk/delegation-is-not-inheritance/</id>
+    <published>2012-08-08T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;On the train home last night I watched the excellent &lt;a href="https://peepcode.com/products/play-by-play-jimweirich-ruby"&gt;Jim Weirich Play-by-play&lt;/a&gt; from &lt;a href="https://peepcode.com/"&gt;PeepCode&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;During the screencast Jim develops a library that &amp;ldquo;protects against unauthorized data model modification by users in less-privileged roles.&amp;rdquo; The screencast provides a great insight into the way Jim approaches problems, designs apis, and how he&amp;#39;s customised his environment to suit the way he works.&lt;/p&gt;
+
+&lt;p&gt;His approach is to build a proxy object which wraps the object to be updated, and provides a whitelist for fields which can be updated. He also inadvertantly demonstrates an easy mistake to make when using proxy objects.&lt;/p&gt;
+
+&lt;p&gt;Here is a simplified version of Jim&amp;#39;s solution -  without any of the api for creating / finding proxies - which we will use to demonstrate this pitfall and its effects.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;delegate&amp;#39;&lt;/span&gt;
+&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;ProtectionProxy&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;SimpleDelegator&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;writable_fields&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@writable_fields&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;writable_fields&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;method_missing&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;method&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;block&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;method_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;method&lt;/span&gt;&lt;span class="nf"&gt;.to_s&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;method_name&lt;/span&gt;&lt;span class="nf"&gt;.end_with?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;=&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="k"&gt;super&lt;/span&gt;
+    &lt;span class="k"&gt;elsif&lt;/span&gt; &lt;span class="vi"&gt;@writable_fields&lt;/span&gt;&lt;span class="nf"&gt;.include?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;method_name&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="nf"&gt;...-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="nf"&gt;.to_sym&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="k"&gt;super&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;This approach works great for silently dropping calls to the accessor methods that are not in the provided whitelist. Here are some rspec examples which show how it works.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rspec-given&amp;#39;&lt;/span&gt;
+&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;protection_proxy&amp;#39;&lt;/span&gt;
+
+&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;User&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;Struct&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:email&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:membership_level&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="n"&gt;describe&lt;/span&gt; &lt;span class="no"&gt;ProtectionProxy&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="no"&gt;Given&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Jim&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;jim@somewhere&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Beginner&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="no"&gt;Given&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:proxy&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="no"&gt;ProtectionProxy&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:membership_level&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="no"&gt;Then&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="nf"&gt;.name.should&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Jim&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;when modifiying a writable field&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="no"&gt;When&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="nf"&gt;.membership_level&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Advanced&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="no"&gt;Then&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="nf"&gt;.membership_level.should&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Advanced&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;when modifiying a non-writable field&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="no"&gt;When&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="nf"&gt;.name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Joe&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="no"&gt;Then&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="nf"&gt;.name.should&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Jim&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Now if we imagine we have a rails project, we can create a proxy to wrap our ActiveRecord object, and specify an attribute whitelist.  This should then prevent mass-assignment of any non-whitelist attributes - it could be used in a controller like this:&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;UserController&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActionController&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;update&lt;/span&gt;
+    &lt;span class="n"&gt;user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="nf"&gt;.find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:id&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;proxy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;ProtectionProxy&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:email&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="nf"&gt;.update_attributes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="c1"&gt;# happy path&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;
+      &lt;span class="c1"&gt;# error&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Unfortunately this won&amp;#39;t work as we might expect.&lt;/p&gt;
+
+&lt;p&gt;Proxying like this is a great way to add new behaviour to existing objects, without modifying them - or creating new subclasses. but there is one thing to be aware of when you are using delegation in this way.&lt;/p&gt;
+
+&lt;p&gt;Methods called on the wrapped object have &lt;strong&gt;no&lt;/strong&gt; knowledge of the methods in the proxy object.&lt;/p&gt;
+
+&lt;p&gt;So what happens when we call &lt;code&gt;proxy.update_attributes&lt;/code&gt;?&lt;/p&gt;
+
+&lt;p&gt;The proxy object immediately delegates that method call to the user object, it will call &lt;code&gt;user.update_attributes&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you have used ActiveRecord, you will be aware of the way that &lt;code&gt;ActiveRecord::Base#update_attrbiutes&lt;/code&gt; will make use of the accessor methods on its instances to set the field names.&lt;/p&gt;
+
+&lt;p&gt;So, &lt;code&gt;user.update_attributes name: &amp;#39;Joe&amp;#39;&lt;/code&gt; will call &lt;code&gt;user.name = &amp;#39;Joe&amp;#39;&lt;/code&gt;, not the accessor methods on the proxy.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="update attributes sequence diagram" src="http://dl.dropbox.com/u/41915/update_attributes_sequence_diagram.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;As we are not calling the accessor methods on the proxy, we aren&amp;#39;t filtering out the fields that don&amp;#39;t appear in the whitelist and our attribute protection won&amp;#39;t work when we use &lt;code&gt;update_attributes&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here is another example. &lt;code&gt;Capitalise&lt;/code&gt; wraps an object and provides a upper case version of its name method.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;delegate&amp;#39;&lt;/span&gt;
+&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Capitalise&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;SimpleDelegator&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@source&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;source&lt;/span&gt;
+    &lt;span class="k"&gt;super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;name&lt;/span&gt;
+    &lt;span class="vi"&gt;@source&lt;/span&gt;&lt;span class="nf"&gt;.name.upcase&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;Person&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;Struct&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;greet&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;Hello, &lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="n"&gt;john&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Person&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;john&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;capital_john&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Capitalise&lt;/span&gt;&lt;span class="nf"&gt;.new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;john&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;john&lt;/span&gt;&lt;span class="nf"&gt;.greet&lt;/span&gt; &lt;span class="c1"&gt;#=&amp;gt; &amp;quot;Hello, john&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;capital_john&lt;/span&gt;&lt;span class="nf"&gt;.greet&lt;/span&gt; &lt;span class="c1"&gt;#=&amp;gt; &amp;quot;Hello, john&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Because &lt;code&gt;greet&lt;/code&gt; is defined in the &lt;code&gt;Person&lt;/code&gt; class, when it calls &lt;code&gt;name&lt;/code&gt; it will always call &lt;code&gt;Person#name&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This has caught me out a couple times. It&amp;#39;s so easy in ruby to create proxy objects or decorators that its easy to forget that you have a different object.&lt;/p&gt;
+
+&lt;p&gt;One solution is to implement a version of &lt;code&gt;update_attributes&lt;/code&gt; on the proxy object.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class &lt;/span&gt;&lt;span class="nc"&gt;ProtectionProxy&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;SimpleDelegator&lt;/span&gt;
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;writable_fields&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@object&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;object&lt;/span&gt;
+    &lt;span class="vi"&gt;@writable_fields&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;writable_fields&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def &lt;/span&gt;&lt;span class="nf"&gt;update_attributes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;attributes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{})&lt;/span&gt;
+    &lt;span class="n"&gt;attrs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;attributes&lt;/span&gt;&lt;span class="nf"&gt;.select&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;field_name&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+      &lt;span class="vi"&gt;@writable_fields&lt;/span&gt;&lt;span class="nf"&gt;.include?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;field_name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="vi"&gt;@object&lt;/span&gt;&lt;span class="nf"&gt;.update_attributes&lt;/span&gt; &lt;span class="n"&gt;attrs&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;Here we add an &lt;code&gt;update_attributes&lt;/code&gt; method to the &lt;code&gt;ProtectionProxy&lt;/code&gt; class - this only allows attributes allowed by the whitelist through to &lt;code&gt;User#update_attributes&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href="https://peepcode.com/products/play-by-play-jimweirich-ruby"&gt;screencast&lt;/a&gt; ends with a note that Jim noticed this error later after recording of the screen cast finished. Jim&amp;#39;s complete solution, including the nice api, can be found on &lt;a href="https://github.com/jimweirich/protection_proxy"&gt;github&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://gist.github.com/3294185.js"&gt;Here is the whole of the &lt;code&gt;ProxyProtection&lt;/code&gt; implementation&lt;/a&gt;, with rspec examples.&lt;/p&gt;
+</content>
+  </entry>
+</feed>

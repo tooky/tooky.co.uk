@@ -1,0 +1,209 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <title>Steve Tooke - Remote pairing with GNU Screen and Vim</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:300italic,300|Source+Sans+Pro:300|Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <link href="/stylesheets/reset.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/highlight.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/blog.css" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+
+  <div id='site-header'>
+    <div id="site-header-wrapper">
+      <h1>
+        <a href="/">
+          Steve Tooke
+        </a>
+      </h1>
+      <h2>software development flavoured with agile, bdd, ruby and javascript</h2>
+    </div>
+  </div>
+  <div id='main-wrapper'>
+    <div id="main" role="main">
+        <article>
+    <header>
+      <h1>Remote pairing with GNU Screen and Vim</h1>
+      <section class="author">
+        <img class="avatar" src="/images/tooky-avatar.jpg">
+        <p class="byline">by Steve Tooke</p>
+        <time datetime="2010-01-08" itemprop="datePublished">January 8th, 2010</time>
+      </section>
+    </header>
+    <section class="article-body">
+      <p>All the recent <a href="http://search.twitter.com/search?q=%23uksnow">#uksnow</a> has left the <a href="http://edendevelopment.co.uk/blogs/company/2009/11/28/welcome-to-our-new-office/">Eden studio</a> a little deserted. With several of us having longish drives in to the office, we&#39;ve been forced to get much better at remote pairing.</p>
+
+<p>In the past we&#39;ve used iChat screen sharing in the office for pairing on laptops, but with two people both at the end of a DSL connection, the screen + voice bandwidth demands are pretty high, and the guest user is at a painful disadvantage.</p>
+
+<p><a href="http://www.vim.org/">Vim</a> is currently undergoing something of a rennaisance at <a href="http://edendevelopment.co.uk">Eden Development</a>. Several of us have been trying to use it for all our coding. Fortunately this has stood us in good stead to take advantage of a great low bandwidth pair programming solution.</p>
+
+<p><a href="http://www.gnu.org/software/screen/">GNU Screen</a> + <a href="http://www.vim.org/">vim</a> (+ <a href="http://skype.com">skype</a>).</p>
+
+<p>John Haruska gives a great <a href="http://haruska.com/2009/09/29/remote-pair-programming/">overview of different remote pairing solution</a> and outlines how to use screen to set up a shared terminal. Unfortunately we weren&#39;t able to use the acl method to allow different UNIX users to share a &#39;screen&#39; on our macs, but if both users logged in to the same unix account it worked like a dream.</p>
+
+<p>Our basic process is:</p>
+
+<p>User 1 sets up a screen as a shared user on the host machine</p>
+<pre class="highlight text">pairing$ screen -S pairing
+Ctrl-a :multiuser on
+</pre>
+<p>User 2, logs into the maching via ssh, and connects to the shared screen</p>
+<pre class="highlight text">local$ ssh pairing@shared_machine
+pairing$ screen -x pairing
+</pre>
+<p>That&#39;s basically it. Both users then have access to a full shared terminal environment. A shared screen can have multiple windows, so we tend to work with one screen for vim and another for running tests and other terminal commands. We also make extensive use of <a href="http://www.linux.com/archive/articles/59533">vim tabs</a> and shell execution from within vim.</p>
+
+<p>A couple of tips:</p>
+
+<ul>
+<li>make use of the <a href="http://www.samsarin.com/blog/2007/03/11/gnu-screen-working-with-the-scrollback-buffer/">GNU screen scrollback buffer</a></li>
+<li>remote pairing can be quite intense, we find using <a href="http://www.pomodorotechnique.com/">The Pomodoro Technique</a> really useful in helping combat that - see <a href="http://tomatoi.st/">http://tomatoi.st/</a> for a shared timer.</li>
+<li>audio is essential, but having a video link is even better</li>
+<li>SSH requires some kind of NAT/firewall traversal - we found it simplest to just connect to the office vpn.</li>
+</ul>
+
+<p><a href="http://edendevelopment.co.uk/blogs/aimee/">aimee</a> has a great description of how aimee, <a href="http://blog.nexwerk.com/">Enrique</a> and I ended up <a href="http://edendevelopment.co.uk/blogs/aimee/2010/01/06/remote-trio-programming/">trio-programming</a> over the last couple of days, and here&#39;s a photo to prove it. I&#39;m the remote on the macbook to aimee&#39;s left.</p>
+
+<p><img title="Trio-programming with aimee and Enrique" alt="trio-programming" src="http://farm5.static.flickr.com/4055/4257007886_3442ceceba_d.jpg" /></p>
+
+    </section>
+  </article>
+
+    </div>
+
+    <aside id="sidebar">
+      <ol id="recent-articles">
+        <h2>
+          Recent Articles
+          <a href="/feed.xml" class="feed" title="Subscribe!"><i class="fa fa-rss"></i></a>
+        </h2>
+        
+          <li><a href="/discovering-bdd/">Discovering BDD</a> <span>Dec 11</span></li>
+        
+          <li><a href="/learning-by-teaching/">Learning by Teaching</a> <span>Nov  6</span></li>
+        
+          <li><a href="/stop-writing-scenarios-that-test-everything-through-the-view/">Stop Writing Scenarios That Test Everything Through The View</a> <span>Oct 29</span></li>
+        
+          <li><a href="/this-gherkins-not-for-reading/">This Gherkin's Not For Reading</a> <span>Oct 24</span></li>
+        
+          <li><a href="/cucumber-and-full-stack-testing/">Cucumber and Full Stack Testing</a> <span>Jan 18</span></li>
+        
+      </ol>
+
+      <ul id="tags">
+        <h2>Tags</h2>
+        
+          <li><a href="/tags/apprenticeship/">apprenticeship</a></a></li>
+        
+          <li><a href="/tags/atdd/">atdd</a></a></li>
+        
+          <li><a href="/tags/bdd/">bdd</a></a></li>
+        
+          <li><a href="/tags/bletchley-park/">bletchley park</a></a></li>
+        
+          <li><a href="/tags/coderetreat/">coderetreat</a></a></li>
+        
+          <li><a href="/tags/craft/">craft</a></a></li>
+        
+          <li><a href="/tags/craftsmanship/">craftsmanship</a></a></li>
+        
+          <li><a href="/tags/cucumber/">cucumber</a></a></li>
+        
+          <li><a href="/tags/development/">development</a></a></li>
+        
+          <li><a href="/tags/eden/">eden</a></a></li>
+        
+          <li><a href="/tags/fitnesse/">fitnesse</a></a></li>
+        
+          <li><a href="/tags/git/">git</a></a></li>
+        
+          <li><a href="/tags/github/">github</a></a></li>
+        
+          <li><a href="/tags/hacks/">hacks</a></a></li>
+        
+          <li><a href="/tags/javascript/">javascript</a></a></li>
+        
+          <li><a href="/tags/jekyll/">jekyll</a></a></li>
+        
+          <li><a href="/tags/kickstartac/">kickstartac</a></a></li>
+        
+          <li><a href="/tags/macosx/">macosx</a></a></li>
+        
+          <li><a href="/tags/oo/">oo</a></a></li>
+        
+          <li><a href="/tags/pairing/">pairing</a></a></li>
+        
+          <li><a href="/tags/practices/">practices</a></a></li>
+        
+          <li><a href="/tags/project/">project</a></a></li>
+        
+          <li><a href="/tags/retrospective/">retrospective</a></a></li>
+        
+          <li><a href="/tags/ruby/">ruby</a></a></li>
+        
+          <li><a href="/tags/sinatra/">sinatra</a></a></li>
+        
+          <li><a href="/tags/software/">software</a></a></li>
+        
+          <li><a href="/tags/solid/">solid</a></a></li>
+        
+          <li><a href="/tags/tdd/">tdd</a></a></li>
+        
+          <li><a href="/tags/tools/">tools</a></a></li>
+        
+          <li><a href="/tags/training/">training</a></a></li>
+        
+          <li><a href="/tags/vim/">vim</a></a></li>
+        
+          <li><a href="/tags/xp/">xp</a></a></li>
+        
+      </ul>
+
+      <div id="bio">
+        <img class="avatar" src="/images/tooky-avatar.jpg">
+        <h2>Steve Tooke</h2>
+        <p>
+        I am a programmer &mdash; consultant, trainer and coach &mdash;
+        passionate about improving my craft and helping others improve
+        theirs. I specialise in helping teams continue to deliver
+        valuable software by improving their team practices and
+        communication, and keeping their code maintainable.
+        </p>
+        <p>
+        I co-organised Bootstrapd, a non-profit conference for
+        bootstrapped startups in Europe. I am the co-founder of the
+        Software Craftsmanship UK user group, and the HampshiRB ruby
+        user group. I have spoken at the Scottish Ruby
+        Conference and have run workshops at the London Software
+        Craftsmanship Community. I am a member of the Cucumber core
+        team.
+        </p>
+        <p>
+        <a href="http://heavi.es">Heavies</a>
+        |
+        <a href="http://kickstartacademy.io">Kickstart Academy</a>
+        </p>
+      </div>
+    </aside>
+    <footer>
+      <div id='site-footer'>
+        <p>All content copyright Steve Tooke &copy; 2014 &middot; All rights reserved.</p>
+        <p>Find me on <a href="http://twitter.com/tooky">Twitter</a> | <a href="https://plus.google.com/+SteveTooke-Heavies/">Google+</a></a></p>
+    </div>
+    </footer>
+  </div>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-37664795-2', 'tooky.co.uk');
+    ga('send', 'pageview');
+
+  </script>
+  </body>
+</html>

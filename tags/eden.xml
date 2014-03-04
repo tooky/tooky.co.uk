@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Steve Tooke - eden</title>
+  <id>http://tooky.co.uk/</id>
+  <link href="http://tooky.co.uk/tags/eden/"/>
+  <link href="http://tooky.co.uk/tags/eden.xml" rel="self"/>
+  <updated>2010-11-23T00:00:00Z</updated>
+  <entry>
+    <title>Tracking Project Emotions Using MercuryApp</title>
+    <link rel="alternate" href="http://tooky.co.uk/tracking-project-emotions-using-mercury-app/"/>
+    <id>http://tooky.co.uk/tracking-project-emotions-using-mercury-app/</id>
+    <published>2010-11-23T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;I&amp;#39;ve been trying out &lt;a href="http://mercuryapp.com"&gt;MercuryApp&lt;/a&gt; as a way to track how I&amp;#39;m feeling about a project we&amp;#39;ve just started. I&amp;#39;m tracking once a day, usually at about 4pm.&lt;/p&gt;
+
+&lt;p&gt;We try to run regular retrospectives on our projects, this gives us a chance to reflect on how the project is going. We often include a segment where each participant draws a &amp;#39;sparkline&amp;#39; of how they were feeling over the period of time leading up to the retrospective. This let&amp;#39;s us see how various events effect peoples emotions.&lt;/p&gt;
+
+&lt;p&gt;This time I had my sparkline already. &lt;a href="http://mercuryapp.com"&gt;MercuryApp&lt;/a&gt; had been tracking this data for me all week. The surprise for me though was that I seemed to be more upbeat about things than I remembered. If I hadn&amp;#39;t had &lt;a href="http://mercuryapp.com"&gt;MercuryApp&lt;/a&gt; I&amp;#39;m sure my sparkline would have been less positive.&lt;/p&gt;
+
+&lt;p&gt;I suspect that the negatives I perceived were something to do with my mood at the time of the retrospective. It as towards the end of the day so I was tired, and I&amp;#39;d had a tough day.&lt;/p&gt;
+
+&lt;p&gt;I&amp;#39;m guessing that had my day been better, and I was in a more positive mood then my sparkline may well have been influenced in the other direction.&lt;/p&gt;
+
+&lt;p&gt;Having real data is great, not only is it more accurate when thinking about the previous week, but looking at how it differs from your perception gives you the chance to reflect on your mood right now! Liking the results from &lt;a href="http://mercuryapp.com"&gt;MercuryApp&lt;/a&gt; so far.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;p&gt;&lt;em&gt;Disclaimer: &lt;a href="http://edendevelopment.co.uk"&gt;Eden Development&lt;/a&gt; have been working with the guys at &lt;a href="http://mercuryapp.com"&gt;MercuryApp&lt;/a&gt;, but I have not been involved in the project.&lt;/em&gt;&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Fixing "There was a problem with the editor 'vi'" for Git on Mac OS X Snow Leopard</title>
+    <link rel="alternate" href="http://tooky.co.uk/there-was-a-problem-with-the-editor-vi-git-on-mac-os-x/"/>
+    <id>http://tooky.co.uk/there-was-a-problem-with-the-editor-vi-git-on-mac-os-x/</id>
+    <published>2010-04-08T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;I have had an annoying problem with git and vi. I like to use vim to edit my commit messages, but I&amp;#39;ve been hit with this annoying message every time I write the message and quit vim.&lt;/p&gt;
+&lt;pre class="highlight text"&gt;error: There was a problem with the editor &amp;#39;vi&amp;#39;
+&lt;/pre&gt;
+&lt;p&gt;After a little bit of digging I found that this message is shown by git when the editor exits with a non-zero exit code. You can use &lt;code&gt;$?&lt;/code&gt; to see the exit code of last script or application.&lt;/p&gt;
+&lt;pre class="highlight text"&gt;$ vim     # then exit vim with :q immediately
+$ echo $?
+1
+&lt;/pre&gt;
+&lt;p&gt;I&amp;#39;m still not sure why vim is exiting with non-zero exit code, but it is definitely related to my &lt;code&gt;.vimrc&lt;/code&gt; - moving it to &lt;code&gt;.vimrc.bak&lt;/code&gt; seemed to fix the problem. I&amp;#39;m using the excellent &lt;a href="http://www.vim.org/scripts/script.php?script_id=2332"&gt;pathogen&lt;/a&gt; plugin to manage my vimfiles, so I plan to go through that and my installed plugins to find the cause of the problem.&lt;/p&gt;
+
+&lt;p&gt;There is a fix though, I&amp;#39;m not sure what&amp;#39;s causing this, but I found a &lt;a href="http://groups.google.com/group/vim_mac/browse_thread/thread/0d33e2f2130867b0"&gt;post on the vim-mac mailing list&lt;/a&gt; which shows this:&lt;/p&gt;
+&lt;pre class="highlight text"&gt;$ vim          # and exit with :q
+$ echo $?
+1
+$ /usr/bin/vim # and exit with :q
+$ echo $?
+0
+$ which vim
+/usr/bin/vim
+&lt;/pre&gt;
+&lt;p&gt;Running vim with &lt;code&gt;/usr/bin/vim&lt;/code&gt; seems to make it exit cleanly. So to fix the problem with git commit you just need to run this:&lt;/p&gt;
+&lt;pre class="highlight text"&gt;$ git config --global core.editor /usr/bin/vim
+&lt;/pre&gt;
+&lt;p&gt;I&amp;#39;d still like to get to the root of the problem, but this gets me my git commit messages back!&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Why I think you should go to a code retreat</title>
+    <link rel="alternate" href="http://tooky.co.uk/why-i-think-you-should-go-to-a-coderetreat/"/>
+    <id>http://tooky.co.uk/why-i-think-you-should-go-to-a-coderetreat/</id>
+    <published>2010-03-17T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;Last Saturday I went along to the UK leg of &lt;a href="http://coreyhaines.com/"&gt;Corey Haines&lt;/a&gt; &lt;a href="http://www.coderetreat.com/how-it-works.html"&gt;Code Retreat tour&lt;/a&gt;. Apart from the early start it was a really interesting day, and I really enjoyed the chance to &lt;a href="http://twitter.com/despo"&gt;pair&lt;/a&gt; &lt;a href="http://twitter.com/morty_uk"&gt;with&lt;/a&gt; &lt;a href="http://twitter.com/duncanbutler"&gt;lots&lt;/a&gt; of new people.&lt;/p&gt;
+
+&lt;p&gt;The day was pretty tiring, pairing is always an intense experience, but I definitely learnt quite a lot. Its amazing how much fun working on the same problem several times in a row is, and how different approaches affect the way you think about it. By repeating the problem you allow your brain to concentrate on how you are solving it, rather than the problem itself. This gives you a really different perspective and is something I want to explore more.&lt;/p&gt;
+
+&lt;p&gt;There were so many things that I took away from the day, some of them are already changing my approach to building software:&lt;/p&gt;
+
+&lt;h3&gt;45 minutes is a really short amount of time&lt;/h3&gt;
+
+&lt;p&gt;The format of the code retreat is to work on the problem with a pair for 45 minutes. When the time is up, you delete all your code, and take break. Spend 15 minutes grabbing a coffee, reflecting on what you&amp;#39;ve done, and finding your next pair. Rinse and repeat.&lt;/p&gt;
+
+&lt;p&gt;Every 45 minute session flew by. Even so, with each pairing I was surprised at how far we&amp;#39;d managed to get. But what really surprised me, was how useful the short break and change of partner proved to be. The break gave you a real chance to reconsider your assumptions. That little bit of perspective was great in kick starting the next session.&lt;/p&gt;
+
+&lt;p&gt;It really surprised me how easy it was to swap pairs. Granted, everybody had been thinking about the same problem. But everyone was using a different approach, and sometimes a different language. The context switching didn&amp;#39;t seem to affect anybody. The new combinations brought new ideas and really contributed to the success of the day.&lt;/p&gt;
+
+&lt;p&gt;We&amp;#39;ve been trying the &lt;a href="http://www.pomodorotechnique.com/"&gt;pomodoro technique&lt;/a&gt; at work. I know I&amp;#39;ve been a bit resistant to stopping when the timer goes. I always feel like I should just get the rest of my ideas out before I take break, but based on my experience at code retreat, I think the short break from the problem will turn out to be a real benefit. I&amp;#39;m determined to try and do it properly and see how it works out.&lt;/p&gt;
+
+&lt;p&gt;I also want to try and swap pairs more often. I think that the new perspective a new pair will bring to a problem will really help to come to the best solution.  I&amp;#39;m not sure about every hour, but once or twice a day should be achievable.&lt;/p&gt;
+
+&lt;h3&gt;Pairing is a great way to share insights and learning&lt;/h3&gt;
+
+&lt;p&gt;Leading on from the new perspective a new pair brings is also the amount of shared learning that happens when your pairing. I learnt something from everyone I paired with. Not just how to approach the problem, but new things about the language, the tools. In a team, pairing will really help to bring every team member up to speed on any new part of the code base or library added. Switching often will make this happen even faster.&lt;/p&gt;
+
+&lt;h3&gt;If you don&amp;#39;t need the infrastructure yet, don&amp;#39;t build it&lt;/h3&gt;
+
+&lt;p&gt;Why do you need to build a class to make your first spec pass? Why not just write the code you need in the spec? Then write the next spec, and the code to pass it in that spec. As soon as you start to see shared behaviour extract a method. When specs are using the same state and the same methods extract a class.&lt;/p&gt;
+
+&lt;p&gt;Working like this is &lt;em&gt;really&lt;/em&gt; hard, but its amazing how the design you need just starts to show itself. &lt;/p&gt;
+
+&lt;h3&gt;Look at one behaviour at a time by isolating it using canned responses&lt;/h3&gt;
+
+&lt;p&gt;Most of the code we write doesn&amp;#39;t split up nicely into discreet chunks of behaviour. We build systems that rely on several pieces all working together to produce complicated behaviour. Complexity is difficult to define, so to make it easier we need to try to isolate the part that we&amp;#39;re interested in right now.  We can use simple objects that return canned responses, this allows us to consider only the behaviour we care about now.&lt;/p&gt;
+
+&lt;h3&gt;Keeping things really simple is really hard&lt;/h3&gt;
+
+&lt;p&gt;Corey was continually encouraging us to keep things simple. Its amazing how often you think your doing something as simply as possible, and then someone comes along and makes it even simpler. Simple is good, it allows you to work on one thing at a time, and not get bogged down in things that don&amp;#39;t matter &lt;em&gt;right now&lt;/em&gt;. &lt;/p&gt;
+
+&lt;p&gt;A lot of the direction at code retreat was about ways to keep things simple, to specify only the smallest piece of behaviour. Writing the code in the spec at first, and using &amp;#39;doubles&amp;#39; to isolate behaviour are both great techniques to help you do that.&lt;/p&gt;
+
+&lt;p&gt;One of the main things I&amp;#39;m taking away from code retreat is to work hard at writing smaller, more focussed specs.&lt;/p&gt;
+
+&lt;p&gt;If there&amp;#39;s a &lt;a href="http://www.coderetreat.com/"&gt;code retreat&lt;/a&gt; near you I really encourage you to go along. If there isn&amp;#39;t join the &lt;a href="http://coderetreat.ning.com/"&gt;community&lt;/a&gt; and see if there&amp;#39;s anyone else who would be interested in helping get one organised.&lt;/p&gt;
+
+&lt;p&gt;I&amp;#39;d like to say thank you to &lt;a href="http://coreyhaines.com/"&gt;Corey Haines&lt;/a&gt;, the sponsors &lt;a href="http://riverglide.com/"&gt;RiveGlide&lt;/a&gt; and &lt;a href="http://edendevelopment.co.uk/"&gt;Eden Development&lt;/a&gt;, all of the attendees, and of course &lt;a href="http://www.bletchleypark.org.uk/"&gt;Bletchley Park&lt;/a&gt; and the &lt;a href="http://www.tnmoc.org/"&gt;The National Museum of Computing&lt;/a&gt; for making the day such a great success.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Exploring Harmony for javascript BDD with RSpec</title>
+    <link rel="alternate" href="http://tooky.co.uk/exploring-harmony-for-unit-testing-with-rspec/"/>
+    <id>http://tooky.co.uk/exploring-harmony-for-unit-testing-with-rspec/</id>
+    <published>2010-03-02T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;We try to BDD all of our production code, but the one area we always seem to struggle with is our javascript. There are various test/spec frameworks for javascript, but we&amp;#39;ve never quite found one we&amp;#39;ve been totally happy with.&lt;/p&gt;
+
+&lt;p&gt;There&amp;#39;s been a fair amount of interest lately in a new ruby gem which allows you to execute javascript against a DOM from within a ruby process. &lt;a href="http://github.com/mynyml/harmony"&gt;Harmony&lt;/a&gt; uses &lt;a href="http://github.com/jbarnette/johnson/"&gt;Johnson&lt;/a&gt; a ruby wrapper for the &lt;a href="http://www.mozilla.org/js/spidermonkey/"&gt;Mozilla SpiderMonkey&lt;/a&gt; javascript runtime.&lt;/p&gt;
+
+&lt;p&gt;To get started figuring out how I might be able to integrate harmony into my workflow, I&amp;#39;ve created a very simple &lt;a href="http://gist.github.com/319235"&gt;project&lt;/a&gt; which uses rspec to make some very simple assertions about javascript behaviour.&lt;/p&gt;
+
+&lt;script src="http://gist.github.com/319235.js?file=rspec_with_harmony.rb"&gt;&lt;/script&gt;
+
+&lt;p&gt;The 3rd and 4th specs are probably the most interesting. They show how how you can use an HTML fixture file, and load the javascript you want to test. This feels like a nice way of isolating your javascript, and would probably encourage me to write much more modular javascript.&lt;/p&gt;
+
+&lt;p&gt;Please fork the &lt;a href="http://gist.github.com/319235"&gt;gist&lt;/a&gt; and play with some more detailed specs.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Remote pairing with GNU Screen and Vim</title>
+    <link rel="alternate" href="http://tooky.co.uk/remote-pairing-with-gnu-screen-and-vim/"/>
+    <id>http://tooky.co.uk/remote-pairing-with-gnu-screen-and-vim/</id>
+    <published>2010-01-08T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;All the recent &lt;a href="http://search.twitter.com/search?q=%23uksnow"&gt;#uksnow&lt;/a&gt; has left the &lt;a href="http://edendevelopment.co.uk/blogs/company/2009/11/28/welcome-to-our-new-office/"&gt;Eden studio&lt;/a&gt; a little deserted. With several of us having longish drives in to the office, we&amp;#39;ve been forced to get much better at remote pairing.&lt;/p&gt;
+
+&lt;p&gt;In the past we&amp;#39;ve used iChat screen sharing in the office for pairing on laptops, but with two people both at the end of a DSL connection, the screen + voice bandwidth demands are pretty high, and the guest user is at a painful disadvantage.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.vim.org/"&gt;Vim&lt;/a&gt; is currently undergoing something of a rennaisance at &lt;a href="http://edendevelopment.co.uk"&gt;Eden Development&lt;/a&gt;. Several of us have been trying to use it for all our coding. Fortunately this has stood us in good stead to take advantage of a great low bandwidth pair programming solution.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.gnu.org/software/screen/"&gt;GNU Screen&lt;/a&gt; + &lt;a href="http://www.vim.org/"&gt;vim&lt;/a&gt; (+ &lt;a href="http://skype.com"&gt;skype&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;John Haruska gives a great &lt;a href="http://haruska.com/2009/09/29/remote-pair-programming/"&gt;overview of different remote pairing solution&lt;/a&gt; and outlines how to use screen to set up a shared terminal. Unfortunately we weren&amp;#39;t able to use the acl method to allow different UNIX users to share a &amp;#39;screen&amp;#39; on our macs, but if both users logged in to the same unix account it worked like a dream.&lt;/p&gt;
+
+&lt;p&gt;Our basic process is:&lt;/p&gt;
+
+&lt;p&gt;User 1 sets up a screen as a shared user on the host machine&lt;/p&gt;
+&lt;pre class="highlight text"&gt;pairing$ screen -S pairing
+Ctrl-a :multiuser on
+&lt;/pre&gt;
+&lt;p&gt;User 2, logs into the maching via ssh, and connects to the shared screen&lt;/p&gt;
+&lt;pre class="highlight text"&gt;local$ ssh pairing@shared_machine
+pairing$ screen -x pairing
+&lt;/pre&gt;
+&lt;p&gt;That&amp;#39;s basically it. Both users then have access to a full shared terminal environment. A shared screen can have multiple windows, so we tend to work with one screen for vim and another for running tests and other terminal commands. We also make extensive use of &lt;a href="http://www.linux.com/archive/articles/59533"&gt;vim tabs&lt;/a&gt; and shell execution from within vim.&lt;/p&gt;
+
+&lt;p&gt;A couple of tips:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;make use of the &lt;a href="http://www.samsarin.com/blog/2007/03/11/gnu-screen-working-with-the-scrollback-buffer/"&gt;GNU screen scrollback buffer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;remote pairing can be quite intense, we find using &lt;a href="http://www.pomodorotechnique.com/"&gt;The Pomodoro Technique&lt;/a&gt; really useful in helping combat that - see &lt;a href="http://tomatoi.st/"&gt;http://tomatoi.st/&lt;/a&gt; for a shared timer.&lt;/li&gt;
+&lt;li&gt;audio is essential, but having a video link is even better&lt;/li&gt;
+&lt;li&gt;SSH requires some kind of NAT/firewall traversal - we found it simplest to just connect to the office vpn.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href="http://edendevelopment.co.uk/blogs/aimee/"&gt;aimee&lt;/a&gt; has a great description of how aimee, &lt;a href="http://blog.nexwerk.com/"&gt;Enrique&lt;/a&gt; and I ended up &lt;a href="http://edendevelopment.co.uk/blogs/aimee/2010/01/06/remote-trio-programming/"&gt;trio-programming&lt;/a&gt; over the last couple of days, and here&amp;#39;s a photo to prove it. I&amp;#39;m the remote on the macbook to aimee&amp;#39;s left.&lt;/p&gt;
+
+&lt;p&gt;&lt;img title="Trio-programming with aimee and Enrique" alt="trio-programming" src="http://farm5.static.flickr.com/4055/4257007886_3442ceceba_d.jpg" /&gt;&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>A Model for Life</title>
+    <link rel="alternate" href="http://tooky.co.uk/model_for_life/"/>
+    <id>http://tooky.co.uk/model_for_life/</id>
+    <published>2009-12-17T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;Its nearly two weeks since &lt;a href="http://twitter.com/edentodd"&gt;Todd&lt;/a&gt; gave me my first apprenticeship task:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Assignment: To logically model an individual&amp;#39;s life from the perspective of a parent instructing their
+child guidelines on how to make decisions to maximize happiness.&lt;/p&gt;
+
+&lt;p&gt;Requirements: Your model of a &amp;ldquo;Life&amp;rdquo; can be as extensive or granular as you wish to take it.  There is
+generally no wrong answer, other that it must reflect reality.  You will be expected to defend your
+model and the business rules you create.&lt;/p&gt;
+
+&lt;p&gt;Your model must take into to account (at minimum):&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Desires&lt;/li&gt;
+&lt;li&gt;Needs&lt;/li&gt;
+&lt;li&gt;Relationships&lt;/li&gt;
+&lt;li&gt;Finances&lt;/li&gt;
+&lt;li&gt;A State of well-being (happiness)&lt;/li&gt;
+&lt;li&gt;An unforeseen disaster&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;My son will be 2 on Monday. Its been amazing to watch him grow up and see him develop into a real character. When I think back to those first few weeks, I can say exactly what he needed and what made him happy then.&lt;/p&gt;
+
+&lt;p&gt;So long as he was warm, dry and fed and he had his mum he was happy - he was also mostly asleep.&lt;/p&gt;
+
+&lt;p&gt;Now its a different story. He still needs to be warm, dry and fed, but its no longer enough. He has to be entertained or challenged. He needs to see all the significant people in his life (coming home from work to excited shrieks of &amp;ldquo;Daddy, daddy&amp;rdquo; never gets old). He loves to visit his favourite places, play with favourite toys and watch his favourite DVDs. His life has become much more complex, and what makes him happy has followed suit.&lt;/p&gt;
+
+&lt;p&gt;This is how I&amp;#39;m going to approach this problem. I&amp;#39;m going to try to model a life from the point of view of a baby initially and see how it will evolves with time. I&amp;#39;ll continue to record my progress here.&lt;/p&gt;
+</content>
+  </entry>
+</feed>

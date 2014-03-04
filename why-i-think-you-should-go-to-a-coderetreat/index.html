@@ -1,0 +1,218 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <title>Steve Tooke - Why I think you should go to a code retreat</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:300italic,300|Source+Sans+Pro:300|Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <link href="/stylesheets/reset.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/highlight.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/blog.css" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+
+  <div id='site-header'>
+    <div id="site-header-wrapper">
+      <h1>
+        <a href="/">
+          Steve Tooke
+        </a>
+      </h1>
+      <h2>software development flavoured with agile, bdd, ruby and javascript</h2>
+    </div>
+  </div>
+  <div id='main-wrapper'>
+    <div id="main" role="main">
+        <article>
+    <header>
+      <h1>Why I think you should go to a code retreat</h1>
+      <section class="author">
+        <img class="avatar" src="/images/tooky-avatar.jpg">
+        <p class="byline">by Steve Tooke</p>
+        <time datetime="2010-03-17" itemprop="datePublished">March 17th, 2010</time>
+      </section>
+    </header>
+    <section class="article-body">
+      <p>Last Saturday I went along to the UK leg of <a href="http://coreyhaines.com/">Corey Haines</a> <a href="http://www.coderetreat.com/how-it-works.html">Code Retreat tour</a>. Apart from the early start it was a really interesting day, and I really enjoyed the chance to <a href="http://twitter.com/despo">pair</a> <a href="http://twitter.com/morty_uk">with</a> <a href="http://twitter.com/duncanbutler">lots</a> of new people.</p>
+
+<p>The day was pretty tiring, pairing is always an intense experience, but I definitely learnt quite a lot. Its amazing how much fun working on the same problem several times in a row is, and how different approaches affect the way you think about it. By repeating the problem you allow your brain to concentrate on how you are solving it, rather than the problem itself. This gives you a really different perspective and is something I want to explore more.</p>
+
+<p>There were so many things that I took away from the day, some of them are already changing my approach to building software:</p>
+
+<h3>45 minutes is a really short amount of time</h3>
+
+<p>The format of the code retreat is to work on the problem with a pair for 45 minutes. When the time is up, you delete all your code, and take break. Spend 15 minutes grabbing a coffee, reflecting on what you&#39;ve done, and finding your next pair. Rinse and repeat.</p>
+
+<p>Every 45 minute session flew by. Even so, with each pairing I was surprised at how far we&#39;d managed to get. But what really surprised me, was how useful the short break and change of partner proved to be. The break gave you a real chance to reconsider your assumptions. That little bit of perspective was great in kick starting the next session.</p>
+
+<p>It really surprised me how easy it was to swap pairs. Granted, everybody had been thinking about the same problem. But everyone was using a different approach, and sometimes a different language. The context switching didn&#39;t seem to affect anybody. The new combinations brought new ideas and really contributed to the success of the day.</p>
+
+<p>We&#39;ve been trying the <a href="http://www.pomodorotechnique.com/">pomodoro technique</a> at work. I know I&#39;ve been a bit resistant to stopping when the timer goes. I always feel like I should just get the rest of my ideas out before I take break, but based on my experience at code retreat, I think the short break from the problem will turn out to be a real benefit. I&#39;m determined to try and do it properly and see how it works out.</p>
+
+<p>I also want to try and swap pairs more often. I think that the new perspective a new pair will bring to a problem will really help to come to the best solution.  I&#39;m not sure about every hour, but once or twice a day should be achievable.</p>
+
+<h3>Pairing is a great way to share insights and learning</h3>
+
+<p>Leading on from the new perspective a new pair brings is also the amount of shared learning that happens when your pairing. I learnt something from everyone I paired with. Not just how to approach the problem, but new things about the language, the tools. In a team, pairing will really help to bring every team member up to speed on any new part of the code base or library added. Switching often will make this happen even faster.</p>
+
+<h3>If you don&#39;t need the infrastructure yet, don&#39;t build it</h3>
+
+<p>Why do you need to build a class to make your first spec pass? Why not just write the code you need in the spec? Then write the next spec, and the code to pass it in that spec. As soon as you start to see shared behaviour extract a method. When specs are using the same state and the same methods extract a class.</p>
+
+<p>Working like this is <em>really</em> hard, but its amazing how the design you need just starts to show itself. </p>
+
+<h3>Look at one behaviour at a time by isolating it using canned responses</h3>
+
+<p>Most of the code we write doesn&#39;t split up nicely into discreet chunks of behaviour. We build systems that rely on several pieces all working together to produce complicated behaviour. Complexity is difficult to define, so to make it easier we need to try to isolate the part that we&#39;re interested in right now.  We can use simple objects that return canned responses, this allows us to consider only the behaviour we care about now.</p>
+
+<h3>Keeping things really simple is really hard</h3>
+
+<p>Corey was continually encouraging us to keep things simple. Its amazing how often you think your doing something as simply as possible, and then someone comes along and makes it even simpler. Simple is good, it allows you to work on one thing at a time, and not get bogged down in things that don&#39;t matter <em>right now</em>. </p>
+
+<p>A lot of the direction at code retreat was about ways to keep things simple, to specify only the smallest piece of behaviour. Writing the code in the spec at first, and using &#39;doubles&#39; to isolate behaviour are both great techniques to help you do that.</p>
+
+<p>One of the main things I&#39;m taking away from code retreat is to work hard at writing smaller, more focussed specs.</p>
+
+<p>If there&#39;s a <a href="http://www.coderetreat.com/">code retreat</a> near you I really encourage you to go along. If there isn&#39;t join the <a href="http://coderetreat.ning.com/">community</a> and see if there&#39;s anyone else who would be interested in helping get one organised.</p>
+
+<p>I&#39;d like to say thank you to <a href="http://coreyhaines.com/">Corey Haines</a>, the sponsors <a href="http://riverglide.com/">RiveGlide</a> and <a href="http://edendevelopment.co.uk/">Eden Development</a>, all of the attendees, and of course <a href="http://www.bletchleypark.org.uk/">Bletchley Park</a> and the <a href="http://www.tnmoc.org/">The National Museum of Computing</a> for making the day such a great success.</p>
+
+    </section>
+  </article>
+
+    </div>
+
+    <aside id="sidebar">
+      <ol id="recent-articles">
+        <h2>
+          Recent Articles
+          <a href="/feed.xml" class="feed" title="Subscribe!"><i class="fa fa-rss"></i></a>
+        </h2>
+        
+          <li><a href="/discovering-bdd/">Discovering BDD</a> <span>Dec 11</span></li>
+        
+          <li><a href="/learning-by-teaching/">Learning by Teaching</a> <span>Nov  6</span></li>
+        
+          <li><a href="/stop-writing-scenarios-that-test-everything-through-the-view/">Stop Writing Scenarios That Test Everything Through The View</a> <span>Oct 29</span></li>
+        
+          <li><a href="/this-gherkins-not-for-reading/">This Gherkin's Not For Reading</a> <span>Oct 24</span></li>
+        
+          <li><a href="/cucumber-and-full-stack-testing/">Cucumber and Full Stack Testing</a> <span>Jan 18</span></li>
+        
+      </ol>
+
+      <ul id="tags">
+        <h2>Tags</h2>
+        
+          <li><a href="/tags/apprenticeship/">apprenticeship</a></a></li>
+        
+          <li><a href="/tags/atdd/">atdd</a></a></li>
+        
+          <li><a href="/tags/bdd/">bdd</a></a></li>
+        
+          <li><a href="/tags/bletchley-park/">bletchley park</a></a></li>
+        
+          <li><a href="/tags/coderetreat/">coderetreat</a></a></li>
+        
+          <li><a href="/tags/craft/">craft</a></a></li>
+        
+          <li><a href="/tags/craftsmanship/">craftsmanship</a></a></li>
+        
+          <li><a href="/tags/cucumber/">cucumber</a></a></li>
+        
+          <li><a href="/tags/development/">development</a></a></li>
+        
+          <li><a href="/tags/eden/">eden</a></a></li>
+        
+          <li><a href="/tags/fitnesse/">fitnesse</a></a></li>
+        
+          <li><a href="/tags/git/">git</a></a></li>
+        
+          <li><a href="/tags/github/">github</a></a></li>
+        
+          <li><a href="/tags/hacks/">hacks</a></a></li>
+        
+          <li><a href="/tags/javascript/">javascript</a></a></li>
+        
+          <li><a href="/tags/jekyll/">jekyll</a></a></li>
+        
+          <li><a href="/tags/kickstartac/">kickstartac</a></a></li>
+        
+          <li><a href="/tags/macosx/">macosx</a></a></li>
+        
+          <li><a href="/tags/oo/">oo</a></a></li>
+        
+          <li><a href="/tags/pairing/">pairing</a></a></li>
+        
+          <li><a href="/tags/practices/">practices</a></a></li>
+        
+          <li><a href="/tags/project/">project</a></a></li>
+        
+          <li><a href="/tags/retrospective/">retrospective</a></a></li>
+        
+          <li><a href="/tags/ruby/">ruby</a></a></li>
+        
+          <li><a href="/tags/sinatra/">sinatra</a></a></li>
+        
+          <li><a href="/tags/software/">software</a></a></li>
+        
+          <li><a href="/tags/solid/">solid</a></a></li>
+        
+          <li><a href="/tags/tdd/">tdd</a></a></li>
+        
+          <li><a href="/tags/tools/">tools</a></a></li>
+        
+          <li><a href="/tags/training/">training</a></a></li>
+        
+          <li><a href="/tags/vim/">vim</a></a></li>
+        
+          <li><a href="/tags/xp/">xp</a></a></li>
+        
+      </ul>
+
+      <div id="bio">
+        <img class="avatar" src="/images/tooky-avatar.jpg">
+        <h2>Steve Tooke</h2>
+        <p>
+        I am a programmer &mdash; consultant, trainer and coach &mdash;
+        passionate about improving my craft and helping others improve
+        theirs. I specialise in helping teams continue to deliver
+        valuable software by improving their team practices and
+        communication, and keeping their code maintainable.
+        </p>
+        <p>
+        I co-organised Bootstrapd, a non-profit conference for
+        bootstrapped startups in Europe. I am the co-founder of the
+        Software Craftsmanship UK user group, and the HampshiRB ruby
+        user group. I have spoken at the Scottish Ruby
+        Conference and have run workshops at the London Software
+        Craftsmanship Community. I am a member of the Cucumber core
+        team.
+        </p>
+        <p>
+        <a href="http://heavi.es">Heavies</a>
+        |
+        <a href="http://kickstartacademy.io">Kickstart Academy</a>
+        </p>
+      </div>
+    </aside>
+    <footer>
+      <div id='site-footer'>
+        <p>All content copyright Steve Tooke &copy; 2014 &middot; All rights reserved.</p>
+        <p>Find me on <a href="http://twitter.com/tooky">Twitter</a> | <a href="https://plus.google.com/+SteveTooke-Heavies/">Google+</a></a></p>
+    </div>
+    </footer>
+  </div>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-37664795-2', 'tooky.co.uk');
+    ga('send', 'pageview');
+
+  </script>
+  </body>
+</html>

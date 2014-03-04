@@ -1,0 +1,305 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <title>Steve Tooke - Delegation is not inheritance</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:300italic,300|Source+Sans+Pro:300|Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <link href="/stylesheets/reset.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/highlight.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/blog.css" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+
+  <div id='site-header'>
+    <div id="site-header-wrapper">
+      <h1>
+        <a href="/">
+          Steve Tooke
+        </a>
+      </h1>
+      <h2>software development flavoured with agile, bdd, ruby and javascript</h2>
+    </div>
+  </div>
+  <div id='main-wrapper'>
+    <div id="main" role="main">
+        <article>
+    <header>
+      <h1>Delegation is not inheritance</h1>
+      <section class="author">
+        <img class="avatar" src="/images/tooky-avatar.jpg">
+        <p class="byline">by Steve Tooke</p>
+        <time datetime="2012-08-08" itemprop="datePublished">August 8th, 2012</time>
+      </section>
+    </header>
+    <section class="article-body">
+      <p>On the train home last night I watched the excellent <a href="https://peepcode.com/products/play-by-play-jimweirich-ruby">Jim Weirich Play-by-play</a> from <a href="https://peepcode.com/">PeepCode</a>.</p>
+
+<p>During the screencast Jim develops a library that &ldquo;protects against unauthorized data model modification by users in less-privileged roles.&rdquo; The screencast provides a great insight into the way Jim approaches problems, designs apis, and how he&#39;s customised his environment to suit the way he works.</p>
+
+<p>His approach is to build a proxy object which wraps the object to be updated, and provides a whitelist for fields which can be updated. He also inadvertantly demonstrates an easy mistake to make when using proxy objects.</p>
+
+<p>Here is a simplified version of Jim&#39;s solution -  without any of the api for creating / finding proxies - which we will use to demonstrate this pitfall and its effects.</p>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">&#39;delegate&#39;</span>
+<span class="k">class </span><span class="nc">ProtectionProxy</span> <span class="o">&lt;</span> <span class="no">SimpleDelegator</span>
+  <span class="k">def </span><span class="nf">initialize</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="o">*</span><span class="n">writable_fields</span><span class="p">)</span>
+    <span class="k">super</span><span class="p">(</span><span class="n">object</span><span class="p">)</span>
+    <span class="vi">@writable_fields</span> <span class="o">=</span> <span class="n">writable_fields</span>
+  <span class="k">end</span>
+
+  <span class="k">def </span><span class="nf">method_missing</span><span class="p">(</span><span class="nb">method</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+    <span class="n">method_name</span> <span class="o">=</span> <span class="nb">method</span><span class="nf">.to_s</span>
+    <span class="k">if</span> <span class="o">!</span><span class="n">method_name</span><span class="nf">.end_with?</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)</span>
+      <span class="k">super</span>
+    <span class="k">elsif</span> <span class="vi">@writable_fields</span><span class="nf">.include?</span><span class="p">(</span><span class="n">method_name</span><span class="o">[</span><span class="mi">0</span><span class="nf">...-</span><span class="mi">1</span><span class="o">]</span><span class="nf">.to_sym</span><span class="p">)</span>
+      <span class="k">super</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+<p>This approach works great for silently dropping calls to the accessor methods that are not in the provided whitelist. Here are some rspec examples which show how it works.</p>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">&#39;rspec-given&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;protection_proxy&#39;</span>
+
+<span class="k">class </span><span class="nc">User</span> <span class="o">&lt;</span> <span class="no">Struct</span><span class="nf">.new</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:membership_level</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">describe</span> <span class="no">ProtectionProxy</span> <span class="k">do</span>
+  <span class="no">Given</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span> <span class="p">{</span> <span class="no">User</span><span class="nf">.new</span><span class="p">(</span><span class="s2">&quot;Jim&quot;</span><span class="p">,</span> <span class="s2">&quot;jim@somewhere&quot;</span><span class="p">,</span> <span class="s2">&quot;Beginner&quot;</span><span class="p">)</span> <span class="p">}</span>
+  <span class="no">Given</span><span class="p">(</span><span class="ss">:proxy</span><span class="p">)</span> <span class="p">{</span> <span class="no">ProtectionProxy</span><span class="nf">.new</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="ss">:membership_level</span><span class="p">)</span> <span class="p">}</span>
+
+  <span class="no">Then</span> <span class="p">{</span> <span class="n">proxy</span><span class="nf">.name.should</span> <span class="o">==</span> <span class="s2">&quot;Jim&quot;</span> <span class="p">}</span>
+
+  <span class="n">context</span> <span class="s2">&quot;when modifiying a writable field&quot;</span> <span class="k">do</span>
+    <span class="no">When</span> <span class="p">{</span> <span class="n">proxy</span><span class="nf">.membership_level</span> <span class="o">=</span> <span class="s2">&quot;Advanced&quot;</span> <span class="p">}</span>
+    <span class="no">Then</span> <span class="p">{</span> <span class="n">proxy</span><span class="nf">.membership_level.should</span> <span class="o">==</span> <span class="s2">&quot;Advanced&quot;</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="n">context</span> <span class="s2">&quot;when modifiying a non-writable field&quot;</span> <span class="k">do</span>
+    <span class="no">When</span> <span class="p">{</span> <span class="n">proxy</span><span class="nf">.name</span> <span class="o">=</span> <span class="s2">&quot;Joe&quot;</span> <span class="p">}</span>
+    <span class="no">Then</span> <span class="p">{</span> <span class="n">proxy</span><span class="nf">.name.should</span> <span class="o">==</span> <span class="s2">&quot;Jim&quot;</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+<p>Now if we imagine we have a rails project, we can create a proxy to wrap our ActiveRecord object, and specify an attribute whitelist.  This should then prevent mass-assignment of any non-whitelist attributes - it could be used in a controller like this:</p>
+<pre class="highlight ruby"><span class="k">class </span><span class="nc">UserController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+  <span class="k">def </span><span class="nf">update</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="nf">.find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+    <span class="n">proxy</span> <span class="o">=</span> <span class="no">ProtectionProxy</span><span class="nf">.new</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:email</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">proxy</span><span class="nf">.update_attributes</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:user</span><span class="o">]</span><span class="p">)</span>
+      <span class="c1"># happy path</span>
+    <span class="k">else</span>
+      <span class="c1"># error</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+<p>Unfortunately this won&#39;t work as we might expect.</p>
+
+<p>Proxying like this is a great way to add new behaviour to existing objects, without modifying them - or creating new subclasses. but there is one thing to be aware of when you are using delegation in this way.</p>
+
+<p>Methods called on the wrapped object have <strong>no</strong> knowledge of the methods in the proxy object.</p>
+
+<p>So what happens when we call <code>proxy.update_attributes</code>?</p>
+
+<p>The proxy object immediately delegates that method call to the user object, it will call <code>user.update_attributes</code>.</p>
+
+<p>If you have used ActiveRecord, you will be aware of the way that <code>ActiveRecord::Base#update_attrbiutes</code> will make use of the accessor methods on its instances to set the field names.</p>
+
+<p>So, <code>user.update_attributes name: &#39;Joe&#39;</code> will call <code>user.name = &#39;Joe&#39;</code>, not the accessor methods on the proxy.</p>
+
+<p><img alt="update attributes sequence diagram" src="http://dl.dropbox.com/u/41915/update_attributes_sequence_diagram.png" /></p>
+
+<p>As we are not calling the accessor methods on the proxy, we aren&#39;t filtering out the fields that don&#39;t appear in the whitelist and our attribute protection won&#39;t work when we use <code>update_attributes</code>.</p>
+
+<p>Here is another example. <code>Capitalise</code> wraps an object and provides a upper case version of its name method.</p>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">&#39;delegate&#39;</span>
+<span class="k">class </span><span class="nc">Capitalise</span> <span class="o">&lt;</span> <span class="no">SimpleDelegator</span>
+  <span class="k">def </span><span class="nf">initialize</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="vi">@source</span> <span class="o">=</span> <span class="n">source</span>
+    <span class="k">super</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def </span><span class="nf">name</span>
+    <span class="vi">@source</span><span class="nf">.name.upcase</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class </span><span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">Struct</span><span class="nf">.new</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span>
+  <span class="k">def </span><span class="nf">greet</span>
+    <span class="s2">&quot;Hello, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">john</span> <span class="o">=</span> <span class="no">Person</span><span class="nf">.new</span><span class="p">(</span><span class="s1">&#39;john&#39;</span><span class="p">)</span>
+<span class="n">capital_john</span> <span class="o">=</span> <span class="no">Capitalise</span><span class="nf">.new</span><span class="p">(</span><span class="n">john</span><span class="p">)</span>
+
+<span class="n">john</span><span class="nf">.greet</span> <span class="c1">#=&gt; &quot;Hello, john&quot;</span>
+<span class="n">capital_john</span><span class="nf">.greet</span> <span class="c1">#=&gt; &quot;Hello, john&quot;</span>
+</pre>
+<p>Because <code>greet</code> is defined in the <code>Person</code> class, when it calls <code>name</code> it will always call <code>Person#name</code>.</p>
+
+<p>This has caught me out a couple times. It&#39;s so easy in ruby to create proxy objects or decorators that its easy to forget that you have a different object.</p>
+
+<p>One solution is to implement a version of <code>update_attributes</code> on the proxy object.</p>
+<pre class="highlight ruby"><span class="k">class </span><span class="nc">ProtectionProxy</span> <span class="o">&lt;</span> <span class="no">SimpleDelegator</span>
+  <span class="k">def </span><span class="nf">initialize</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="o">*</span><span class="n">writable_fields</span><span class="p">)</span>
+    <span class="k">super</span><span class="p">(</span><span class="n">object</span><span class="p">)</span>
+    <span class="vi">@object</span> <span class="o">=</span> <span class="n">object</span>
+    <span class="vi">@writable_fields</span> <span class="o">=</span> <span class="n">writable_fields</span>
+  <span class="k">end</span>
+
+  <span class="k">def </span><span class="nf">update_attributes</span><span class="p">(</span><span class="n">attributes</span><span class="o">=</span><span class="p">{})</span>
+    <span class="n">attrs</span> <span class="o">=</span> <span class="n">attributes</span><span class="nf">.select</span> <span class="p">{</span> <span class="o">|</span><span class="n">field_name</span><span class="o">|</span>
+      <span class="vi">@writable_fields</span><span class="nf">.include?</span><span class="p">(</span><span class="n">field_name</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="vi">@object</span><span class="nf">.update_attributes</span> <span class="n">attrs</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+<p>Here we add an <code>update_attributes</code> method to the <code>ProtectionProxy</code> class - this only allows attributes allowed by the whitelist through to <code>User#update_attributes</code>.</p>
+
+<p>The <a href="https://peepcode.com/products/play-by-play-jimweirich-ruby">screencast</a> ends with a note that Jim noticed this error later after recording of the screen cast finished. Jim&#39;s complete solution, including the nice api, can be found on <a href="https://github.com/jimweirich/protection_proxy">github</a>.</p>
+
+<p><a href="https://gist.github.com/3294185.js">Here is the whole of the <code>ProxyProtection</code> implementation</a>, with rspec examples.</p>
+
+    </section>
+  </article>
+
+    </div>
+
+    <aside id="sidebar">
+      <ol id="recent-articles">
+        <h2>
+          Recent Articles
+          <a href="/feed.xml" class="feed" title="Subscribe!"><i class="fa fa-rss"></i></a>
+        </h2>
+        
+          <li><a href="/discovering-bdd/">Discovering BDD</a> <span>Dec 11</span></li>
+        
+          <li><a href="/learning-by-teaching/">Learning by Teaching</a> <span>Nov  6</span></li>
+        
+          <li><a href="/stop-writing-scenarios-that-test-everything-through-the-view/">Stop Writing Scenarios That Test Everything Through The View</a> <span>Oct 29</span></li>
+        
+          <li><a href="/this-gherkins-not-for-reading/">This Gherkin's Not For Reading</a> <span>Oct 24</span></li>
+        
+          <li><a href="/cucumber-and-full-stack-testing/">Cucumber and Full Stack Testing</a> <span>Jan 18</span></li>
+        
+      </ol>
+
+      <ul id="tags">
+        <h2>Tags</h2>
+        
+          <li><a href="/tags/apprenticeship/">apprenticeship</a></a></li>
+        
+          <li><a href="/tags/atdd/">atdd</a></a></li>
+        
+          <li><a href="/tags/bdd/">bdd</a></a></li>
+        
+          <li><a href="/tags/bletchley-park/">bletchley park</a></a></li>
+        
+          <li><a href="/tags/coderetreat/">coderetreat</a></a></li>
+        
+          <li><a href="/tags/craft/">craft</a></a></li>
+        
+          <li><a href="/tags/craftsmanship/">craftsmanship</a></a></li>
+        
+          <li><a href="/tags/cucumber/">cucumber</a></a></li>
+        
+          <li><a href="/tags/development/">development</a></a></li>
+        
+          <li><a href="/tags/eden/">eden</a></a></li>
+        
+          <li><a href="/tags/fitnesse/">fitnesse</a></a></li>
+        
+          <li><a href="/tags/git/">git</a></a></li>
+        
+          <li><a href="/tags/github/">github</a></a></li>
+        
+          <li><a href="/tags/hacks/">hacks</a></a></li>
+        
+          <li><a href="/tags/javascript/">javascript</a></a></li>
+        
+          <li><a href="/tags/jekyll/">jekyll</a></a></li>
+        
+          <li><a href="/tags/kickstartac/">kickstartac</a></a></li>
+        
+          <li><a href="/tags/macosx/">macosx</a></a></li>
+        
+          <li><a href="/tags/oo/">oo</a></a></li>
+        
+          <li><a href="/tags/pairing/">pairing</a></a></li>
+        
+          <li><a href="/tags/practices/">practices</a></a></li>
+        
+          <li><a href="/tags/project/">project</a></a></li>
+        
+          <li><a href="/tags/retrospective/">retrospective</a></a></li>
+        
+          <li><a href="/tags/ruby/">ruby</a></a></li>
+        
+          <li><a href="/tags/sinatra/">sinatra</a></a></li>
+        
+          <li><a href="/tags/software/">software</a></a></li>
+        
+          <li><a href="/tags/solid/">solid</a></a></li>
+        
+          <li><a href="/tags/tdd/">tdd</a></a></li>
+        
+          <li><a href="/tags/tools/">tools</a></a></li>
+        
+          <li><a href="/tags/training/">training</a></a></li>
+        
+          <li><a href="/tags/vim/">vim</a></a></li>
+        
+          <li><a href="/tags/xp/">xp</a></a></li>
+        
+      </ul>
+
+      <div id="bio">
+        <img class="avatar" src="/images/tooky-avatar.jpg">
+        <h2>Steve Tooke</h2>
+        <p>
+        I am a programmer &mdash; consultant, trainer and coach &mdash;
+        passionate about improving my craft and helping others improve
+        theirs. I specialise in helping teams continue to deliver
+        valuable software by improving their team practices and
+        communication, and keeping their code maintainable.
+        </p>
+        <p>
+        I co-organised Bootstrapd, a non-profit conference for
+        bootstrapped startups in Europe. I am the co-founder of the
+        Software Craftsmanship UK user group, and the HampshiRB ruby
+        user group. I have spoken at the Scottish Ruby
+        Conference and have run workshops at the London Software
+        Craftsmanship Community. I am a member of the Cucumber core
+        team.
+        </p>
+        <p>
+        <a href="http://heavi.es">Heavies</a>
+        |
+        <a href="http://kickstartacademy.io">Kickstart Academy</a>
+        </p>
+      </div>
+    </aside>
+    <footer>
+      <div id='site-footer'>
+        <p>All content copyright Steve Tooke &copy; 2014 &middot; All rights reserved.</p>
+        <p>Find me on <a href="http://twitter.com/tooky">Twitter</a> | <a href="https://plus.google.com/+SteveTooke-Heavies/">Google+</a></a></p>
+    </div>
+    </footer>
+  </div>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-37664795-2', 'tooky.co.uk');
+    ga('send', 'pageview');
+
+  </script>
+  </body>
+</html>
