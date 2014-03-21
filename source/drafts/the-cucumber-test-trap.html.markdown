@@ -37,7 +37,7 @@ their system is simple. As they add behaviour to the system they diligently
 document the behaviour in gherkin and automate it with cucumber. All of the
 while running every scenario from end-to-end through their entire stack.
 
-In [The Cucumber Book][mattw01] [Matt Wynne][mattw02] and Aslak describe one of
+In [The Cucumber Book][mattw01], [Matt Wynne][mattw02] and Aslak describe one of
 the main causes for "*Slow Features*":
 
   > **Lots of Scenarios**
@@ -54,7 +54,7 @@ the main causes for "*Slow Features*":
 Of course this isn't really a product of using cucumber, or even trying to get
 started with BDD or Specification by Example. It's exactly the same problem that
 [J. B. Rainsberger][jbrains01] describes when he says that "[integrated tests
-are a scam][jbrains02]."
+are a scam][jbrains03]."
 
   > You write integrated tests because you can't write perfect unit tests. You
   > know this problem: all your unit tests pass, but someone finds a defect
