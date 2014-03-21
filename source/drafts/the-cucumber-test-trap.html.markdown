@@ -96,7 +96,14 @@ and push everything else down into lower level, isolated tests.
 
 Define contracts between layers, and test those exhaustively. Allow the design
 pressure of creating testable code help you to build a cleaner, maintainable
-application.
+application. This will help you prevent another one of the main causes of "*Slow
+Features*" that Matt and Aslak describe in The Cucumber Book.
+
+  > **Big Ball of Mud**
+  >
+  > The Big Ball of Mud is an ironic name given to the type of software design
+  > you see when nobody has really made much effort to actually do any software
+  > design. In other words, it's a big, tangled mess.
 
 [aslak01]: https://twitter.com/aslak_hellesoy
 [aslak02]: https://cucumber.pro/blog/2014/03/03/the-worlds-most-misunderstood-collaboration-tool.html
