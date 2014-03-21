@@ -14,6 +14,7 @@ activate :blog do |blog|
   blog.calendar_template = "calendar.html"
   blog.paginate = true
 end
+activate :drafts
 
 page "/feed.xml", :layout => false
 

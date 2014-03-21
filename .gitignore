@@ -6,6 +6,7 @@
 
 # Ignore bundler config
 /.bundle
+/.cache
 
 # Ignore the build directory
 /build
