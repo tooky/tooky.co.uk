@@ -34,18 +34,20 @@
       </section>
     </header>
     <section class="article-body">
-      <p>I have had an annoying problem with git and vi. I like to use vim to edit my commit messages, but I&#39;ve been hit with this annoying message every time I write the message and quit vim.</p>
-<pre class="highlight text">error: There was a problem with the editor &#39;vi&#39;
+      <p>I have had an annoying problem with git and vi. I like to use vim to edit my commit messages, but I&rsquo;ve been hit with this annoying message every time I write the message and quit vim.</p>
+<pre class="highlight plaintext">error: There was a problem with the editor 'vi'
 </pre>
+
 <p>After a little bit of digging I found that this message is shown by git when the editor exits with a non-zero exit code. You can use <code>$?</code> to see the exit code of last script or application.</p>
-<pre class="highlight text">$ vim     # then exit vim with :q immediately
+<pre class="highlight plaintext">$ vim     # then exit vim with :q immediately
 $ echo $?
 1
 </pre>
-<p>I&#39;m still not sure why vim is exiting with non-zero exit code, but it is definitely related to my <code>.vimrc</code> - moving it to <code>.vimrc.bak</code> seemed to fix the problem. I&#39;m using the excellent <a href="http://www.vim.org/scripts/script.php?script_id=2332">pathogen</a> plugin to manage my vimfiles, so I plan to go through that and my installed plugins to find the cause of the problem.</p>
 
-<p>There is a fix though, I&#39;m not sure what&#39;s causing this, but I found a <a href="http://groups.google.com/group/vim_mac/browse_thread/thread/0d33e2f2130867b0">post on the vim-mac mailing list</a> which shows this:</p>
-<pre class="highlight text">$ vim          # and exit with :q
+<p>I&rsquo;m still not sure why vim is exiting with non-zero exit code, but it is definitely related to my <code>.vimrc</code> - moving it to <code>.vimrc.bak</code> seemed to fix the problem. I&rsquo;m using the excellent <a href="http://www.vim.org/scripts/script.php?script_id=2332">pathogen</a> plugin to manage my vimfiles, so I plan to go through that and my installed plugins to find the cause of the problem.</p>
+
+<p>There is a fix though, I&rsquo;m not sure what&rsquo;s causing this, but I found a <a href="http://groups.google.com/group/vim_mac/browse_thread/thread/0d33e2f2130867b0">post on the vim-mac mailing list</a> which shows this:</p>
+<pre class="highlight plaintext">$ vim          # and exit with :q
 $ echo $?
 1
 $ /usr/bin/vim # and exit with :q
@@ -54,10 +56,12 @@ $ echo $?
 $ which vim
 /usr/bin/vim
 </pre>
+
 <p>Running vim with <code>/usr/bin/vim</code> seems to make it exit cleanly. So to fix the problem with git commit you just need to run this:</p>
-<pre class="highlight text">$ git config --global core.editor /usr/bin/vim
+<pre class="highlight plaintext">$ git config --global core.editor /usr/bin/vim
 </pre>
-<p>I&#39;d still like to get to the root of the problem, but this gets me my git commit messages back!</p>
+
+<p>I&rsquo;d still like to get to the root of the problem, but this gets me my git commit messages back!</p>
 
     </section>
   </article>
@@ -172,8 +176,6 @@ $ which vim
         team.
         </p>
         <p>
-        <a href="http://heavi.es">Heavies</a>
-        |
         <a href="http://kickstartacademy.io">Kickstart Academy</a>
         </p>
       </div>

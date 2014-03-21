@@ -38,26 +38,26 @@
 
 <p>Wow - I had a <em>LOT</em> to learn!</p>
 
-<p>I met Shane Paterson while I was there. Shane was another developer at the company, and even though he was based in New Zealand, he was responsible for pointing me in the direction of XP and TDD. There&#39;s some more about this story in the <a href="http://chimera.labs.oreilly.com/books/1234000001813/ch04.html#solution_id19">Apprenticeship Patterns</a> book.</p>
+<p>I met Shane Paterson while I was there. Shane was another developer at the company, and even though he was based in New Zealand, he was responsible for pointing me in the direction of XP and TDD. There&rsquo;s some more about this story in the <a href="http://chimera.labs.oreilly.com/books/1234000001813/ch04.html#solution_id19">Apprenticeship Patterns</a> book.</p>
 
 <p>I started reading a lot of blogs and participating in the various mailing lists. I found an <a href="http://groups.yahoo.com/neo/groups/extremeprogramming/conversations/messages/116122">old post</a> on the XP mailing list where I was introducing a colleague to TDD using the bowling game kata which made me smile as I used the same exercise during some recent ruby/tdd training.</p>
 
 <p>This colleague and I were about to start working on the new version of our main software application. A decision had been taken to rewrite the application with a completely new look and feel, to move to the new (at the time) .NET technology stack and to support MS SQL server as well as MS Access. The company had great success with application up until then because it could be set up and installed by anyone with file sharing permissions, so no need to involve corporate IT. This kind of culture was coming to an end though, so we needed to fit in with what the IT departments demanded.</p>
 
-<p>We ran it as close to a proper XP project as the business would allow. In particular we were pair programming and we were writing our tests first! Not just unit tests, we were also writing acceptance tests with our &#39;customer&#39; to help us understand the requirements.</p>
+<p>We ran it as close to a proper XP project as the business would allow. In particular we were pair programming and we were writing our tests first! Not just unit tests, we were also writing acceptance tests with our &lsquo;customer&rsquo; to help us understand the requirements.</p>
 
 <p>We used a tool called <a href="http://en.wikipedia.org/wiki/Framework_for_Integrated_Test">FIT</a>. This allowed us to create word documents (!!) that contained tables of examples of what the software should do. We would then hook these tables up to some test classes which would run the tests and colour the tables appropriately.</p>
 
 <p>Using tables to describe the requirements was fantastic. We were able to communicate clearly with our project sponsors about the business rules, using concrete examples to support our understanding.</p>
 
-<p>Brian Marick&#39;s foreword from the book really sums up what the FIT community were trying to do:</p>
+<p>Brian Marick&rsquo;s foreword from the book really sums up what the FIT community were trying to do:</p>
 
 <blockquote>
 <p>A software project is a place where different cultures come together. Some people face towards the business and its concerns; other people face toward the computer and its demands.</p>
 
-<p>To an expert in financial trading, a &ldquo;bond&rdquo; is something that&#39;s tangled up in all sorts of explicit and implicit legal, social, historical and emotional meanings.</p>
+<p>To an expert in financial trading, a &ldquo;bond&rdquo; is something that&rsquo;s tangled up in all sorts of explicit and implicit legal, social, historical and emotional meanings.</p>
 
-<p>To programmers, a Bond is an object in their program that they&#39;re trying to keep from getting too tangled up with other objects, lest their brains explode.</p>
+<p>To programmers, a Bond is an object in their program that they&rsquo;re trying to keep from getting too tangled up with other objects, lest their brains explode.</p>
 
 <p>Somehow these people have to work together, and they do it by creating a shared language. Most of that creating happens through the conversation that threads through the whole project. But some of it happens through writing.</p>
 
@@ -77,15 +77,15 @@
 
 <p>This post really struck a chord with me. I was still getting to grips with TDD but when it had worked well for me it was when I was working how Dave described. The timing of this is a little fuzzy for me now, but it was right around the time I first started to use Ruby and Rails, so I picked up RSpec as my testing tool of choice.</p>
 
-<p>The FIT toolchain didn&#39;t exist in ruby, but in August 2007 the <a href="http://rubyforge.org/pipermail/rspec-devel/2007-August/003756.html">RSpec Story Runner was released</a> which gave us the tools to do similar things in ruby. The story runner gave way to <a href="http://cukes.info/">cucumber</a>.</p>
+<p>The FIT toolchain didn&rsquo;t exist in ruby, but in August 2007 the <a href="http://rubyforge.org/pipermail/rspec-devel/2007-August/003756.html">RSpec Story Runner was released</a> which gave us the tools to do similar things in ruby. The story runner gave way to <a href="http://cukes.info/">cucumber</a>.</p>
 
 <p>Cucumber and Gherkin (the formal language for writing cucumber specifcations), have spread. It is now possible to write Gherkin specifications <a href="https://github.com/cucumber/cucumber-jvm">on</a> <a href="https://github.com/cucumber/cucumber-js">a</a> <a href="http://www.specflow.org/">huge</a> <a href="https://github.com/cucumber/cucumber-cpp">range</a> <a href="http://behat.org/">of</a> <a href="https://github.com/gabrielfalcao/lettuce">platforms</a>.</p>
 
 <p>I think I made a mistake using these tools that many people have done. I used them to write tests. Sometimes they were very brittle tests, <a href="http://tooky.co.uk/stop-writing-scenarios-that-test-everything-through-the-view/">overly focussed on the view</a>. Often they were boring lists of instructions. I learnt to be more <a href="http://benmabey.com/2008/05/19/imperative-vs-declarative-scenarios-in-user-stories.html">declarative</a>, and my tests became more readable. But&hellip;</p>
 
-<p>They were still written as tests by me (and my colleagues) for the computer to run. <a href="http://lizkeogh.com/2011/03/04/step-away-from-the-tools/">BDD isn&#39;t about the tools</a> its about the <a href="http://dannorth.net/2010/08/30/introducing-deliberate-discovery/">discovery</a>.</p>
+<p>They were still written as tests by me (and my colleagues) for the computer to run. <a href="http://lizkeogh.com/2011/03/04/step-away-from-the-tools/">BDD isn&rsquo;t about the tools</a> its about the <a href="http://dannorth.net/2010/08/30/introducing-deliberate-discovery/">discovery</a>.</p>
 
-<p>BDD enables communication. Our teams are made up of those who need the capabilities some new software will provide, and those who are able to create that software. These people come from different backgrounds, different experiences. Using stories and examples helps to create a shared language which we can then use to explore the problem space and begin to discover the things we don&#39;t know!</p>
+<p>BDD enables communication. Our teams are made up of those who need the capabilities some new software will provide, and those who are able to create that software. These people come from different backgrounds, different experiences. Using stories and examples helps to create a shared language which we can then use to explore the problem space and begin to discover the things we don&rsquo;t know!</p>
 
   </section>
 </article>
@@ -94,13 +94,13 @@
   
     <li class="suggested-reading-card">
       <h2><a href="/learning-by-teaching/">Learning by Teaching</a></h2>
-      <p>For the last few weeks I've been working with <a href="http://kickstartacademy.io/">Kickstart Academy</a> teaching the <a href="https://www.onthebeach.co.uk/">On The Beach</a> ruby academy. We've been introducing a group of graduate and experienced developers to software development using ruby, bdd and git. Much of the teaching in the academy was based on ideas from <a href="http://www.bowperson.com/books.htm">Training from the...</a></p>
+      <p>For the last few weeks I’ve been working with <a href="http://kickstartacademy.io/">Kickstart Academy</a> teaching the <a href="https://www.onthebeach.co.uk/">On The Beach</a> ruby academy. We’ve been introducing a group of graduate and experienced developers to software development using ruby, bdd and git. Much of the teaching in the academy was based on ideas from <a href="http://www.bowperson.com/books.htm">Training from the...</a></p>
       <a href="/learning-by-teaching/">Read more…</a>
     </li>
   
     <li class="suggested-reading-card">
       <h2><a href="/stop-writing-scenarios-that-test-everything-through-the-view/">Stop Writing Scenarios That Test Everything Through The View</a></h2>
-      <p>Following on from my <a href="http://tooky.co.uk/this-gherkins-not-for-reading/">last post</a>, I wanted to mention a common anti-pattern that <a href="http://blog.8thlight.com/kevin-liddle/2013/09/18/a-case-against-cucumber.html">Kevin&#39;s case against cucumber</a> mentioned. Scenarios that are too focussed on the user interface. Scenarios written as an imperative set of instructions for a machine to follow.</p>
+      <p>Following on from my <a href="http://tooky.co.uk/this-gherkins-not-for-reading/">last post</a>, I wanted to mention a common anti-pattern that <a href="http://blog.8thlight.com/kevin-liddle/2013/09/18/a-case-against-cucumber.html">Kevin&rsquo;s case against cucumber</a> mentioned. Scenarios that are too focussed on the user interface. Scenarios written as an imperative set of instructions for a machine to follow.</p>
 
 <p>
       <a href="/stop-writing-scenarios-that-test-everything-through-the-view/">Read more…</a>
@@ -108,7 +108,7 @@
   
     <li class="suggested-reading-card">
       <h2><a href="/this-gherkins-not-for-reading/">This Gherkin's Not For Reading</a></h2>
-      <p>Recently <a href="http://www.8thlight.com/our-team/kevin-liddle">Kevin Liddle</a> made his <a href="http://blog.8thlight.com/kevin-liddle/2013/09/18/a-case-against-cucumber.html">case against cucumber</a>. In the article he outlines several problems he experiences working with cucumber. One of his key arguments is that non-technical team members don't read the scenarios written by developers.</p>
+      <p>Recently <a href="http://www.8thlight.com/our-team/kevin-liddle">Kevin Liddle</a> made his <a href="http://blog.8thlight.com/kevin-liddle/2013/09/18/a-case-against-cucumber.html">case against cucumber</a>. In the article he outlines several problems he experiences working with cucumber. One of his key arguments is that non-technical team members don’t read the scenarios written by developers.</p>
 
 <blockquote>
 <p>In theory, this is a valuable thing, a bridge between...</p>
@@ -228,8 +228,6 @@
         team.
         </p>
         <p>
-        <a href="http://heavi.es">Heavies</a>
-        |
         <a href="http://kickstartacademy.io">Kickstart Academy</a>
         </p>
       </div>

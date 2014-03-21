@@ -14,7 +14,7 @@
     <author>
       <name>Steve Tooke</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;a href="http://github.com"&gt;GitHub&amp;#39;s&lt;/a&gt; new GitHub pages service makes it incredibly easy to host a static site, which is completely version controlled, when you add &lt;a href="http://mojombo.github.com"&gt;Tom Preston-Werner&amp;#39;s&lt;/a&gt; &lt;a href="http://github.com/mojombo/jekyll"&gt;Jekyll&lt;/a&gt; into the mix you get a fantastically simple blogging platform.&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;a href="http://github.com"&gt;GitHub&amp;rsquo;s&lt;/a&gt; new GitHub pages service makes it incredibly easy to host a static site, which is completely version controlled, when you add &lt;a href="http://mojombo.github.com"&gt;Tom Preston-Werner&amp;rsquo;s&lt;/a&gt; &lt;a href="http://github.com/mojombo/jekyll"&gt;Jekyll&lt;/a&gt; into the mix you get a fantastically simple blogging platform.&lt;/p&gt;
 
 &lt;p&gt;To set up your github pages site all you need to do is create a [username].github.com repository and push your site to the repository. Really simple. Checkout &lt;a href="http://you.github.com"&gt;you.github.com&lt;/a&gt; for more detailed instructions!&lt;/p&gt;
 
@@ -22,7 +22,7 @@
 
 &lt;p&gt;Tom has also published his &lt;a href="http://github.com/mojombo/tpw/tree/master"&gt;repository&lt;/a&gt; to help you get started as well.&lt;/p&gt;
 
-&lt;p&gt;Many thanks to Tom for all of this, I&amp;#39;ve managed to put together a nice simple clean site based on his ideas, which I&amp;#39;m really pleased with!&lt;/p&gt;
+&lt;p&gt;Many thanks to Tom for all of this, I&amp;rsquo;ve managed to put together a nice simple clean site based on his ideas, which I&amp;rsquo;m really pleased with!&lt;/p&gt;
 </content>
   </entry>
 </feed>

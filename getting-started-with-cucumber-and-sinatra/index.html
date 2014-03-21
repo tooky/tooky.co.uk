@@ -34,41 +34,43 @@
       </section>
     </header>
     <section class="article-body">
-      <p><strong>UPDATE</strong> Sinatra and cucumber integration has changed now, Rob Holland updated the <a href="https://github.com/cucumber/cucumber/wiki/sinatra">wiki</a> to reflect it. There is also a more full featured example on his <a href="http://github.com/robholland/cucumber/commit/0e12d8100ca8541af014abe6a480c53a90b6aebd">branch</a> of cucumber. I&#39;ve updated the blog to reflect that.</p>
+      <p><strong>UPDATE</strong> Sinatra and cucumber integration has changed now, Rob Holland updated the <a href="https://github.com/cucumber/cucumber/wiki/sinatra">wiki</a> to reflect it. There is also a more full featured example on his <a href="http://github.com/robholland/cucumber/commit/0e12d8100ca8541af014abe6a480c53a90b6aebd">branch</a> of cucumber. I&rsquo;ve updated the blog to reflect that.</p>
 
 <p><a href="http://sinatra.github.com">Sinatra</a> is probably the most popular ruby micro web framework at the moment. Its simple dsl for quickly creating web apps, it give you &ldquo;just enough&rdquo; framework to get things done.</p>
 
 <p><a href="http://cukes.info">Cucumber</a> is that latest development from the <a href="http://dannorth.net/introducing-bdd">BDD</a> / <a href="http://rspec.info">RSpec</a> guys. <a href="http://cukes.info">Cucumber</a> lets you describe the behaviour of your software in plain text. These files then serve as automated tests and documentation.</p>
 
-<p>I&#39;ve been considering using both of these tools for an upcoming project so I wanted to make sure they worked happily together. A quick google seemed to suggest that some work had been done, but I could find a tutorial for getting up and running. Happily the latest releases of Cucumber (and <a href="http://github.com/brynary/webrat/tree/master">Webrat</a>) have Sinatra support built in so its really very easy!</p>
+<p>I&rsquo;ve been considering using both of these tools for an upcoming project so I wanted to make sure they worked happily together. A quick google seemed to suggest that some work had been done, but I could find a tutorial for getting up and running. Happily the latest releases of Cucumber (and <a href="http://github.com/brynary/webrat/tree/master">Webrat</a>) have Sinatra support built in so its really very easy!</p>
 
-<p>With cucumber you write your plain text specifications in terms of &#39;features&#39;, by convention they are in a features directory with the .feature extension. So for our purposes we will start with a very simple feature:</p>
-<pre class="highlight text">Feature: view pages
+<p>With cucumber you write your plain text specifications in terms of &lsquo;features&rsquo;, by convention they are in a features directory with the .feature extension. So for our purposes we will start with a very simple feature:</p>
+<pre class="highlight plaintext">Feature: view pages
 
   Scenario: Home page
-    Given I am viewing &quot;/&quot;
-    Then I should see &quot;Hello, world!
+    Given I am viewing "/"
+    Then I should see "Hello, world!
 </pre>
+
 <p>To run our feature (and test our code against it) is as simple as <code>cucumber feature/home.feature</code>.</p>
 
 <p><img alt="cucumber pending steps" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber1.png" /></p>
 
 <p>Cucumber parses the feature and looks for matching step definitions. As we can see in the screenshot we need to implement the steps in our feature so cucumber knows how to run it. Step definitions are implemented in ruby.</p>
-<pre class="highlight text">Given /^I am viewing &quot;(.+)&quot;$/ do |url|
+<pre class="highlight plaintext">Given /^I am viewing "(.+)"$/ do |url|
   visit(url)
 end
 
-Then /^I should see &quot;(.+)&quot;$/ do |text|
+Then /^I should see "(.+)"$/ do |text|
   response_body.should =~ Regexp.new(Regexp.escape(text))
 end
 </pre>
-<p>These two simple steps make use of webrat to request the url from our app and check that the response contains the text we&#39;re looking for.</p>
+
+<p>These two simple steps make use of webrat to request the url from our app and check that the response contains the text we&rsquo;re looking for.</p>
 
 <p><img alt="cucumber failing without webrat" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber2.png" /></p>
 
-<p>The feature is currently failing as a method we have used in our step definition doesn&#39;t exist. <code>visit</code> is a method from webrat so we need to configure cucumber&#39;s environment to use webrat. Webrat has a <code>SinatraSession</code> specifically for testing sinatra web apps. We will also need to require the RSpec expectations as we are using them to check the response.</p>
-<pre class="highlight text">require &#39;spec/expectations&#39;
-require &#39;webrat&#39;
+<p>The feature is currently failing as a method we have used in our step definition doesn&rsquo;t exist. <code>visit</code> is a method from webrat so we need to configure cucumber&rsquo;s environment to use webrat. Webrat has a <code>SinatraSession</code> specifically for testing sinatra web apps. We will also need to require the RSpec expectations as we are using them to check the response.</p>
+<pre class="highlight plaintext">require 'spec/expectations'
+require 'webrat'
 Webrat.configure do |config|
   config.mode = :sinatra
 end
@@ -77,20 +79,22 @@ World do
   Webrat::SinatraSession.new
 end
 </pre>
-<p>Running the scenario again, and we see that everything is hooked up properly and the scenario is failing (as expected because we haven&#39;t written any code).</p>
+
+<p>Running the scenario again, and we see that everything is hooked up properly and the scenario is failing (as expected because we haven&rsquo;t written any code).</p>
 
 <p><img alt="cucumber failing no code" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber3.png" /></p>
 
-<p>Now we have our failing scenario we can start putting together our web app and make sure we&#39;re running with a green light!</p>
-<pre class="highlight text">require &#39;sinatra&#39;
+<p>Now we have our failing scenario we can start putting together our web app and make sure we&rsquo;re running with a green light!</p>
+<pre class="highlight plaintext">require 'sinatra'
 
-get &#39;/&#39; do
-  &quot;Hello, world!&quot;
+get '/' do
+  "Hello, world!"
 end
 </pre>
+
 <p>Now if we run out scenario again unfortunately it still fails, we need to hook cucumber up to our app.</p>
-<pre class="highlight text">require &#39;spec/expectations&#39;
-require &#39;webrat&#39;
+<pre class="highlight plaintext">require 'spec/expectations'
+require 'webrat'
 Webrat.configure do |config|
   config.mode = :sinatra
 end
@@ -99,20 +103,22 @@ World do
   Webrat::SinatraSession.new
 end
 
-require File.dirname(__FILE__) + &#39;/../../hello&#39;&#39;
+require File.dirname(__FILE__) + '/../../hello''
 </pre>
+
 <p>Finally running cucumber gives us that nice green feeling.</p>
 
 <p><img alt="green cucumber" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber4.png" /></p>
 
 <p>The only thing left to do is to add a rake file to run our features for us.</p>
-<pre class="highlight text">require &#39;rubygems&#39;
-require &#39;cucumber/rake/task&#39;
+<pre class="highlight plaintext">require 'rubygems'
+require 'cucumber/rake/task'
 
 Cucumber::Rake::Task.new(:features) do |t|
-  t.cucumber_opts = &quot;--format pretty&quot;
+  t.cucumber_opts = "--format pretty"
 end
 </pre>
+
 <p><img alt="rake features" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber5.png" /></p>
 
 <p>All of the code for this getting started guide is available from <a href="http://gist.github.com/58647">gist</a>.</p>
@@ -230,8 +236,6 @@ end
         team.
         </p>
         <p>
-        <a href="http://heavi.es">Heavies</a>
-        |
         <a href="http://kickstartacademy.io">Kickstart Academy</a>
         </p>
       </div>

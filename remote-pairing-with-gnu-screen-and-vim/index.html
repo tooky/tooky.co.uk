@@ -34,27 +34,29 @@
       </section>
     </header>
     <section class="article-body">
-      <p>All the recent <a href="http://search.twitter.com/search?q=%23uksnow">#uksnow</a> has left the <a href="http://edendevelopment.co.uk/blogs/company/2009/11/28/welcome-to-our-new-office/">Eden studio</a> a little deserted. With several of us having longish drives in to the office, we&#39;ve been forced to get much better at remote pairing.</p>
+      <p>All the recent <a href="http://search.twitter.com/search?q=%23uksnow">#uksnow</a> has left the <a href="http://edendevelopment.co.uk/blogs/company/2009/11/28/welcome-to-our-new-office/">Eden studio</a> a little deserted. With several of us having longish drives in to the office, we&rsquo;ve been forced to get much better at remote pairing.</p>
 
-<p>In the past we&#39;ve used iChat screen sharing in the office for pairing on laptops, but with two people both at the end of a DSL connection, the screen + voice bandwidth demands are pretty high, and the guest user is at a painful disadvantage.</p>
+<p>In the past we&rsquo;ve used iChat screen sharing in the office for pairing on laptops, but with two people both at the end of a DSL connection, the screen + voice bandwidth demands are pretty high, and the guest user is at a painful disadvantage.</p>
 
 <p><a href="http://www.vim.org/">Vim</a> is currently undergoing something of a rennaisance at <a href="http://edendevelopment.co.uk">Eden Development</a>. Several of us have been trying to use it for all our coding. Fortunately this has stood us in good stead to take advantage of a great low bandwidth pair programming solution.</p>
 
 <p><a href="http://www.gnu.org/software/screen/">GNU Screen</a> + <a href="http://www.vim.org/">vim</a> (+ <a href="http://skype.com">skype</a>).</p>
 
-<p>John Haruska gives a great <a href="http://haruska.com/2009/09/29/remote-pair-programming/">overview of different remote pairing solution</a> and outlines how to use screen to set up a shared terminal. Unfortunately we weren&#39;t able to use the acl method to allow different UNIX users to share a &#39;screen&#39; on our macs, but if both users logged in to the same unix account it worked like a dream.</p>
+<p>John Haruska gives a great <a href="http://haruska.com/2009/09/29/remote-pair-programming/">overview of different remote pairing solution</a> and outlines how to use screen to set up a shared terminal. Unfortunately we weren&rsquo;t able to use the acl method to allow different UNIX users to share a &lsquo;screen&rsquo; on our macs, but if both users logged in to the same unix account it worked like a dream.</p>
 
 <p>Our basic process is:</p>
 
 <p>User 1 sets up a screen as a shared user on the host machine</p>
-<pre class="highlight text">pairing$ screen -S pairing
+<pre class="highlight plaintext">pairing$ screen -S pairing
 Ctrl-a :multiuser on
 </pre>
+
 <p>User 2, logs into the maching via ssh, and connects to the shared screen</p>
-<pre class="highlight text">local$ ssh pairing@shared_machine
+<pre class="highlight plaintext">local$ ssh pairing@shared_machine
 pairing$ screen -x pairing
 </pre>
-<p>That&#39;s basically it. Both users then have access to a full shared terminal environment. A shared screen can have multiple windows, so we tend to work with one screen for vim and another for running tests and other terminal commands. We also make extensive use of <a href="http://www.linux.com/archive/articles/59533">vim tabs</a> and shell execution from within vim.</p>
+
+<p>That&rsquo;s basically it. Both users then have access to a full shared terminal environment. A shared screen can have multiple windows, so we tend to work with one screen for vim and another for running tests and other terminal commands. We also make extensive use of <a href="http://www.linux.com/archive/articles/59533">vim tabs</a> and shell execution from within vim.</p>
 
 <p>A couple of tips:</p>
 
@@ -65,7 +67,7 @@ pairing$ screen -x pairing
 <li>SSH requires some kind of NAT/firewall traversal - we found it simplest to just connect to the office vpn.</li>
 </ul>
 
-<p><a href="http://edendevelopment.co.uk/blogs/aimee/">aimee</a> has a great description of how aimee, <a href="http://blog.nexwerk.com/">Enrique</a> and I ended up <a href="http://edendevelopment.co.uk/blogs/aimee/2010/01/06/remote-trio-programming/">trio-programming</a> over the last couple of days, and here&#39;s a photo to prove it. I&#39;m the remote on the macbook to aimee&#39;s left.</p>
+<p><a href="http://edendevelopment.co.uk/blogs/aimee/">aimee</a> has a great description of how aimee, <a href="http://blog.nexwerk.com/">Enrique</a> and I ended up <a href="http://edendevelopment.co.uk/blogs/aimee/2010/01/06/remote-trio-programming/">trio-programming</a> over the last couple of days, and here&rsquo;s a photo to prove it. I&rsquo;m the remote on the macbook to aimee&rsquo;s left.</p>
 
 <p><img title="Trio-programming with aimee and Enrique" alt="trio-programming" src="http://farm5.static.flickr.com/4055/4257007886_3442ceceba_d.jpg" /></p>
 
@@ -182,8 +184,6 @@ pairing$ screen -x pairing
         team.
         </p>
         <p>
-        <a href="http://heavi.es">Heavies</a>
-        |
         <a href="http://kickstartacademy.io">Kickstart Academy</a>
         </p>
       </div>
