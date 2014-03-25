@@ -149,3 +149,8 @@ reward.
 [jbrains02]: http://vimeo.com/80533536
 [jbrains03]: http://blog.thecodewhisperer.com/2010/10/16/integrated-tests-are-a-scam/
 [lizk01]: http://lizkeogh.com/2011/09/22/conversational-patterns-in-bdd/
+[xprolo]: http://www.meetup.com/Extreme-Programmers-London/
+[keithb01]: https://twitter.com/keithb_b
+[goos]: http://www.growing-object-oriented-software.com
+[stevef01]: https://twitter.com/sf105
+[natp01]: https://twitter.com/natpryce
