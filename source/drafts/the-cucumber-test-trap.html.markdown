@@ -37,8 +37,8 @@ their system is simple. As they add behaviour to the system they diligently
 document the behaviour in gherkin and automate it with cucumber. All of the
 while running every scenario from end-to-end through their entire stack.
 
-In [The Cucumber Book][mattw01], [Matt Wynne][mattw02] and Aslak describe one of
-the main causes for "*Slow Features*":
+In [The Cucumber Book][mattw01] (*When Cucumbers Go Bad* p. 103), [Matt
+Wynne][mattw02] and Aslak describe one of the main causes for "*Slow Features*":
 
   > **Lots of Scenarios**
   > 
@@ -104,6 +104,42 @@ Features*" that Matt and Aslak describe in The Cucumber Book.
   > The Big Ball of Mud is an ironic name given to the type of software design
   > you see when nobody has really made much effort to actually do any software
   > design. In other words, it's a big, tangled mess.
+
+At the [Extreme Programmers London][xprolo] meetup yesterday [Keith
+Braithwaite][keithb01] talked about code metrics and the effect that
+unit-testing has on the distribution of complexity in the codebase. During the
+talk he mentioned that he thought the part of the TDD cycle that has the biggest
+effect on the software design is when you have to add the next test, because we
+often have to refactor our code to support adding the next test - to make it
+testable.
+
+In [Growing Object Oriented Software, Guided by Tests][goos] (*What Is the Point
+of Test-Driven Development*), [Steve Freeman][stevef01] and [Nat Pryce][natp01]
+describe why testable code *is* well designed code.
+
+  > Thorough unit testing helps us to improve the internal quality because, to
+  > be tested, a unit has to be structured to run outside the system in a test
+  > fixture. A unit test for an object needs to create the object, provide its
+  > dependencies, interact with it, and check that it behaved as expected. So,
+  > for a class to be easy to unit-test, the class must have explicit
+  > dependencies that can easily be substituted and clear responsibilities that
+  > can easily be invoked and verified. In software engineering terms, that
+  > means that the code must be *loosely coupled* and *highly cohesive* - in
+  > other words, well designed.
+
+By falling into the cucumber test trap and relying on checking the system
+end-to-end you lose this valuable design pressure that comes from TDD. You have
+no need to make you units testable, because it's *easy* to add another test that
+runs from outside of the application. Which means you have nothing pushing you
+to improve the internal quality of the codebase, nothing to help you avoid
+creating a *Big Ball of Mud*.
+
+Writing scenarios *with your customers* will help you to understand what your
+application needs to do, and automating those scenarios with cucumber will help
+you to know when the application meets those needs. Just don't fall into the
+trap of thinking you can use cucumber to test the app completely at the expense
+of unit tests or *Lots of Scenarios* and a *Big Ball of Mud* will be your
+reward.
 
 [aslak01]: https://twitter.com/aslak_hellesoy
 [aslak02]: https://cucumber.pro/blog/2014/03/03/the-worlds-most-misunderstood-collaboration-tool.html
