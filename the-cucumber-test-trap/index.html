@@ -1,0 +1,321 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <title>Steve Tooke - The Cucumber Test Trap</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:300italic,300|Source+Sans+Pro:300|Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <link href="/stylesheets/reset.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/highlight.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/blog.css" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+
+  <div id='site-header'>
+    <div id="site-header-wrapper">
+      <h1>
+        <a href="/">
+          Steve Tooke
+        </a>
+      </h1>
+      <h2>software development flavoured with agile, bdd, ruby and javascript</h2>
+    </div>
+  </div>
+  <div id='main-wrapper'>
+    <div id="main" role="main">
+        <article>
+    <header>
+      <h1>The Cucumber Test Trap</h1>
+      <section class="author">
+        <img class="avatar" src="/images/tooky-avatar.jpg">
+        <p class="byline">by Steve Tooke</p>
+        <time datetime="2014-03-29" itemprop="datePublished">March 29th, 2014</time>
+      </section>
+    </header>
+    <section class="article-body">
+      <p><a href="https://twitter.com/aslak_hellesoy">Aslak Hellesøy</a> recently wrote how cucumber is &ldquo;<a href="https://cucumber.pro/blog/2014/03/03/the-worlds-most-misunderstood-collaboration-tool.html">the world&rsquo;s most
+misunderstood collaboration tool</a>.&rdquo;</p>
+
+<blockquote>
+<p>Cucumber was born out of the frustration with ambiguous requirements and
+misunderstandings between the people who order the software and those who
+deliver it.</p>
+</blockquote>
+
+<p>Anybody who has spent time with more than a few codebases that use cucumber will
+probably recognise Aslak&rsquo;s description of a cucumber anti-pattern:</p>
+
+<blockquote>
+<p>When Cucumber is adopted solely as a tool to write automated tests without
+any input from business analysts they tend to become imperative and lose
+their documentation value.</p>
+
+<p>This also makes them slow and brittle.</p>
+</blockquote>
+
+<p>This doesn&rsquo;t tell the whole story though - there are many teams that work with
+the business to define their scenarios, that make an effort to write declarative
+scenarios - yet some of these teams still suffer from slow and brittle builds.</p>
+
+<p>They&rsquo;ve fallen into the cucumber test trap - they want to document everything
+the system does and automatically check it using cucumber.</p>
+
+<p>As they start building their system the automated cucumber suite gives them
+the confidence that everything is working. Running the features is quick and
+their system is simple. As they add behaviour to the system they diligently
+document the behaviour in gherkin and automate it with cucumber. All of the
+while running every scenario from end-to-end through their entire stack.</p>
+
+<p>In <a href="http://pragprog.com/book/hwcuc/the-cucumber-book">The Cucumber Book</a> (<em>When Cucumbers Go Bad</em> p. 103), <a href="https://twitter.com/mattwynne">Matt
+Wynne</a> and Aslak describe one of the main causes for &ldquo;<em>Slow Features</em>&rdquo;:</p>
+
+<blockquote>
+<p><strong>Lots of Scenarios</strong></p>
+
+<p>It might seem like stating the obvious, but having a lot of scenarios is by
+far the easiest way to give yourself a slow overall feature run. We&rsquo;re not
+trying to suggest you give up on BDD and go back to cowboy coding, but we do
+suggest you treat a slow feature run as a red flag. Having lots of tests has
+other disadvantages than just waiting a long time for feedback. It&rsquo;s hard
+to keep a large set of features organized, making them awkward for readers
+to navigate around. Maintenance is also harder on the underlying step
+definitions and support code.</p>
+</blockquote>
+
+<p>Of course this isn&rsquo;t really a product of using cucumber, or even trying to get
+started with BDD or Specification by Example. It&rsquo;s exactly the same problem that
+<a href="https://twitter.com/jbrains/">J. B. Rainsberger</a> describes when he says that &ldquo;<a href="http://blog.thecodewhisperer.com/2010/10/16/integrated-tests-are-a-scam/">integrated tests
+are a scam</a>.&rdquo;</p>
+
+<blockquote>
+<p>You write integrated tests because you can&rsquo;t write perfect unit tests. You
+know this problem: all your unit tests pass, but someone finds a defect
+anyway.  Sometimes you can explain this by finding an obvious unit test you
+simply missed, but sometimes you can&rsquo;t. In those cases, you decide you need
+to write an integrated test to make sure that all the production
+implementations you use in the broken code path now work correctly together.</p>
+</blockquote>
+
+<p>As soon as you make a decision that you will describe everything your system
+does using cucumber features you&rsquo;ve left BDD behind, fallen into the cucumber
+test trap and are destined to have &ldquo;<em>Lots of Scenarios</em>&rdquo;. J. B.
+<a href="http://blog.thecodewhisperer.com/2010/10/16/integrated-tests-are-a-scam/">describes</a> this brilliantly:</p>
+
+<blockquote>
+<p>You have a medium-sized web application with around 20 pages, maybe 10 of
+which have forms. Each form has an average of 5 fields and the average field
+needs 3 tests to verify thoroughly. Your architecture has about 10 layers,
+including web presentation widgets, web presentation pages, abstract
+presentation, an HTTP bridge to your service API, controllers, transaction
+scripts, abstract data repositories, data repository implementations, SQL
+statement mapping, SQL execution, and application configuration. A typical
+request/response cycle creates a stack trace 30 frames deep, some of which
+you wrote, and some of which you&rsquo;ve taken off the shelf from a wide variety
+of open source and commercial packages. How many tests do you need to test
+this application thoroughly?</p>
+
+<p>At least 10,000. Maybe a million. One million.</p>
+</blockquote>
+
+<p><em>One million</em> scenarios - even <em>10,000</em> scenarios - to thoroughly check &ldquo;a
+medium sized web application&rdquo; using cucumber. All of them running end-to-end. No
+wonder teams have &ldquo;<em>Slow Features</em>&rdquo;.</p>
+
+<p>Avoiding the cucumber test trap is hard. It&rsquo;s easy to keep adding scenarios
+which give you a false confidence that your application is working correctly.
+It&rsquo;s easy to just add some more code to make those scenarios pass.</p>
+
+<p>Instead we need to keep <a href="http://lizkeogh.com/2011/09/22/conversational-patterns-in-bdd/">focusing on the conversations</a>. Find the
+scenarios that matter, that are important to document, that are worth automating
+and push everything else down into lower level, isolated tests.</p>
+
+<p>Define contracts between layers, and test those exhaustively. Allow the design
+pressure of creating testable code help you to build a cleaner, maintainable
+application. This will help you prevent another one of the main causes of &ldquo;<em>Slow
+Features</em>&rdquo; that Matt and Aslak describe in The Cucumber Book.</p>
+
+<blockquote>
+<p><strong>Big Ball of Mud</strong></p>
+
+<p>The Big Ball of Mud is an ironic name given to the type of software design
+you see when nobody has really made much effort to actually do any software
+design. In other words, it&rsquo;s a big, tangled mess.</p>
+</blockquote>
+
+<p>At the <a href="http://www.meetup.com/Extreme-Programmers-London/">Extreme Programmers London</a> meetup last week <a href="https://twitter.com/keithb_b">Keith
+Braithwaite</a> talked about code metrics and the effect that
+unit-testing has on the distribution of complexity in the codebase. During the
+talk he mentioned that he thought the part of the TDD cycle that has the biggest
+effect on the software design is when you have to add the next test, because we
+often have to refactor our code to support adding the next test - to make it
+testable.</p>
+
+<p>In <a href="http://www.growing-object-oriented-software.com">Growing Object Oriented Software, Guided by Tests</a> (<em>What Is the Point
+of Test-Driven Development</em>), <a href="https://twitter.com/sf105">Steve Freeman</a> and <a href="https://twitter.com/natpryce">Nat Pryce</a>
+describe why testable code <em>is</em> well designed code.</p>
+
+<blockquote>
+<p>Thorough unit testing helps us to improve the internal quality because, to
+be tested, a unit has to be structured to run outside the system in a test
+fixture. A unit test for an object needs to create the object, provide its
+dependencies, interact with it, and check that it behaved as expected. So,
+for a class to be easy to unit-test, the class must have explicit
+dependencies that can easily be substituted and clear responsibilities that
+can easily be invoked and verified. In software engineering terms, that
+means that the code must be <em>loosely coupled</em> and <em>highly cohesive</em> - in
+other words, well designed.</p>
+</blockquote>
+
+<p>By falling into the cucumber test trap and relying on checking the system
+end-to-end you lose this valuable design pressure that comes from TDD. You have
+no need to make your units testable in isolation, because it&rsquo;s <em>easy</em> to add
+another test that runs from outside of the application. Which means you have
+nothing pushing you to improve the internal quality of the codebase, nothing to
+help you avoid creating a <em>Big Ball of Mud</em>.</p>
+
+<p>Writing scenarios <em>with your customers</em> will help you to understand what your
+application needs to do, and automating those scenarios with cucumber will help
+you to know when the application meets those needs. Just don&rsquo;t fall into the
+trap of thinking you can use cucumber to test the app completely at the expense
+of unit tests or <em>Lots of Scenarios</em> and a <em>Big Ball of Mud</em> will be your
+reward.</p>
+
+    </section>
+  </article>
+
+    </div>
+
+    <aside id="sidebar">
+      <ol id="recent-articles">
+        <h2>
+          Recent Articles
+          <a href="/feed.xml" class="feed" title="Subscribe!"><i class="fa fa-rss"></i></a>
+        </h2>
+        
+          <li><a href="/the-cucumber-test-trap/">The Cucumber Test Trap</a> <span>Mar 29</span></li>
+        
+          <li><a href="/discovering-bdd/">Discovering BDD</a> <span>Dec 11</span></li>
+        
+          <li><a href="/learning-by-teaching/">Learning by Teaching</a> <span>Nov  6</span></li>
+        
+          <li><a href="/stop-writing-scenarios-that-test-everything-through-the-view/">Stop Writing Scenarios That Test Everything Through The View</a> <span>Oct 29</span></li>
+        
+          <li><a href="/this-gherkins-not-for-reading/">This Gherkin's Not For Reading</a> <span>Oct 24</span></li>
+        
+      </ol>
+
+      <ul id="tags">
+        <h2>Tags</h2>
+        
+          <li><a href="/tags/apprenticeship/">apprenticeship</a></a></li>
+        
+          <li><a href="/tags/atdd/">atdd</a></a></li>
+        
+          <li><a href="/tags/bdd/">bdd</a></a></li>
+        
+          <li><a href="/tags/bletchley-park/">bletchley park</a></a></li>
+        
+          <li><a href="/tags/coderetreat/">coderetreat</a></a></li>
+        
+          <li><a href="/tags/craft/">craft</a></a></li>
+        
+          <li><a href="/tags/craftsmanship/">craftsmanship</a></a></li>
+        
+          <li><a href="/tags/cucumber/">cucumber</a></a></li>
+        
+          <li><a href="/tags/development/">development</a></a></li>
+        
+          <li><a href="/tags/eden/">eden</a></a></li>
+        
+          <li><a href="/tags/fitnesse/">fitnesse</a></a></li>
+        
+          <li><a href="/tags/git/">git</a></a></li>
+        
+          <li><a href="/tags/github/">github</a></a></li>
+        
+          <li><a href="/tags/hacks/">hacks</a></a></li>
+        
+          <li><a href="/tags/javascript/">javascript</a></a></li>
+        
+          <li><a href="/tags/jekyll/">jekyll</a></a></li>
+        
+          <li><a href="/tags/kickstartac/">kickstartac</a></a></li>
+        
+          <li><a href="/tags/macosx/">macosx</a></a></li>
+        
+          <li><a href="/tags/oo/">oo</a></a></li>
+        
+          <li><a href="/tags/pairing/">pairing</a></a></li>
+        
+          <li><a href="/tags/practices/">practices</a></a></li>
+        
+          <li><a href="/tags/project/">project</a></a></li>
+        
+          <li><a href="/tags/retrospective/">retrospective</a></a></li>
+        
+          <li><a href="/tags/ruby/">ruby</a></a></li>
+        
+          <li><a href="/tags/sinatra/">sinatra</a></a></li>
+        
+          <li><a href="/tags/software/">software</a></a></li>
+        
+          <li><a href="/tags/solid/">solid</a></a></li>
+        
+          <li><a href="/tags/specification-by-example/">specification-by-example</a></a></li>
+        
+          <li><a href="/tags/tdd/">tdd</a></a></li>
+        
+          <li><a href="/tags/tools/">tools</a></a></li>
+        
+          <li><a href="/tags/training/">training</a></a></li>
+        
+          <li><a href="/tags/vim/">vim</a></a></li>
+        
+          <li><a href="/tags/xp/">xp</a></a></li>
+        
+      </ul>
+
+      <div id="bio">
+        <img class="avatar" src="/images/tooky-avatar.jpg">
+        <h2>Steve Tooke</h2>
+        <p>
+        I am a programmer &mdash; consultant, trainer and coach &mdash;
+        passionate about improving my craft and helping others improve
+        theirs. I specialise in helping teams continue to deliver
+        valuable software by improving their team practices and
+        communication, and keeping their code maintainable.
+        </p>
+        <p>
+        I co-organised Bootstrapd, a non-profit conference for
+        bootstrapped startups in Europe. I am the co-founder of the
+        Software Craftsmanship UK user group, and the HampshiRB ruby
+        user group. I have spoken at the Scottish Ruby
+        Conference and have run workshops at the London Software
+        Craftsmanship Community. I am a member of the Cucumber core
+        team.
+        </p>
+        <p>
+        <a href="http://kickstartacademy.io">Kickstart Academy</a>
+        </p>
+      </div>
+    </aside>
+    <footer>
+      <div id='site-footer'>
+        <p>All content copyright Steve Tooke &copy; 2014 &middot; All rights reserved.</p>
+        <p>Find me on <a href="http://twitter.com/tooky">Twitter</a> | <a href="https://plus.google.com/+SteveTooke-Heavies/">Google+</a></a></p>
+    </div>
+    </footer>
+  </div>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-37664795-2', 'tooky.co.uk');
+    ga('send', 'pageview');
+
+  </script>
+  </body>
+</html>

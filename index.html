@@ -26,71 +26,173 @@
     <div id="main" role="main">
       <article>
   <header>
-    <h1><a href="/discovering-bdd/">Discovering BDD</a> </h1>
+    <h1><a href="/the-cucumber-test-trap/">The Cucumber Test Trap</a> </h1>
     <section class="author">
       <img class="avatar" src="/images/tooky-avatar.jpg">
       <p class="byline">by Steve Tooke</p>
-      <time datetime="2013-12-11" itemprop="datePublished">December 11th, 2013</time>
+      <time datetime="2014-03-29" itemprop="datePublished">March 29th, 2014</time>
     </section>
   </header>
   <section class="article-body">
-    <p>I graduated from UMIST in 2002 with a Software Engineering degree, and I started work with a company who provided document scanning services, mostly to the public sector - NHS trusts and local authorities. I came into the company thinking I knew it all - I had a software engineering degreee!</p>
-
-<p>Wow - I had a <em>LOT</em> to learn!</p>
-
-<p>I met Shane Paterson while I was there. Shane was another developer at the company, and even though he was based in New Zealand, he was responsible for pointing me in the direction of XP and TDD. There&rsquo;s some more about this story in the <a href="http://chimera.labs.oreilly.com/books/1234000001813/ch04.html#solution_id19">Apprenticeship Patterns</a> book.</p>
-
-<p>I started reading a lot of blogs and participating in the various mailing lists. I found an <a href="http://groups.yahoo.com/neo/groups/extremeprogramming/conversations/messages/116122">old post</a> on the XP mailing list where I was introducing a colleague to TDD using the bowling game kata which made me smile as I used the same exercise during some recent ruby/tdd training.</p>
-
-<p>This colleague and I were about to start working on the new version of our main software application. A decision had been taken to rewrite the application with a completely new look and feel, to move to the new (at the time) .NET technology stack and to support MS SQL server as well as MS Access. The company had great success with application up until then because it could be set up and installed by anyone with file sharing permissions, so no need to involve corporate IT. This kind of culture was coming to an end though, so we needed to fit in with what the IT departments demanded.</p>
-
-<p>We ran it as close to a proper XP project as the business would allow. In particular we were pair programming and we were writing our tests first! Not just unit tests, we were also writing acceptance tests with our &lsquo;customer&rsquo; to help us understand the requirements.</p>
-
-<p>We used a tool called <a href="http://en.wikipedia.org/wiki/Framework_for_Integrated_Test">FIT</a>. This allowed us to create word documents (!!) that contained tables of examples of what the software should do. We would then hook these tables up to some test classes which would run the tests and colour the tables appropriately.</p>
-
-<p>Using tables to describe the requirements was fantastic. We were able to communicate clearly with our project sponsors about the business rules, using concrete examples to support our understanding.</p>
-
-<p>Brian Marick&rsquo;s foreword from the book really sums up what the FIT community were trying to do:</p>
+    <p><a href="https://twitter.com/aslak_hellesoy">Aslak Hellesøy</a> recently wrote how cucumber is &ldquo;<a href="https://cucumber.pro/blog/2014/03/03/the-worlds-most-misunderstood-collaboration-tool.html">the world&rsquo;s most
+misunderstood collaboration tool</a>.&rdquo;</p>
 
 <blockquote>
-<p>A software project is a place where different cultures come together. Some people face towards the business and its concerns; other people face toward the computer and its demands.</p>
-
-<p>To an expert in financial trading, a &ldquo;bond&rdquo; is something that&rsquo;s tangled up in all sorts of explicit and implicit legal, social, historical and emotional meanings.</p>
-
-<p>To programmers, a Bond is an object in their program that they&rsquo;re trying to keep from getting too tangled up with other objects, lest their brains explode.</p>
-
-<p>Somehow these people have to work together, and they do it by creating a shared language. Most of that creating happens through the conversation that threads through the whole project. But some of it happens through writing.</p>
-
-<p><em>Brian Marick, Feb 2005 (foreword of <a href="http://www.pearsoned.co.uk/bookshop/detail.asp?item=100000000079971">Fit for Developing Software</a>)</em></p>
+<p>Cucumber was born out of the frustration with ambiguous requirements and
+misunderstandings between the people who order the software and those who
+deliver it.</p>
 </blockquote>
 
-<p>At about the same time as this I came across the term <em>Behaviour Driven Development</em> in <a href="http://blog.daveastels.com/2005/07/a-new-look-at-test-driven-development/">this post</a> by Dave Astels. It was about trying to change the focus of TDD from testing to specifying behaviour.</p>
+<p>Anybody who has spent time with more than a few codebases that use cucumber will
+probably recognise Aslak&rsquo;s description of a cucumber anti-pattern:</p>
 
 <blockquote>
-<ol>
-<li><p>The problem I have with TDD is that its mindset takes us in a different direction… a wrong direction.</p></li>
-<li><p>We need to start thinking in terms of behavior specifications, not verification tests.</p></li>
-<li><p>The value of doing this will be thinking more clearly about each behaviour, relying less on testing by class or by method, and having better executable documentation.</p></li>
-<li><p>Since TDD is what it is, and everyone isn’t about to change their meaning of that name (nor should we expect them to), we need a new name for this new way of working… BDD: Behaviour Driven Development.</p></li>
-</ol>
+<p>When Cucumber is adopted solely as a tool to write automated tests without
+any input from business analysts they tend to become imperative and lose
+their documentation value.</p>
+
+<p>This also makes them slow and brittle.</p>
 </blockquote>
 
-<p>This post really struck a chord with me. I was still getting to grips with TDD but when it had worked well for me it was when I was working how Dave described. The timing of this is a little fuzzy for me now, but it was right around the time I first started to use Ruby and Rails, so I picked up RSpec as my testing tool of choice.</p>
+<p>This doesn&rsquo;t tell the whole story though - there are many teams that work with
+the business to define their scenarios, that make an effort to write declarative
+scenarios - yet some of these teams still suffer from slow and brittle builds.</p>
 
-<p>The FIT toolchain didn&rsquo;t exist in ruby, but in August 2007 the <a href="http://rubyforge.org/pipermail/rspec-devel/2007-August/003756.html">RSpec Story Runner was released</a> which gave us the tools to do similar things in ruby. The story runner gave way to <a href="http://cukes.info/">cucumber</a>.</p>
+<p>They&rsquo;ve fallen into the cucumber test trap - they want to document everything
+the system does and automatically check it using cucumber.</p>
 
-<p>Cucumber and Gherkin (the formal language for writing cucumber specifcations), have spread. It is now possible to write Gherkin specifications <a href="https://github.com/cucumber/cucumber-jvm">on</a> <a href="https://github.com/cucumber/cucumber-js">a</a> <a href="http://www.specflow.org/">huge</a> <a href="https://github.com/cucumber/cucumber-cpp">range</a> <a href="http://behat.org/">of</a> <a href="https://github.com/gabrielfalcao/lettuce">platforms</a>.</p>
+<p>As they start building their system the automated cucumber suite gives them
+the confidence that everything is working. Running the features is quick and
+their system is simple. As they add behaviour to the system they diligently
+document the behaviour in gherkin and automate it with cucumber. All of the
+while running every scenario from end-to-end through their entire stack.</p>
 
-<p>I think I made a mistake using these tools that many people have done. I used them to write tests. Sometimes they were very brittle tests, <a href="http://tooky.co.uk/stop-writing-scenarios-that-test-everything-through-the-view/">overly focussed on the view</a>. Often they were boring lists of instructions. I learnt to be more <a href="http://benmabey.com/2008/05/19/imperative-vs-declarative-scenarios-in-user-stories.html">declarative</a>, and my tests became more readable. But&hellip;</p>
+<p>In <a href="http://pragprog.com/book/hwcuc/the-cucumber-book">The Cucumber Book</a> (<em>When Cucumbers Go Bad</em> p. 103), <a href="https://twitter.com/mattwynne">Matt
+Wynne</a> and Aslak describe one of the main causes for &ldquo;<em>Slow Features</em>&rdquo;:</p>
 
-<p>They were still written as tests by me (and my colleagues) for the computer to run. <a href="http://lizkeogh.com/2011/03/04/step-away-from-the-tools/">BDD isn&rsquo;t about the tools</a> its about the <a href="http://dannorth.net/2010/08/30/introducing-deliberate-discovery/">discovery</a>.</p>
+<blockquote>
+<p><strong>Lots of Scenarios</strong></p>
 
-<p>BDD enables communication. Our teams are made up of those who need the capabilities some new software will provide, and those who are able to create that software. These people come from different backgrounds, different experiences. Using stories and examples helps to create a shared language which we can then use to explore the problem space and begin to discover the things we don&rsquo;t know!</p>
+<p>It might seem like stating the obvious, but having a lot of scenarios is by
+far the easiest way to give yourself a slow overall feature run. We&rsquo;re not
+trying to suggest you give up on BDD and go back to cowboy coding, but we do
+suggest you treat a slow feature run as a red flag. Having lots of tests has
+other disadvantages than just waiting a long time for feedback. It&rsquo;s hard
+to keep a large set of features organized, making them awkward for readers
+to navigate around. Maintenance is also harder on the underlying step
+definitions and support code.</p>
+</blockquote>
+
+<p>Of course this isn&rsquo;t really a product of using cucumber, or even trying to get
+started with BDD or Specification by Example. It&rsquo;s exactly the same problem that
+<a href="https://twitter.com/jbrains/">J. B. Rainsberger</a> describes when he says that &ldquo;<a href="http://blog.thecodewhisperer.com/2010/10/16/integrated-tests-are-a-scam/">integrated tests
+are a scam</a>.&rdquo;</p>
+
+<blockquote>
+<p>You write integrated tests because you can&rsquo;t write perfect unit tests. You
+know this problem: all your unit tests pass, but someone finds a defect
+anyway.  Sometimes you can explain this by finding an obvious unit test you
+simply missed, but sometimes you can&rsquo;t. In those cases, you decide you need
+to write an integrated test to make sure that all the production
+implementations you use in the broken code path now work correctly together.</p>
+</blockquote>
+
+<p>As soon as you make a decision that you will describe everything your system
+does using cucumber features you&rsquo;ve left BDD behind, fallen into the cucumber
+test trap and are destined to have &ldquo;<em>Lots of Scenarios</em>&rdquo;. J. B.
+<a href="http://blog.thecodewhisperer.com/2010/10/16/integrated-tests-are-a-scam/">describes</a> this brilliantly:</p>
+
+<blockquote>
+<p>You have a medium-sized web application with around 20 pages, maybe 10 of
+which have forms. Each form has an average of 5 fields and the average field
+needs 3 tests to verify thoroughly. Your architecture has about 10 layers,
+including web presentation widgets, web presentation pages, abstract
+presentation, an HTTP bridge to your service API, controllers, transaction
+scripts, abstract data repositories, data repository implementations, SQL
+statement mapping, SQL execution, and application configuration. A typical
+request/response cycle creates a stack trace 30 frames deep, some of which
+you wrote, and some of which you&rsquo;ve taken off the shelf from a wide variety
+of open source and commercial packages. How many tests do you need to test
+this application thoroughly?</p>
+
+<p>At least 10,000. Maybe a million. One million.</p>
+</blockquote>
+
+<p><em>One million</em> scenarios - even <em>10,000</em> scenarios - to thoroughly check &ldquo;a
+medium sized web application&rdquo; using cucumber. All of them running end-to-end. No
+wonder teams have &ldquo;<em>Slow Features</em>&rdquo;.</p>
+
+<p>Avoiding the cucumber test trap is hard. It&rsquo;s easy to keep adding scenarios
+which give you a false confidence that your application is working correctly.
+It&rsquo;s easy to just add some more code to make those scenarios pass.</p>
+
+<p>Instead we need to keep <a href="http://lizkeogh.com/2011/09/22/conversational-patterns-in-bdd/">focusing on the conversations</a>. Find the
+scenarios that matter, that are important to document, that are worth automating
+and push everything else down into lower level, isolated tests.</p>
+
+<p>Define contracts between layers, and test those exhaustively. Allow the design
+pressure of creating testable code help you to build a cleaner, maintainable
+application. This will help you prevent another one of the main causes of &ldquo;<em>Slow
+Features</em>&rdquo; that Matt and Aslak describe in The Cucumber Book.</p>
+
+<blockquote>
+<p><strong>Big Ball of Mud</strong></p>
+
+<p>The Big Ball of Mud is an ironic name given to the type of software design
+you see when nobody has really made much effort to actually do any software
+design. In other words, it&rsquo;s a big, tangled mess.</p>
+</blockquote>
+
+<p>At the <a href="http://www.meetup.com/Extreme-Programmers-London/">Extreme Programmers London</a> meetup last week <a href="https://twitter.com/keithb_b">Keith
+Braithwaite</a> talked about code metrics and the effect that
+unit-testing has on the distribution of complexity in the codebase. During the
+talk he mentioned that he thought the part of the TDD cycle that has the biggest
+effect on the software design is when you have to add the next test, because we
+often have to refactor our code to support adding the next test - to make it
+testable.</p>
+
+<p>In <a href="http://www.growing-object-oriented-software.com">Growing Object Oriented Software, Guided by Tests</a> (<em>What Is the Point
+of Test-Driven Development</em>), <a href="https://twitter.com/sf105">Steve Freeman</a> and <a href="https://twitter.com/natpryce">Nat Pryce</a>
+describe why testable code <em>is</em> well designed code.</p>
+
+<blockquote>
+<p>Thorough unit testing helps us to improve the internal quality because, to
+be tested, a unit has to be structured to run outside the system in a test
+fixture. A unit test for an object needs to create the object, provide its
+dependencies, interact with it, and check that it behaved as expected. So,
+for a class to be easy to unit-test, the class must have explicit
+dependencies that can easily be substituted and clear responsibilities that
+can easily be invoked and verified. In software engineering terms, that
+means that the code must be <em>loosely coupled</em> and <em>highly cohesive</em> - in
+other words, well designed.</p>
+</blockquote>
+
+<p>By falling into the cucumber test trap and relying on checking the system
+end-to-end you lose this valuable design pressure that comes from TDD. You have
+no need to make your units testable in isolation, because it&rsquo;s <em>easy</em> to add
+another test that runs from outside of the application. Which means you have
+nothing pushing you to improve the internal quality of the codebase, nothing to
+help you avoid creating a <em>Big Ball of Mud</em>.</p>
+
+<p>Writing scenarios <em>with your customers</em> will help you to understand what your
+application needs to do, and automating those scenarios with cucumber will help
+you to know when the application meets those needs. Just don&rsquo;t fall into the
+trap of thinking you can use cucumber to test the app completely at the expense
+of unit tests or <em>Lots of Scenarios</em> and a <em>Big Ball of Mud</em> will be your
+reward.</p>
 
   </section>
 </article>
 
 <ul id="suggested-reading">
+  
+    <li class="suggested-reading-card">
+      <h2><a href="/discovering-bdd/">Discovering BDD</a></h2>
+      <p>I graduated from UMIST in 2002 with a Software Engineering degree, and I started work with a company who provided document scanning services, mostly to the public sector - NHS trusts and local authorities. I came into the company thinking I knew it all - I had a software engineering degreee!</p>
+
+<p>Wow...</p>
+      <a href="/discovering-bdd/">Read more…</a>
+    </li>
   
     <li class="suggested-reading-card">
       <h2><a href="/learning-by-teaching/">Learning by Teaching</a></h2>
@@ -106,16 +208,6 @@
       <a href="/stop-writing-scenarios-that-test-everything-through-the-view/">Read more…</a>
     </li>
   
-    <li class="suggested-reading-card">
-      <h2><a href="/this-gherkins-not-for-reading/">This Gherkin's Not For Reading</a></h2>
-      <p>Recently <a href="http://www.8thlight.com/our-team/kevin-liddle">Kevin Liddle</a> made his <a href="http://blog.8thlight.com/kevin-liddle/2013/09/18/a-case-against-cucumber.html">case against cucumber</a>. In the article he outlines several problems he experiences working with cucumber. One of his key arguments is that non-technical team members don’t read the scenarios written by developers.</p>
-
-<blockquote>
-<p>In theory, this is a valuable thing, a bridge between...</p>
-</blockquote>
-      <a href="/this-gherkins-not-for-reading/">Read more…</a>
-    </li>
-  
 </ul>
 
     </div>
@@ -127,6 +219,8 @@
           <a href="/feed.xml" class="feed" title="Subscribe!"><i class="fa fa-rss"></i></a>
         </h2>
         
+          <li><a href="/the-cucumber-test-trap/">The Cucumber Test Trap</a> <span>Mar 29</span></li>
+        
           <li><a href="/discovering-bdd/">Discovering BDD</a> <span>Dec 11</span></li>
         
           <li><a href="/learning-by-teaching/">Learning by Teaching</a> <span>Nov  6</span></li>
@@ -134,8 +228,6 @@
           <li><a href="/stop-writing-scenarios-that-test-everything-through-the-view/">Stop Writing Scenarios That Test Everything Through The View</a> <span>Oct 29</span></li>
         
           <li><a href="/this-gherkins-not-for-reading/">This Gherkin's Not For Reading</a> <span>Oct 24</span></li>
-        
-          <li><a href="/cucumber-and-full-stack-testing/">Cucumber and Full Stack Testing</a> <span>Jan 18</span></li>
         
       </ol>
 
@@ -195,6 +287,8 @@
           <li><a href="/tags/software/">software</a></a></li>
         
           <li><a href="/tags/solid/">solid</a></a></li>
+        
+          <li><a href="/tags/specification-by-example/">specification-by-example</a></a></li>
         
           <li><a href="/tags/tdd/">tdd</a></a></li>
         

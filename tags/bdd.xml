@@ -4,7 +4,164 @@
   <id>http://tooky.co.uk/</id>
   <link href="http://tooky.co.uk/tags/bdd/"/>
   <link href="http://tooky.co.uk/tags/bdd.xml" rel="self"/>
-  <updated>2013-12-11T00:00:00Z</updated>
+  <updated>2014-03-29T00:00:00Z</updated>
+  <entry>
+    <title>The Cucumber Test Trap</title>
+    <link rel="alternate" href="http://tooky.co.uk/the-cucumber-test-trap/"/>
+    <id>http://tooky.co.uk/the-cucumber-test-trap/</id>
+    <published>2014-03-29T00:00:00Z</published>
+    <updated>2014-03-29T06:45:34+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;a href="https://twitter.com/aslak_hellesoy"&gt;Aslak Hellesøy&lt;/a&gt; recently wrote how cucumber is &amp;ldquo;&lt;a href="https://cucumber.pro/blog/2014/03/03/the-worlds-most-misunderstood-collaboration-tool.html"&gt;the world&amp;rsquo;s most
+misunderstood collaboration tool&lt;/a&gt;.&amp;rdquo;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Cucumber was born out of the frustration with ambiguous requirements and
+misunderstandings between the people who order the software and those who
+deliver it.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Anybody who has spent time with more than a few codebases that use cucumber will
+probably recognise Aslak&amp;rsquo;s description of a cucumber anti-pattern:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;When Cucumber is adopted solely as a tool to write automated tests without
+any input from business analysts they tend to become imperative and lose
+their documentation value.&lt;/p&gt;
+
+&lt;p&gt;This also makes them slow and brittle.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This doesn&amp;rsquo;t tell the whole story though - there are many teams that work with
+the business to define their scenarios, that make an effort to write declarative
+scenarios - yet some of these teams still suffer from slow and brittle builds.&lt;/p&gt;
+
+&lt;p&gt;They&amp;rsquo;ve fallen into the cucumber test trap - they want to document everything
+the system does and automatically check it using cucumber.&lt;/p&gt;
+
+&lt;p&gt;As they start building their system the automated cucumber suite gives them
+the confidence that everything is working. Running the features is quick and
+their system is simple. As they add behaviour to the system they diligently
+document the behaviour in gherkin and automate it with cucumber. All of the
+while running every scenario from end-to-end through their entire stack.&lt;/p&gt;
+
+&lt;p&gt;In &lt;a href="http://pragprog.com/book/hwcuc/the-cucumber-book"&gt;The Cucumber Book&lt;/a&gt; (&lt;em&gt;When Cucumbers Go Bad&lt;/em&gt; p. 103), &lt;a href="https://twitter.com/mattwynne"&gt;Matt
+Wynne&lt;/a&gt; and Aslak describe one of the main causes for &amp;ldquo;&lt;em&gt;Slow Features&lt;/em&gt;&amp;rdquo;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Lots of Scenarios&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;It might seem like stating the obvious, but having a lot of scenarios is by
+far the easiest way to give yourself a slow overall feature run. We&amp;rsquo;re not
+trying to suggest you give up on BDD and go back to cowboy coding, but we do
+suggest you treat a slow feature run as a red flag. Having lots of tests has
+other disadvantages than just waiting a long time for feedback. It&amp;rsquo;s hard
+to keep a large set of features organized, making them awkward for readers
+to navigate around. Maintenance is also harder on the underlying step
+definitions and support code.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Of course this isn&amp;rsquo;t really a product of using cucumber, or even trying to get
+started with BDD or Specification by Example. It&amp;rsquo;s exactly the same problem that
+&lt;a href="https://twitter.com/jbrains/"&gt;J. B. Rainsberger&lt;/a&gt; describes when he says that &amp;ldquo;&lt;a href="http://blog.thecodewhisperer.com/2010/10/16/integrated-tests-are-a-scam/"&gt;integrated tests
+are a scam&lt;/a&gt;.&amp;rdquo;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;You write integrated tests because you can&amp;rsquo;t write perfect unit tests. You
+know this problem: all your unit tests pass, but someone finds a defect
+anyway.  Sometimes you can explain this by finding an obvious unit test you
+simply missed, but sometimes you can&amp;rsquo;t. In those cases, you decide you need
+to write an integrated test to make sure that all the production
+implementations you use in the broken code path now work correctly together.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;As soon as you make a decision that you will describe everything your system
+does using cucumber features you&amp;rsquo;ve left BDD behind, fallen into the cucumber
+test trap and are destined to have &amp;ldquo;&lt;em&gt;Lots of Scenarios&lt;/em&gt;&amp;rdquo;. J. B.
+&lt;a href="http://blog.thecodewhisperer.com/2010/10/16/integrated-tests-are-a-scam/"&gt;describes&lt;/a&gt; this brilliantly:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;You have a medium-sized web application with around 20 pages, maybe 10 of
+which have forms. Each form has an average of 5 fields and the average field
+needs 3 tests to verify thoroughly. Your architecture has about 10 layers,
+including web presentation widgets, web presentation pages, abstract
+presentation, an HTTP bridge to your service API, controllers, transaction
+scripts, abstract data repositories, data repository implementations, SQL
+statement mapping, SQL execution, and application configuration. A typical
+request/response cycle creates a stack trace 30 frames deep, some of which
+you wrote, and some of which you&amp;rsquo;ve taken off the shelf from a wide variety
+of open source and commercial packages. How many tests do you need to test
+this application thoroughly?&lt;/p&gt;
+
+&lt;p&gt;At least 10,000. Maybe a million. One million.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;em&gt;One million&lt;/em&gt; scenarios - even &lt;em&gt;10,000&lt;/em&gt; scenarios - to thoroughly check &amp;ldquo;a
+medium sized web application&amp;rdquo; using cucumber. All of them running end-to-end. No
+wonder teams have &amp;ldquo;&lt;em&gt;Slow Features&lt;/em&gt;&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;Avoiding the cucumber test trap is hard. It&amp;rsquo;s easy to keep adding scenarios
+which give you a false confidence that your application is working correctly.
+It&amp;rsquo;s easy to just add some more code to make those scenarios pass.&lt;/p&gt;
+
+&lt;p&gt;Instead we need to keep &lt;a href="http://lizkeogh.com/2011/09/22/conversational-patterns-in-bdd/"&gt;focusing on the conversations&lt;/a&gt;. Find the
+scenarios that matter, that are important to document, that are worth automating
+and push everything else down into lower level, isolated tests.&lt;/p&gt;
+
+&lt;p&gt;Define contracts between layers, and test those exhaustively. Allow the design
+pressure of creating testable code help you to build a cleaner, maintainable
+application. This will help you prevent another one of the main causes of &amp;ldquo;&lt;em&gt;Slow
+Features&lt;/em&gt;&amp;rdquo; that Matt and Aslak describe in The Cucumber Book.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Big Ball of Mud&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The Big Ball of Mud is an ironic name given to the type of software design
+you see when nobody has really made much effort to actually do any software
+design. In other words, it&amp;rsquo;s a big, tangled mess.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;At the &lt;a href="http://www.meetup.com/Extreme-Programmers-London/"&gt;Extreme Programmers London&lt;/a&gt; meetup last week &lt;a href="https://twitter.com/keithb_b"&gt;Keith
+Braithwaite&lt;/a&gt; talked about code metrics and the effect that
+unit-testing has on the distribution of complexity in the codebase. During the
+talk he mentioned that he thought the part of the TDD cycle that has the biggest
+effect on the software design is when you have to add the next test, because we
+often have to refactor our code to support adding the next test - to make it
+testable.&lt;/p&gt;
+
+&lt;p&gt;In &lt;a href="http://www.growing-object-oriented-software.com"&gt;Growing Object Oriented Software, Guided by Tests&lt;/a&gt; (&lt;em&gt;What Is the Point
+of Test-Driven Development&lt;/em&gt;), &lt;a href="https://twitter.com/sf105"&gt;Steve Freeman&lt;/a&gt; and &lt;a href="https://twitter.com/natpryce"&gt;Nat Pryce&lt;/a&gt;
+describe why testable code &lt;em&gt;is&lt;/em&gt; well designed code.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Thorough unit testing helps us to improve the internal quality because, to
+be tested, a unit has to be structured to run outside the system in a test
+fixture. A unit test for an object needs to create the object, provide its
+dependencies, interact with it, and check that it behaved as expected. So,
+for a class to be easy to unit-test, the class must have explicit
+dependencies that can easily be substituted and clear responsibilities that
+can easily be invoked and verified. In software engineering terms, that
+means that the code must be &lt;em&gt;loosely coupled&lt;/em&gt; and &lt;em&gt;highly cohesive&lt;/em&gt; - in
+other words, well designed.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;By falling into the cucumber test trap and relying on checking the system
+end-to-end you lose this valuable design pressure that comes from TDD. You have
+no need to make your units testable in isolation, because it&amp;rsquo;s &lt;em&gt;easy&lt;/em&gt; to add
+another test that runs from outside of the application. Which means you have
+nothing pushing you to improve the internal quality of the codebase, nothing to
+help you avoid creating a &lt;em&gt;Big Ball of Mud&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Writing scenarios &lt;em&gt;with your customers&lt;/em&gt; will help you to understand what your
+application needs to do, and automating those scenarios with cucumber will help
+you to know when the application meets those needs. Just don&amp;rsquo;t fall into the
+trap of thinking you can use cucumber to test the app completely at the expense
+of unit tests or &lt;em&gt;Lots of Scenarios&lt;/em&gt; and a &lt;em&gt;Big Ball of Mud&lt;/em&gt; will be your
+reward.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Discovering BDD</title>
     <link rel="alternate" href="http://tooky.co.uk/discovering-bdd/"/>
