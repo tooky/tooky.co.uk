@@ -1,13 +1,12 @@
 ---
-title: 'The Cucumber Test Trap'
-# date: TBD When publishing
-author: tooky
-tags:
-  - cucumber
-  - bdd
-  - specification-by-example
+:title: The Cucumber Test Trap
+:author: tooky
+:tags:
+- cucumber
+- bdd
+- specification-by-example
+:date: 2014-03-29
 ---
-
 [Aslak Hellesøy][aslak01] recently wrote how cucumber is "[the world's most
 misunderstood collaboration tool][aslak02]."
 
