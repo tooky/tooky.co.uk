@@ -91,7 +91,7 @@ which give you a false confidence that your application is working correctly.
 It's easy to just add some more code to make those scenarios pass.
 
 Instead we need to keep [focusing on the conversations][lizk01]. Find the
-scenarios that matter, that are important document, that are worth automating
+scenarios that matter, that are important to document, that are worth automating
 and push everything else down into lower level, isolated tests.
 
 Define contracts between layers, and test those exhaustively. Allow the design
@@ -105,7 +105,7 @@ Features*" that Matt and Aslak describe in The Cucumber Book.
   > you see when nobody has really made much effort to actually do any software
   > design. In other words, it's a big, tangled mess.
 
-At the [Extreme Programmers London][xprolo] meetup yesterday [Keith
+At the [Extreme Programmers London][xprolo] meetup last week [Keith
 Braithwaite][keithb01] talked about code metrics and the effect that
 unit-testing has on the distribution of complexity in the codebase. During the
 talk he mentioned that he thought the part of the TDD cycle that has the biggest
@@ -129,10 +129,10 @@ describe why testable code *is* well designed code.
 
 By falling into the cucumber test trap and relying on checking the system
 end-to-end you lose this valuable design pressure that comes from TDD. You have
-no need to make you units testable, because it's *easy* to add another test that
-runs from outside of the application. Which means you have nothing pushing you
-to improve the internal quality of the codebase, nothing to help you avoid
-creating a *Big Ball of Mud*.
+no need to make your units testable in isolation, because it's *easy* to add
+another test that runs from outside of the application. Which means you have
+nothing pushing you to improve the internal quality of the codebase, nothing to
+help you avoid creating a *Big Ball of Mud*.
 
 Writing scenarios *with your customers* will help you to understand what your
 application needs to do, and automating those scenarios with cucumber will help
