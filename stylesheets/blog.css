@@ -67,30 +67,41 @@ body {
       margin-bottom: 0; }
 
 /* line 57, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+.promo {
+  background: rgba(255, 215, 0, 0.66);
+  display: inline-block;
+  padding: 0.5em 1em;
+  color: #444; }
+  /* line 62, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+  .promo h5 {
+    margin-top: 0;
+    font-weight: bold !important; }
+
+/* line 68, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
 pre.highlight {
   padding: 0.5em;
   overflow: scroll;
   margin-bottom: 1em;
   font-family: "Source Code Pro", monospace !important; }
 
-/* line 64, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+/* line 75, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
 code {
   font-family: "Source Code Pro", monospace !important; }
 
 /* apply a natural box layout model to all elements */
-/* line 68, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+/* line 79, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
 *, *:before, *:after {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
-/* line 70, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+/* line 81, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
 html, body {
   background: white;
   padding: 0;
   margin: 0; }
 
-/* line 71, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+/* line 82, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
 #site-header {
   background: url("/images/header.jpg");
   background-position: right bottom;
@@ -105,7 +116,7 @@ html, body {
   color: white;
   text-align: center; }
   @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3 / 2), only screen and (min-device-pixel-ratio: 1.5) {
-    /* line 71, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+    /* line 82, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
     #site-header {
       background: url("/images/header-2x.jpg");
       background-position: right bottom;
@@ -114,15 +125,15 @@ html, body {
       -moz-background-size: cover;
       -o-background-size: cover;
       background-size: cover; } }
-  /* line 98, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+  /* line 109, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
   #site-header h1 {
     margin-top: 0;
     font-size: 300%;
     text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5); }
-    /* line 102, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+    /* line 113, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
     #site-header h1 a, #site-header h1 a:visited, #site-header h1 a:hover, #site-header h1 a:active {
       color: white !important; }
-  /* line 105, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+  /* line 116, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
   #site-header h2 {
     background: rgba(255, 215, 0, 0.66);
     display: inline-block;
@@ -130,90 +141,90 @@ html, body {
     color: #444;
     margin-top: 0; }
 
-/* line 107, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+/* line 118, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
 #main-wrapper, #site-header-wrapper {
   width: 90%;
   overflow: auto;
   margin: 0 auto; }
 
-/* line 108, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+/* line 119, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
 #main {
   float: left;
   width: 70%; }
-  /* line 109, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+  /* line 120, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
   #main article img {
     max-width: 100%;
     height: auto; }
 
-/* line 112, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+/* line 123, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
 #suggested-reading {
   overflow: auto;
   overflow: hidden;
   *zoom: 1; }
-  /* line 115, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+  /* line 126, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
   #suggested-reading .suggested-reading-row {
     overflow: hidden;
     *zoom: 1;
     margin-bottom: 1em; }
-  /* line 119, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+  /* line 130, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
   #suggested-reading .suggested-reading-card {
     float: left;
     width: 32%;
     margin-left: 2%;
     padding-left: 2%;
     border-left: 1px solid #DDD; }
-    /* line 126, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+    /* line 137, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
     #suggested-reading .suggested-reading-card:nth-child(3n+1) {
       margin-left: 0;
       padding-left: 0;
       width: 32%;
       border-left: none; }
-    /* line 128, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+    /* line 139, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
     #suggested-reading .suggested-reading-card p {
       font-family: "Merriweather", serif; }
-      /* line 130, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+      /* line 141, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
       #suggested-reading .suggested-reading-card p:last-of-type a {
         font-family: "Source Sans Pro", sans-serif; }
-    /* line 133, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+    /* line 144, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
     #suggested-reading .suggested-reading-card .date {
       font-size: 80%; }
 
-/* line 140, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+/* line 151, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
 #sidebar {
   float: right;
   width: 28%;
   padding: 0 1em; }
-  /* line 142, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+  /* line 153, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
   #sidebar ol li {
     margin: 0 0 0.5em;
     overflow: hidden;
     *zoom: 1;
     border-bottom: 1px solid #DDD;
     padding-bottom: 0.5em; }
-  /* line 143, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+  /* line 154, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
   #sidebar #recent-articles {
     border-top: 1px solid #DDD;
     padding-top: 0.5em; }
-    /* line 147, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+    /* line 158, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
     #sidebar #recent-articles li a {
       font-size: 1.1em;
       float: left;
       width: 70%; }
-    /* line 148, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+    /* line 159, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
     #sidebar #recent-articles li span {
       float: right;
       width: 25%;
       text-align: right; }
-    /* line 150, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+    /* line 161, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
     #sidebar #recent-articles .feed {
       font-size: 0.6125em;
       float: right;
       padding-top: 0.25em; }
-  /* line 157, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+  /* line 168, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
   #sidebar #bio {
     overflow: hidden;
     *zoom: 1; }
-    /* line 159, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+    /* line 170, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
     #sidebar #bio .avatar {
       float: right;
       width: 80px;
@@ -222,21 +233,21 @@ html, body {
       -webkit-clip-path: circle(40px, 40px, 40px);
       -o-webkit-clip-path: circle(40px, 40px, 40px);
       -moz-webkit-clip-path: circle(40px, 40px, 40px); }
-    /* line 168, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+    /* line 179, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
     #sidebar #bio p {
       margin-bottom: 1em; }
 
-/* line 174, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+/* line 185, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
 ul, ol {
   list-style: none;
   padding-left: 0;
   overflow: hidden;
   *zoom: 1; }
-  /* line 179, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+  /* line 190, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
   ul#tags li, ol#tags li {
     float: left;
     margin: 0.5em 0.5em 0.5em 0; }
-    /* line 182, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+    /* line 193, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
     ul#tags li a, ol#tags li a {
       color: white;
       text-decoration: none;
@@ -245,11 +256,11 @@ ul, ol {
       padding: 0.25em 0.5em 0.35em;
       white-space: nowrap;
       transition: background ease 0.3s; }
-      /* line 190, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+      /* line 201, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
       ul#tags li a:hover, ol#tags li a:hover {
         background: #0080FF; }
 
-/* line 195, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+/* line 206, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
 footer {
   float: left;
   width: 100%;
@@ -258,12 +269,12 @@ footer {
   border-top: 1px solid #DDD;
   clear: both; }
 
-/* line 203, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+/* line 214, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
 .author {
   overflow: hidden;
   *zoom: 1;
   margin: 1em 0; }
-  /* line 208, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+  /* line 219, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
   .author .avatar {
     float: left;
     width: 40px;
@@ -274,71 +285,71 @@ footer {
     -moz-webkit-clip-path: circle(20px, 20px, 20px); }
 
 @media only screen and (min-width: 460px) and (max-width: 759px) {
-  /* line 220, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+  /* line 231, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
   #main {
     float: none;
     width: 100%; }
 
-  /* line 224, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+  /* line 235, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
   #sidebar {
     float: none;
     width: 100%;
     padding: 0; }
-    /* line 228, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+    /* line 239, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
     #sidebar ol li {
       margin: 0 0 0.5em;
       overflow: hidden;
       *zoom: 1;
       border-bottom: 1px solid #DDD;
       padding-bottom: 0.5em; }
-    /* line 229, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+    /* line 240, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
     #sidebar #recent-articles {
       border-top: 1px solid #DDD;
       padding-top: 0.5em; }
-      /* line 233, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+      /* line 244, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
       #sidebar #recent-articles li a {
         float: left;
         width: 80%; }
-      /* line 234, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+      /* line 245, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
       #sidebar #recent-articles li span {
         float: right;
         width: 15%; } }
 @media screen and (device-aspect-ratio: 2 / 3), screen and (device-aspect-ratio: 40 / 71) {
-  /* line 242, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+  /* line 253, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
   #main {
     float: none;
     width: 100%; }
 
-  /* line 246, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+  /* line 257, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
   #sidebar {
     float: none;
     width: 100%;
     padding: 0; }
-    /* line 250, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+    /* line 261, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
     #sidebar ol li {
       margin: 0 0 0.5em;
       overflow: hidden;
       *zoom: 1;
       border-bottom: 1px solid #DDD;
       padding-bottom: 0.5em; }
-    /* line 251, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+    /* line 262, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
     #sidebar #recent-articles {
       border-top: 1px solid #DDD;
       padding-top: 0.5em; }
-      /* line 255, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+      /* line 266, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
       #sidebar #recent-articles li a {
         float: left;
         width: 80%; }
-      /* line 256, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+      /* line 267, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
       #sidebar #recent-articles li span {
         float: right;
         width: 15%; }
 
-  /* line 261, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+  /* line 272, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
   #suggested-reading {
     overflow: hidden;
     *zoom: 1; }
-    /* line 263, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+    /* line 274, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
     #suggested-reading .suggested-reading-card {
       float: none;
       width: 100%;
@@ -347,15 +358,15 @@ footer {
       padding-left: 0;
       border-left: none;
       height: auto; }
-      /* line 271, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+      /* line 282, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
       #suggested-reading .suggested-reading-card:first-child {
         margin-left: 0;
         padding-left: 0;
         width: 100%;
         border-left: none; }
-      /* line 273, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+      /* line 284, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
       #suggested-reading .suggested-reading-card p {
         font-family: "Merriweather", serif; }
-        /* line 275, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
+        /* line 286, /Users/steve/Code/tooky.co.uk/source/stylesheets/blog.scss */
         #suggested-reading .suggested-reading-card p:last-of-type a {
           font-family: "Source Sans Pro", sans-serif; } }
