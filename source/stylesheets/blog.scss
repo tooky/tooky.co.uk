@@ -248,6 +248,26 @@ footer {
   }
 }
 
+@media screen and (max-width: 459px) {
+  #main {
+    float: none;
+    width: 100%;
+  }
+  #sidebar{
+    float: none;
+    width: 100%;
+    padding: 0;
+    ol li {margin: 0 0 0.5em; @include clearfix; border-bottom: 1px solid #DDD; padding-bottom: 0.5em;}
+    #recent-articles {
+      border-top: 1px solid #DDD;
+      padding-top: 0.5em;
+      li {
+        a {float: left; width: 80%}
+        span {float: right; width: 15%;}
+      }
+    }
+  }
+}
 
 @media screen and (device-aspect-ratio: 2/3), screen and (device-aspect-ratio: 40/71) {
   #main {
