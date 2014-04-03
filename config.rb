@@ -79,6 +79,10 @@ activate :syntax, line_numbers: false
    def author(page_data = current_page.data)
      data.people[page_data.author]
    end
+
+   def meta_tags
+     current_page.data.fetch("meta_tags") { {} }
+   end
  end
 
 set :css_dir, 'stylesheets'

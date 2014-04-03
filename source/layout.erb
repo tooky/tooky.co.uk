@@ -10,6 +10,10 @@
     <%= stylesheet_link_tag 'highlight' %>
     <%= stylesheet_link_tag 'blog' %>
     <%= javascript_include_tag 'track_outbound_links' %>
+    <% meta_tags.each do |name,value| %>
+      <meta name="<%= name %>" content="<%= value %>">
+    <% end %>
+
   </head>
   <body>
 
