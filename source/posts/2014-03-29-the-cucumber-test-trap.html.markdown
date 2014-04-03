@@ -5,6 +5,11 @@
 - cucumber
 - bdd
 - specification-by-example
+:meta_tags:
+  "twitter:card": summary
+  "twitter:site": "@tooky"
+  "twitter:title": The Cucumber Test Trap
+  "twitter:description": Slow and brittle features? Documenting everything end-to-end? Have you fallen into the Cucumber Test Trap?
 :date: 2014-03-29
 ---
 [Aslak Hellesøy][aslak01] recently wrote how cucumber is "[the world's most
