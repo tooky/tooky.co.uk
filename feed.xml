@@ -4,7 +4,33 @@
   <id>http://tooky.co.uk/</id>
   <link href="http://tooky.co.uk/"/>
   <link href="http://tooky.co.uk/feed.xml" rel="self"/>
-  <updated>2014-03-29T00:00:00Z</updated>
+  <updated>2014-05-16T15:11:00Z</updated>
+  <entry>
+    <title>Hangout with Matt Wynne and Aslak Hellesøy</title>
+    <link rel="alternate" href="http://tooky.co.uk/hangout-with-matt-wynne-and-aslak-hellesoy/"/>
+    <id>http://tooky.co.uk/hangout-with-matt-wynne-and-aslak-hellesoy/</id>
+    <published>2014-05-16T15:11:00Z</published>
+    <updated>2014-05-16T16:19:05+01:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;A few weeks ago Matt, Aslak and I held a live google hangout. Today I realised
+that I hadn&amp;rsquo;t mentioned it here. If you haven&amp;rsquo;t seen it yet you can watch it
+here:&lt;/p&gt;
+
+&lt;iframe width="560" height="315" src="//www.youtube.com/embed/P6znT1H04PE" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;p&gt;I&amp;rsquo;d love to hear what you thought about it, and what we can do better next time
+&amp;mdash; especially as next time is this Monday, and we&amp;rsquo;ll be joined by &lt;a href="http://www.sandimetz.com"&gt;Sandi
+Metz&lt;/a&gt; to talk about object-oriented design.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://plus.google.com/b/112947453773806733442/events/ck08u3ha70spbk5p467j2ip5sgs"&gt;Kickstart Academy Hangout with Sandi Metz&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Using the hangout format means that we can include screensharing, code and most
+importantly your contributions! Please let us know what you&amp;rsquo;d like to hear us
+discuss.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>The Cucumber Test Trap</title>
     <link rel="alternate" href="http://tooky.co.uk/the-cucumber-test-trap/"/>
@@ -339,36 +365,6 @@ claiming the application works!&lt;/p&gt;
 &lt;p&gt;I have more to say about that, but that&amp;rsquo;s another post.&lt;/p&gt;
 
 &lt;p&gt;For now try sitting down with with your stakeholders and use gherkin to document examples of how they expect your software to behave. Use those examples to help you when you&amp;rsquo;re writing the code, but also check the assumptions with other people on the team. Do other non-technical stakeholders find them more readable?&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>Cucumber and Full Stack Testing</title>
-    <link rel="alternate" href="http://tooky.co.uk/cucumber-and-full-stack-testing/"/>
-    <id>http://tooky.co.uk/cucumber-and-full-stack-testing/</id>
-    <published>2013-01-18T00:00:00Z</published>
-    <updated>2013-12-18T10:29:53+00:00</updated>
-    <author>
-      <name>Steve Tooke</name>
-    </author>
-    <content type="html">&lt;p&gt;There has been two similar questions asked on two different mailing lists I subscribe to (Corey Haines&amp;#39; &lt;a title="Build an app with Corey Haines" href="http://www.cleancoders.com/codecast/bawch-episode-1/show"&gt;BAWCH&lt;/a&gt; mailing list, and &lt;a href="http://rubyrogues.com/"&gt;Ruby Rogues&lt;/a&gt; Parley list). Both of these lists are private so I thought it would be worthwhile posting my answer here.&lt;/p&gt;
-
-&lt;p&gt;Both of the questions were concerned with out-side-in development, full-stack integration testing, and how much of the application needs to be tested through the entire system.&lt;/p&gt;
-
-&lt;p&gt;Firstly consider why we write &lt;a href="http://cukes.info/"&gt;cucumber&lt;/a&gt; scenarios (or &lt;a href="http://fitnesse.org/"&gt;fitnesse&lt;/a&gt; test cases). These tests are business facing acceptance tests. They are a medium through which we can engage with the business people on our team and to help us understand how the system should behave. They give us an opportunity to check &lt;em&gt;our&lt;/em&gt; understanding of what the system should do &amp;mdash; to check the &lt;em&gt;business&lt;/em&gt;&amp;rsquo;s understanding of what the system should do. We automate these tests to give the business confidence that the system behaves as expected.&lt;/p&gt;
-
-&lt;p&gt;Full-stack, end-to-end, integration tests are there to give us confidence that the system fits together correctly, that we have all the different pieces in place, and they are able to talk to each other.&lt;/p&gt;
-
-&lt;p&gt;It&amp;rsquo;s very easy to conflate these two concerns. I have worked on many systems where the business facing acceptance tests were also the end-to-end integration tests. The test runs end up being slow, and the tests are cumbersome to work with.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ve been talking about this with &lt;a href="https://twitter.com/mattwynne"&gt;Matt Wynne&lt;/a&gt; and he drew the following diagram:&lt;/p&gt;
-
-&lt;p&gt;&lt;img alt="Business Facing Acceptance Tests vs End-To-End Tests" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/business-facing-vs-end-to-end.png" /&gt;&lt;/p&gt;
-
-&lt;p&gt;The circle on the left represents the tests that we would write in cucumber (or fitnesse). The circle on the right the tests which exercise the whole system end-to-end. In the centre we have the intersection &amp;mdash; our cucumber scenarios which we run end-to-end against the whole system.&lt;/p&gt;
-
-&lt;p&gt;The key thing is that your business acceptance tests do not all have to drive the whole system end-to-end. We only a need a few scenarios to go end-to-end to give us the confidence the system as a whole is working. We can also write system tests, that aren&amp;rsquo;t part of the acceptance suite, to test specific integrations&lt;/p&gt;
-
-&lt;p&gt;Try to write acceptance tests that directly drive the domain objects. Use these to accurately describe your application&amp;rsquo;s behaviour. Focus them on the behaviour by not having them integrate the UI and the database.&lt;/p&gt;
 </content>
   </entry>
 </feed>

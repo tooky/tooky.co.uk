@@ -4,7 +4,33 @@
   <id>http://tooky.co.uk/</id>
   <link href="http://tooky.co.uk/tags/cucumber/"/>
   <link href="http://tooky.co.uk/tags/cucumber.xml" rel="self"/>
-  <updated>2014-03-29T00:00:00Z</updated>
+  <updated>2014-05-16T15:11:00Z</updated>
+  <entry>
+    <title>Hangout with Matt Wynne and Aslak Hellesøy</title>
+    <link rel="alternate" href="http://tooky.co.uk/hangout-with-matt-wynne-and-aslak-hellesoy/"/>
+    <id>http://tooky.co.uk/hangout-with-matt-wynne-and-aslak-hellesoy/</id>
+    <published>2014-05-16T15:11:00Z</published>
+    <updated>2014-05-16T16:19:05+01:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;A few weeks ago Matt, Aslak and I held a live google hangout. Today I realised
+that I hadn&amp;rsquo;t mentioned it here. If you haven&amp;rsquo;t seen it yet you can watch it
+here:&lt;/p&gt;
+
+&lt;iframe width="560" height="315" src="//www.youtube.com/embed/P6znT1H04PE" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;p&gt;I&amp;rsquo;d love to hear what you thought about it, and what we can do better next time
+&amp;mdash; especially as next time is this Monday, and we&amp;rsquo;ll be joined by &lt;a href="http://www.sandimetz.com"&gt;Sandi
+Metz&lt;/a&gt; to talk about object-oriented design.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://plus.google.com/b/112947453773806733442/events/ck08u3ha70spbk5p467j2ip5sgs"&gt;Kickstart Academy Hangout with Sandi Metz&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Using the hangout format means that we can include screensharing, code and most
+importantly your contributions! Please let us know what you&amp;rsquo;d like to hear us
+discuss.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>The Cucumber Test Trap</title>
     <link rel="alternate" href="http://tooky.co.uk/the-cucumber-test-trap/"/>
