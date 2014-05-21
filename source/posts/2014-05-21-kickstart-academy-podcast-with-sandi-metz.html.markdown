@@ -1,19 +1,20 @@
 ---
-title: Kickstart Academy Podcast with Sandi Metz
-# date: TBD When publishing
-tags:
-  - oop
-  - podcast
-  - sandi-metz
-author: tooky
+:title: Kickstart Academy Podcast with Sandi Metz
+:tags:
+- oop
+- podcast
+- sandi-metz
+:author: tooky
 :meta_tags:
-  "twitter:card": summary
-  "twitter:site": "@tooky"
-  "twitter:title": Kickstart Academy Podcast with Sandi Metz
-  "twitter:description": Sandi Metz joins Steve, Chris and Matt to discuss object oriented programming, #poodl and more...
-link: https://dl.dropboxusercontent.com/u/41915/kickstart-academy-podcast/001-sandi-metz.mp3
-length: 87243884
-duration: 1:30:52
+  twitter:card: summary
+  twitter:site: "@tooky"
+  twitter:title: Kickstart Academy Podcast with Sandi Metz
+  twitter:description: Sandi Metz joins Steve, Chris and Matt to discuss object oriented
+    programming,
+:link: https://dl.dropboxusercontent.com/u/41915/kickstart-academy-podcast/001-sandi-metz.mp3
+:length: 87243884
+:duration: 5452
+:date: 2014-05-21
 ---
 [Matt][matt], [Chris][chris] and [I][tooky] were joined yesterday by [Sandi
 Metz][sandi] for a live google hangout.
