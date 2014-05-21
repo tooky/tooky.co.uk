@@ -11,11 +11,17 @@ author: tooky
   "twitter:site": "@tooky"
   "twitter:title": Kickstart Academy Podcast with Sandi Metz
   "twitter:description": Sandi Metz joins Steve, Chris and Matt to discuss object oriented programming, #poodl and more...
+link: https://dl.dropboxusercontent.com/u/41915/kickstart-academy-podcast/001-sandi-metz.mp3
+length: 87243884
+duration: 1:30:52
 ---
 [Matt][matt], [Chris][chris] and [I][tooky] were joined yesterday by [Sandi
 Metz][sandi] for a live google hangout.
 
 <iframe width="560" height="315" src="//www.youtube.com/embed/u-d2v_8YYw4" frameborder="0" allowfullscreen></iframe>
+
+You can [download an audio only version of the podcsast
+here](https://dl.dropboxusercontent.com/u/41915/kickstart-academy-podcast/001-sandi-metz.mp3).
 
 I'd like to thank Sandi for giving us her time and her insight!
 
