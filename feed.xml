@@ -4,7 +4,100 @@
   <id>http://tooky.co.uk/</id>
   <link href="http://tooky.co.uk/"/>
   <link href="http://tooky.co.uk/feed.xml" rel="self"/>
-  <updated>2014-05-16T15:11:00Z</updated>
+  <updated>2014-05-21T00:00:00Z</updated>
+  <entry>
+    <title>Kickstart Academy Podcast with Sandi Metz</title>
+    <link rel="alternate" href="http://tooky.co.uk/kickstart-academy-podcast-with-sandi-metz/"/>
+    <id>http://tooky.co.uk/kickstart-academy-podcast-with-sandi-metz/</id>
+    <published>2014-05-21T00:00:00Z</published>
+    <updated>2014-05-21T16:16:29+01:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;a href="https://twitter.com/mattwynne"&gt;Matt&lt;/a&gt;, &lt;a href="https://twitter.com/chrismdp"&gt;Chris&lt;/a&gt; and &lt;a href="https://twitter.com/tooky"&gt;I&lt;/a&gt; were joined yesterday by &lt;a href="https://twitter.com/sandimetz"&gt;Sandi
+Metz&lt;/a&gt; for a live google hangout.&lt;/p&gt;
+
+&lt;iframe width="560" height="315" src="//www.youtube.com/embed/u-d2v_8YYw4" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;p&gt;You can &lt;a href="https://dl.dropboxusercontent.com/u/41915/kickstart-academy-podcast/001-sandi-metz.mp3"&gt;download an audio only version of the podcsast
+here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;d like to thank Sandi for giving us her time and her insight!&lt;/p&gt;
+
+&lt;p&gt;We would love to hear any thoughts you have about the show - either about the
+content or the format. We&amp;rsquo;re planning to do a live show about once a month, so
+if there&amp;rsquo;s anyone you&amp;rsquo;d like us to talk to, or any topics you&amp;rsquo;d like us to cover
+please let us know.&lt;/p&gt;
+
+&lt;p&gt;You can email us at &lt;a href="mailto:hello@bddkickstart.com"&gt;hello@bddkickstart.com&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Show notes&lt;/h2&gt;
+
+&lt;p&gt;We all had a lot of fun and covered quite a few topics:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/makaroni4/sandi_meter"&gt;The Sandi Meter&lt;/a&gt; and the (don&amp;rsquo;t call them the) &amp;ldquo;Sandi Metz&amp;rdquo; rules&lt;/li&gt;
+&lt;li&gt;Small Things&lt;/li&gt;
+&lt;li&gt;Letting go of the big picture&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;Everything I know now I cargo culted&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;Finding the sweet spot between extremes&lt;/li&gt;
+&lt;li&gt;Experimenting&lt;/li&gt;
+&lt;li&gt;Object-oriented thinking&lt;/li&gt;
+&lt;li&gt;Rails and frameworks&lt;/li&gt;
+&lt;li&gt;Testability
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://twitter.com/tomstuart"&gt;Tom Stuart&lt;/a&gt; - &lt;a href="http://codon.com/how-testability-can-help"&gt;How testability can help&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://en.wikipedia.org/wiki/Open/closed_principle"&gt;Open/Closed Principle&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Focus on the messages&lt;/li&gt;
+&lt;li&gt;Starting at the whiteboard&lt;/li&gt;
+&lt;li&gt;It&amp;rsquo;s not &lt;a href="http://geepawhill.org/?p=47"&gt;TDYAR&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;End-to-end testing vs isolated testing&lt;/li&gt;
+&lt;li&gt;Testing at different levels of granularity&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.thecodewhisperer.com/2014/05/14/the-curious-case-of-tautological-tdd/"&gt;Tautological TDD&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;TDD and driving desing&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://en.wikipedia.org/wiki/Single_responsibility_principle"&gt;Single Responsibility Principle&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Confidence&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://kickstartacademy.io/courses/practical-object-oriented-design"&gt;#POODL&lt;/a&gt; - Practical Object Oriented Design classes with Sandi and
+Matt in London&lt;/li&gt;
+&lt;li&gt;Integration tests and testing roles&lt;/li&gt;
+&lt;li&gt;Functional vs Object Oriented
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://elixir-lang.org/"&gt;Elixir&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Microservices Architecture
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://twitter.com/fgeorge52"&gt;Fred George&lt;/a&gt; on &lt;a href="http://oredev.org/2013/wed-fri-conference/implementing-micro-service-architectures"&gt;Microservices Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Readable code&lt;/li&gt;
+&lt;li&gt;Imperative vs Declarative approach&lt;/li&gt;
+&lt;li&gt;Tell Don&amp;rsquo;t Ask - What Not How&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://signup.practicalrailsbook.com/?lrRef=Ejvoln"&gt;Practical Rails Programming&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;99 Bottles of Beer&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://vimeo.com/26330100"&gt;T R U E&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://twitter.com/unclebobmartin"&gt;Uncle Bob Martin&lt;/a&gt; - &lt;a href="http://www.objectmentor.com/resources/articles/Principles_and_Patterns.pdf"&gt;Symptoms of Rotting Design&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Exemplary Code&lt;/li&gt;
+&lt;li&gt;The pattern failed me
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.youtube.com/watch?v=x1wnI0AxpEU"&gt;All the little things keynote&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Gilded rose kata&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Code Metrics
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/seattlerb/flog"&gt;Flog&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://codeclimate.com/"&gt;Code Climate&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
   <entry>
     <title>Hangout with Matt Wynne and Aslak Hellesøy</title>
     <link rel="alternate" href="http://tooky.co.uk/hangout-with-matt-wynne-and-aslak-hellesoy/"/>
@@ -326,45 +419,6 @@ reward.&lt;/p&gt;
 &lt;p&gt;Testing through the view is something you have to be wary of with any tool. It&amp;rsquo;s slow and brittle. That isn&amp;rsquo;t to say it has no value, but you don&amp;rsquo;t need every test to go through the UI. Beware the &lt;a href="http://watirmelon.com/2012/01/31/introducing-the-software-testing-ice-cream-cone/"&gt;ice cream cone&lt;/a&gt; anti-pattern.&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;ve written a little more about this &lt;a href="http://tooky.co.uk/cucumber-and-full-stack-testing/"&gt;here&lt;/a&gt;, Seb has introduced the &lt;a href="http://claysnow.co.uk/the-testing-iceberg/"&gt;Testing Iceberg&lt;/a&gt; and &lt;a href="http://mattwynne.net"&gt;Matt&lt;/a&gt; talks more about it &lt;a href="http://skillsmatter.com/podcast/agile-testing/why-your-step-definitions-should-be-one-liners-and-other-pro-tips"&gt;here&lt;/a&gt;.&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>This Gherkin's Not For Reading</title>
-    <link rel="alternate" href="http://tooky.co.uk/this-gherkins-not-for-reading/"/>
-    <id>http://tooky.co.uk/this-gherkins-not-for-reading/</id>
-    <published>2013-10-24T00:00:00Z</published>
-    <updated>2013-12-18T10:29:53+00:00</updated>
-    <author>
-      <name>Steve Tooke</name>
-    </author>
-    <content type="html">&lt;p&gt;Recently &lt;a href="http://www.8thlight.com/our-team/kevin-liddle"&gt;Kevin Liddle&lt;/a&gt; made his &lt;a href="http://blog.8thlight.com/kevin-liddle/2013/09/18/a-case-against-cucumber.html"&gt;case against cucumber&lt;/a&gt;. In the article he outlines several problems he experiences working with cucumber. One of his key arguments is that non-technical team members don&amp;rsquo;t read the scenarios written by developers.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;In theory, this is a valuable thing, a bridge between the divergent worlds of
-developers and managers. In practice, however, I’ve never seen Cucumber used
-this way. Non-technical people don’t read code, no matter how easy it is to
-read. They care about the actual use cases and that means using the
-application. And if they use the application, who cares if there is some text
-claiming the application works!&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;So why don&amp;rsquo;t non-technical people read the scenarios written by developers or testers?&lt;/p&gt;
-
-&lt;p&gt;Because they aren&amp;rsquo;t written for non-technical people to read! They probably aren&amp;rsquo;t even written with non-technical people in mind. They are written as a test script, they are written as a set of instructions for a computer to follow so they can execute a test plan. At best they&amp;rsquo;re written as set of steps that the developer will go through to get the feature finished.&lt;/p&gt;
-
-&lt;p&gt;Gherkin isn&amp;rsquo;t a scripting language for tests. Cucumber isn&amp;rsquo;t a testing tool. BDD isn&amp;rsquo;t a testing process. Kevin says that &amp;ldquo;non-technical people don&amp;rsquo;t read code&amp;rdquo; and that they &amp;ldquo;care about the actual use cases&amp;rdquo;.&lt;/p&gt;
-
-&lt;p&gt;We don&amp;rsquo;t want them to read our code, or our test plans. We want to talk to them about the behaviour, we want to discuss the impact they are looking to create and collaborate on how we can achieve that.&lt;/p&gt;
-
-&lt;p&gt;Gherkin&amp;rsquo;s value isn&amp;rsquo;t when it&amp;rsquo;s read. It&amp;rsquo;s when it&amp;rsquo;s written - it&amp;rsquo;s value is as a communication tool. It is close enough to natural language that both technical and non-technical people can collaborate but it has enough constraints to encourage thinking in terms of behaviour.&lt;/p&gt;
-
-&lt;p&gt;Writing scenarios with non-technical people, allows you to document the conversations you have about the behaviour of the system. It provides an avenue to explore new features and their value without building anything.&lt;/p&gt;
-
-&lt;p&gt;Kevin&amp;rsquo;s article goes on to highlight the value of gherkin when &amp;ldquo;gathering requirements&amp;rdquo;, but he argues that automating those scenarios using cucumber adds a level of overhead and’ indirection that is not worthwhile.&lt;/p&gt;
-
-&lt;p&gt;I have more to say about that, but that&amp;rsquo;s another post.&lt;/p&gt;
-
-&lt;p&gt;For now try sitting down with with your stakeholders and use gherkin to document examples of how they expect your software to behave. Use those examples to help you when you&amp;rsquo;re writing the code, but also check the assumptions with other people on the team. Do other non-technical stakeholders find them more readable?&lt;/p&gt;
 </content>
   </entry>
 </feed>

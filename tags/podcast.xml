@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Steve Tooke - podcast</title>
+  <id>http://tooky.co.uk/</id>
+  <link href="http://tooky.co.uk/tags/podcast/"/>
+  <link href="http://tooky.co.uk/tags/podcast.xml" rel="self"/>
+  <updated>2014-05-21T00:00:00Z</updated>
+  <entry>
+    <title>Kickstart Academy Podcast with Sandi Metz</title>
+    <link rel="alternate" href="http://tooky.co.uk/kickstart-academy-podcast-with-sandi-metz/"/>
+    <id>http://tooky.co.uk/kickstart-academy-podcast-with-sandi-metz/</id>
+    <published>2014-05-21T00:00:00Z</published>
+    <updated>2014-05-21T16:16:29+01:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;a href="https://twitter.com/mattwynne"&gt;Matt&lt;/a&gt;, &lt;a href="https://twitter.com/chrismdp"&gt;Chris&lt;/a&gt; and &lt;a href="https://twitter.com/tooky"&gt;I&lt;/a&gt; were joined yesterday by &lt;a href="https://twitter.com/sandimetz"&gt;Sandi
+Metz&lt;/a&gt; for a live google hangout.&lt;/p&gt;
+
+&lt;iframe width="560" height="315" src="//www.youtube.com/embed/u-d2v_8YYw4" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;p&gt;You can &lt;a href="https://dl.dropboxusercontent.com/u/41915/kickstart-academy-podcast/001-sandi-metz.mp3"&gt;download an audio only version of the podcsast
+here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;d like to thank Sandi for giving us her time and her insight!&lt;/p&gt;
+
+&lt;p&gt;We would love to hear any thoughts you have about the show - either about the
+content or the format. We&amp;rsquo;re planning to do a live show about once a month, so
+if there&amp;rsquo;s anyone you&amp;rsquo;d like us to talk to, or any topics you&amp;rsquo;d like us to cover
+please let us know.&lt;/p&gt;
+
+&lt;p&gt;You can email us at &lt;a href="mailto:hello@bddkickstart.com"&gt;hello@bddkickstart.com&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Show notes&lt;/h2&gt;
+
+&lt;p&gt;We all had a lot of fun and covered quite a few topics:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/makaroni4/sandi_meter"&gt;The Sandi Meter&lt;/a&gt; and the (don&amp;rsquo;t call them the) &amp;ldquo;Sandi Metz&amp;rdquo; rules&lt;/li&gt;
+&lt;li&gt;Small Things&lt;/li&gt;
+&lt;li&gt;Letting go of the big picture&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;Everything I know now I cargo culted&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;Finding the sweet spot between extremes&lt;/li&gt;
+&lt;li&gt;Experimenting&lt;/li&gt;
+&lt;li&gt;Object-oriented thinking&lt;/li&gt;
+&lt;li&gt;Rails and frameworks&lt;/li&gt;
+&lt;li&gt;Testability
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://twitter.com/tomstuart"&gt;Tom Stuart&lt;/a&gt; - &lt;a href="http://codon.com/how-testability-can-help"&gt;How testability can help&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://en.wikipedia.org/wiki/Open/closed_principle"&gt;Open/Closed Principle&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Focus on the messages&lt;/li&gt;
+&lt;li&gt;Starting at the whiteboard&lt;/li&gt;
+&lt;li&gt;It&amp;rsquo;s not &lt;a href="http://geepawhill.org/?p=47"&gt;TDYAR&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;End-to-end testing vs isolated testing&lt;/li&gt;
+&lt;li&gt;Testing at different levels of granularity&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.thecodewhisperer.com/2014/05/14/the-curious-case-of-tautological-tdd/"&gt;Tautological TDD&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;TDD and driving desing&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://en.wikipedia.org/wiki/Single_responsibility_principle"&gt;Single Responsibility Principle&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Confidence&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://kickstartacademy.io/courses/practical-object-oriented-design"&gt;#POODL&lt;/a&gt; - Practical Object Oriented Design classes with Sandi and
+Matt in London&lt;/li&gt;
+&lt;li&gt;Integration tests and testing roles&lt;/li&gt;
+&lt;li&gt;Functional vs Object Oriented
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://elixir-lang.org/"&gt;Elixir&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Microservices Architecture
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://twitter.com/fgeorge52"&gt;Fred George&lt;/a&gt; on &lt;a href="http://oredev.org/2013/wed-fri-conference/implementing-micro-service-architectures"&gt;Microservices Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Readable code&lt;/li&gt;
+&lt;li&gt;Imperative vs Declarative approach&lt;/li&gt;
+&lt;li&gt;Tell Don&amp;rsquo;t Ask - What Not How&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://signup.practicalrailsbook.com/?lrRef=Ejvoln"&gt;Practical Rails Programming&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;99 Bottles of Beer&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://vimeo.com/26330100"&gt;T R U E&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://twitter.com/unclebobmartin"&gt;Uncle Bob Martin&lt;/a&gt; - &lt;a href="http://www.objectmentor.com/resources/articles/Principles_and_Patterns.pdf"&gt;Symptoms of Rotting Design&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Exemplary Code&lt;/li&gt;
+&lt;li&gt;The pattern failed me
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.youtube.com/watch?v=x1wnI0AxpEU"&gt;All the little things keynote&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Gilded rose kata&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Code Metrics
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/seattlerb/flog"&gt;Flog&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://codeclimate.com/"&gt;Code Climate&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+</feed>
