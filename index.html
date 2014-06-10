@@ -84,13 +84,20 @@ to load the correct ruby environment.</p>
 
 <p>I can now use this function in a project <code>.envrc</code> to load ruby before I modify
 the path:</p>
-<pre class="highlight shell">use_ruby
+<pre class="highlight shell">use ruby
 PATH_add bin
 </pre>
 
+<p>You can also pass a ruby version to the <code>use_ruby</code> function:</p>
+<pre class="highlight shell">use ruby 2.1
+PATH_add bin
+</pre>
+
+<p>If you don&rsquo;t want to use a <code>.ruby-version</code> file.</p>
+
 <p>This seems to work really well. The only downside is that I don&rsquo;t have
 autoswitching of ruby versions anymore &mdash; unless I decide that&rsquo;s what
-I want, so I have to be explicit about that.</p>
+I want. I don&rsquo;t think its too bad to have to be explicit about that.</p>
 
   </section>
 </article>
