@@ -57,13 +57,22 @@ I can now use this function in a project `.envrc` to load ruby before I modify
 the path:
 
 ```sh
-use_ruby
+use ruby
 PATH_add bin
 ```
 
+You can also pass a ruby version to the `use_ruby` function:
+
+```sh
+use ruby 2.1
+PATH_add bin
+```
+
+If you don't want to use a `.ruby-version` file.
+
 This seems to work really well. The only downside is that I don't have
 autoswitching of ruby versions anymore &mdash; unless I decide that's what
-I want, so I have to be explicit about that.
+I want. I don't think its too bad to have to be explicit about that.
 
 [chruby]: https://github.com/postmodern/chruby
 [bundler]: http://bundler.io
