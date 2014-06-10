@@ -29,15 +29,77 @@
     <div id="main" role="main">
       <article>
   <header>
-    <h1><a href="/kickstart-academy-podcast-with-sandi-metz/">Kickstart Academy Podcast with Sandi Metz</a> </h1>
+    <h1><a href="/using-direnv-and-chruby-together/">Using `direnv` and `chruby` together</a> </h1>
     <section class="author">
       <img class="avatar" src="/images/tooky-avatar.jpg">
       <p class="byline">by Steve Tooke</p>
-      <time datetime="2014-05-21" itemprop="datePublished">May 21st, 2014</time>
+      <time datetime="2014-06-10" itemprop="datePublished">June 10th, 2014</time>
     </section>
   </header>
   <section class="article-body">
-    <p><a href="https://twitter.com/mattwynne">Matt</a>, <a href="https://twitter.com/chrismdp">Chris</a> and <a href="https://twitter.com/tooky">I</a> were joined yesterday by <a href="https://twitter.com/sandimetz">Sandi
+    <p>I&rsquo;ve been using <a href="https://github.com/postmodern/chruby"><code>chruby</code></a> to manage my ruby versions for a few
+months &mdash; I like it&rsquo;s lightweight approach.</p>
+
+<p>A combination of <a href="http://bundler.io">bundler&rsquo;s</a> <a href="http://robots.thoughtbot.com/use-bundlers-binstubs">binstubs</a>, the introduction
+of rails 4 introducing the <code>bin</code> directory and trying to <a href="http://12factor.net">use the
+environment to configure my apps</a> has meant I wanted a way to
+to manage my environment on a per project basis.</p>
+
+<p>I&rsquo;ve tried using <a href="https://github.com/bkeepers/dotenv">dotenv</a>, which works well for ruby projects, and for
+setting environment variables to be used by your app &mdash; but, as far as
+I can tell, it doesn&rsquo;t actually modify your environment. So setting your <code>PATH</code>
+to select the correct binary, e.g. <code>bin/rails</code> in a rails app, won&rsquo;t work.</p>
+
+<p>Enter <a href="https://github.com/zimbatm/direnv"><code>direnv</code></a>. <code>direnv</code> looks for a <code>.envrc</code> file in a directory and
+loads any thing there into your environment. You have to specifically allow
+direnv to load a file, and it tracks modifications to the file. It&rsquo;s very nice.</p>
+
+<p>Unfortunately, I had a problem using it alongside <code>chruby</code> &mdash; everytime
+I entered a directory <code>direnv</code> would do it&rsquo;s thing and then <code>chruby</code> would
+follow suit, and I could never quite get the result I wanted! For example, I&rsquo;d
+have the right version of ruby, but the wrong <code>PATH</code> &amp;mdash or the right <code>PATH</code>
+with the wrong ruby.</p>
+
+<p>To fix this I removed <code>chruby</code>&rsquo;s auto switching feature from my default
+environment, and based on a suggestion <a href="https://github.com/zimbatm/direnv/issues/98">here</a> added a <code>use_ruby</code>
+function to my <code>~/.direnvrc</code>:</p>
+<pre class="highlight shell"><span class="nb">source</span> /usr/local/share/chruby/chruby.sh
+
+<span class="c"># use ruby [version]</span>
+use_ruby<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">local </span><span class="nv">ver</span><span class="o">=</span><span class="nv">$1</span>
+  <span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$ver</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="o">[[</span> -f .ruby-version <span class="o">]]</span>; <span class="k">then
+    </span><span class="nv">ver</span><span class="o">=</span><span class="k">$(</span>cat .ruby-version<span class="k">)</span>
+  <span class="k">fi
+  if</span> <span class="o">[[</span> -z <span class="nv">$ver</span> <span class="o">]]</span>; <span class="k">then
+    </span><span class="nb">echo </span>Unknown ruby version
+    <span class="nb">exit </span>1
+  <span class="k">fi
+  </span>chruby <span class="nv">$ver</span>
+<span class="o">}</span>
+</pre>
+
+<p>This checks for a <code>.ruby-version</code> file, and, if it finds one, defers to <code>chruby</code>
+to load the correct ruby environment.</p>
+
+<p>I can now use this function in a project <code>.envrc</code> to load ruby before I modify
+the path:</p>
+<pre class="highlight shell">use_ruby
+PATH_add bin
+</pre>
+
+<p>This seems to work really well. The only downside is that I don&rsquo;t have
+autoswitching of ruby versions anymore &mdash; unless I decide that&rsquo;s what
+I want, so I have to be explicit about that.</p>
+
+  </section>
+</article>
+
+<ul id="suggested-reading">
+  
+    <li class="suggested-reading-card">
+      <h2><a href="/kickstart-academy-podcast-with-sandi-metz/">Kickstart Academy Podcast with Sandi Metz</a></h2>
+      <p><a href="https://twitter.com/mattwynne">Matt</a>, <a href="https://twitter.com/chrismdp">Chris</a> and <a href="https://twitter.com/tooky">I</a> were joined yesterday by <a href="https://twitter.com/sandimetz">Sandi
 Metz</a> for a live google hangout.</p>
 
 <iframe width="560" height="315" src="//www.youtube.com/embed/u-d2v_8YYw4" frameborder="0" allowfullscreen></iframe>
@@ -45,85 +107,12 @@ Metz</a> for a live google hangout.</p>
 <p>You can <a href="https://dl.dropboxusercontent.com/u/41915/kickstart-academy-podcast/001-sandi-metz.mp3">download an audio only version of the podcsast
 here</a>.</p>
 
-<p>I&rsquo;d like to thank Sandi for giving us her time and her insight!</p>
+<p>I’d like to thank Sandi for giving us her time and her insight!</p>
 
 <p>We would love to hear any thoughts you have about the show - either about the
-content or the format. We&rsquo;re planning to do a live show about once a month, so
-if there&rsquo;s anyone you&rsquo;d like us to talk to, or any topics you&rsquo;d like us to cover
-please let us know.</p>
-
-<p>You can email us at <a href="mailto:hello@bddkickstart.com">hello@bddkickstart.com</a>.</p>
-
-<h2>Show notes</h2>
-
-<p>We all had a lot of fun and covered quite a few topics:</p>
-
-<ul>
-<li><a href="https://github.com/makaroni4/sandi_meter">The Sandi Meter</a> and the (don&rsquo;t call them the) &ldquo;Sandi Metz&rdquo; rules</li>
-<li>Small Things</li>
-<li>Letting go of the big picture</li>
-<li>&ldquo;Everything I know now I cargo culted&rdquo;</li>
-<li>Finding the sweet spot between extremes</li>
-<li>Experimenting</li>
-<li>Object-oriented thinking</li>
-<li>Rails and frameworks</li>
-<li>Testability
-
-<ul>
-<li><a href="https://twitter.com/tomstuart">Tom Stuart</a> - <a href="http://codon.com/how-testability-can-help">How testability can help</a></li>
-</ul></li>
-<li><a href="http://en.wikipedia.org/wiki/Open/closed_principle">Open/Closed Principle</a></li>
-<li>Focus on the messages</li>
-<li>Starting at the whiteboard</li>
-<li>It&rsquo;s not <a href="http://geepawhill.org/?p=47">TDYAR</a></li>
-<li>End-to-end testing vs isolated testing</li>
-<li>Testing at different levels of granularity</li>
-<li><a href="http://blog.thecodewhisperer.com/2014/05/14/the-curious-case-of-tautological-tdd/">Tautological TDD</a></li>
-<li>TDD and driving desing</li>
-<li><a href="http://en.wikipedia.org/wiki/Single_responsibility_principle">Single Responsibility Principle</a></li>
-<li>Confidence</li>
-<li><a href="http://kickstartacademy.io/courses/practical-object-oriented-design">#POODL</a> - Practical Object Oriented Design classes with Sandi and
-Matt in London</li>
-<li>Integration tests and testing roles</li>
-<li>Functional vs Object Oriented
-
-<ul>
-<li><a href="http://elixir-lang.org/">Elixir</a></li>
-</ul></li>
-<li>Microservices Architecture
-
-<ul>
-<li><a href="https://twitter.com/fgeorge52">Fred George</a> on <a href="http://oredev.org/2013/wed-fri-conference/implementing-micro-service-architectures">Microservices Architecture</a></li>
-</ul></li>
-<li>Readable code</li>
-<li>Imperative vs Declarative approach</li>
-<li>Tell Don&rsquo;t Ask - What Not How</li>
-<li><a href="http://signup.practicalrailsbook.com/?lrRef=Ejvoln">Practical Rails Programming</a></li>
-<li>99 Bottles of Beer</li>
-<li><a href="http://vimeo.com/26330100">T R U E</a>
-
-<ul>
-<li><a href="https://twitter.com/unclebobmartin">Uncle Bob Martin</a> - <a href="http://www.objectmentor.com/resources/articles/Principles_and_Patterns.pdf">Symptoms of Rotting Design</a></li>
-</ul></li>
-<li>Exemplary Code</li>
-<li>The pattern failed me
-
-<ul>
-<li><a href="https://www.youtube.com/watch?v=x1wnI0AxpEU">All the little things keynote</a></li>
-<li>Gilded rose kata</li>
-</ul></li>
-<li>Code Metrics
-
-<ul>
-<li><a href="https://github.com/seattlerb/flog">Flog</a></li>
-<li><a href="https://codeclimate.com/">Code Climate</a></li>
-</ul></li>
-</ul>
-
-  </section>
-</article>
-
-<ul id="suggested-reading">
+content or...</p>
+      <a href="/kickstart-academy-podcast-with-sandi-metz/">Read more…</a>
+    </li>
   
     <li class="suggested-reading-card">
       <h2><a href="/hangout-with-matt-wynne-and-aslak-hellesoy/">Hangout with Matt Wynne and Aslak Hellesøy</a></h2>
@@ -153,14 +142,6 @@ deliver it.</p>
       <a href="/the-cucumber-test-trap/">Read more…</a>
     </li>
   
-    <li class="suggested-reading-card">
-      <h2><a href="/discovering-bdd/">Discovering BDD</a></h2>
-      <p>I graduated from UMIST in 2002 with a Software Engineering degree, and I started work with a company who provided document scanning services, mostly to the public sector - NHS trusts and local authorities. I came into the company thinking I knew it all - I had a software engineering degreee!</p>
-
-<p>Wow...</p>
-      <a href="/discovering-bdd/">Read more…</a>
-    </li>
-  
 </ul>
 
     </div>
@@ -172,6 +153,8 @@ deliver it.</p>
           <a href="/feed.xml" class="feed" title="Subscribe!"><i class="fa fa-rss"></i></a>
         </h2>
         
+          <li><a href="/using-direnv-and-chruby-together/">Using `direnv` and `chruby` together</a> <span>Jun 10</span></li>
+        
           <li><a href="/kickstart-academy-podcast-with-sandi-metz/">Kickstart Academy Podcast with Sandi Metz</a> <span>May 21</span></li>
         
           <li><a href="/hangout-with-matt-wynne-and-aslak-hellesoy/">Hangout with Matt Wynne and Aslak Hellesøy</a> <span>May 16</span></li>
@@ -179,8 +162,6 @@ deliver it.</p>
           <li><a href="/the-cucumber-test-trap/">The Cucumber Test Trap</a> <span>Mar 29</span></li>
         
           <li><a href="/discovering-bdd/">Discovering BDD</a> <span>Dec 11</span></li>
-        
-          <li><a href="/learning-by-teaching/">Learning by Teaching</a> <span>Nov  6</span></li>
         
       </ol>
 
@@ -203,9 +184,13 @@ deliver it.</p>
         
           <li><a href="/tags/cucumber/">cucumber</a></a></li>
         
+          <li><a href="/tags/dev/">dev</a></a></li>
+        
           <li><a href="/tags/development/">development</a></a></li>
         
           <li><a href="/tags/eden/">eden</a></a></li>
+        
+          <li><a href="/tags/environment/">environment</a></a></li>
         
           <li><a href="/tags/fitnesse/">fitnesse</a></a></li>
         

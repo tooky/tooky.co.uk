@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Steve Tooke - environment</title>
+  <id>http://tooky.co.uk/</id>
+  <link href="http://tooky.co.uk/tags/environment/"/>
+  <link href="http://tooky.co.uk/tags/environment.xml" rel="self"/>
+  <updated>2014-06-10T00:00:00Z</updated>
+  <entry>
+    <title>Using `direnv` and `chruby` together</title>
+    <link rel="alternate" href="http://tooky.co.uk/using-direnv-and-chruby-together/"/>
+    <id>http://tooky.co.uk/using-direnv-and-chruby-together/</id>
+    <published>2014-06-10T00:00:00Z</published>
+    <updated>2014-06-10T06:53:56+01:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;I&amp;rsquo;ve been using &lt;a href="https://github.com/postmodern/chruby"&gt;&lt;code&gt;chruby&lt;/code&gt;&lt;/a&gt; to manage my ruby versions for a few
+months &amp;mdash; I like it&amp;rsquo;s lightweight approach.&lt;/p&gt;
+
+&lt;p&gt;A combination of &lt;a href="http://bundler.io"&gt;bundler&amp;rsquo;s&lt;/a&gt; &lt;a href="http://robots.thoughtbot.com/use-bundlers-binstubs"&gt;binstubs&lt;/a&gt;, the introduction
+of rails 4 introducing the &lt;code&gt;bin&lt;/code&gt; directory and trying to &lt;a href="http://12factor.net"&gt;use the
+environment to configure my apps&lt;/a&gt; has meant I wanted a way to
+to manage my environment on a per project basis.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve tried using &lt;a href="https://github.com/bkeepers/dotenv"&gt;dotenv&lt;/a&gt;, which works well for ruby projects, and for
+setting environment variables to be used by your app &amp;mdash; but, as far as
+I can tell, it doesn&amp;rsquo;t actually modify your environment. So setting your &lt;code&gt;PATH&lt;/code&gt;
+to select the correct binary, e.g. &lt;code&gt;bin/rails&lt;/code&gt; in a rails app, won&amp;rsquo;t work.&lt;/p&gt;
+
+&lt;p&gt;Enter &lt;a href="https://github.com/zimbatm/direnv"&gt;&lt;code&gt;direnv&lt;/code&gt;&lt;/a&gt;. &lt;code&gt;direnv&lt;/code&gt; looks for a &lt;code&gt;.envrc&lt;/code&gt; file in a directory and
+loads any thing there into your environment. You have to specifically allow
+direnv to load a file, and it tracks modifications to the file. It&amp;rsquo;s very nice.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, I had a problem using it alongside &lt;code&gt;chruby&lt;/code&gt; &amp;mdash; everytime
+I entered a directory &lt;code&gt;direnv&lt;/code&gt; would do it&amp;rsquo;s thing and then &lt;code&gt;chruby&lt;/code&gt; would
+follow suit, and I could never quite get the result I wanted! For example, I&amp;rsquo;d
+have the right version of ruby, but the wrong &lt;code&gt;PATH&lt;/code&gt; &amp;amp;mdash or the right &lt;code&gt;PATH&lt;/code&gt;
+with the wrong ruby.&lt;/p&gt;
+
+&lt;p&gt;To fix this I removed &lt;code&gt;chruby&lt;/code&gt;&amp;rsquo;s auto switching feature from my default
+environment, and based on a suggestion &lt;a href="https://github.com/zimbatm/direnv/issues/98"&gt;here&lt;/a&gt; added a &lt;code&gt;use_ruby&lt;/code&gt;
+function to my &lt;code&gt;~/.direnvrc&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class="highlight shell"&gt;&lt;span class="nb"&gt;source&lt;/span&gt; /usr/local/share/chruby/chruby.sh
+
+&lt;span class="c"&gt;# use ruby [version]&lt;/span&gt;
+use_ruby&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="nb"&gt;local &lt;/span&gt;&lt;span class="nv"&gt;ver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; -z &lt;span class="nv"&gt;$ver&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; -f .ruby-version &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then
+    &lt;/span&gt;&lt;span class="nv"&gt;ver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;cat .ruby-version&lt;span class="k"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;fi
+  if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; -z &lt;span class="nv"&gt;$ver&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;; &lt;span class="k"&gt;then
+    &lt;/span&gt;&lt;span class="nb"&gt;echo &lt;/span&gt;Unknown ruby version
+    &lt;span class="nb"&gt;exit &lt;/span&gt;1
+  &lt;span class="k"&gt;fi
+  &lt;/span&gt;chruby &lt;span class="nv"&gt;$ver&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;This checks for a &lt;code&gt;.ruby-version&lt;/code&gt; file, and, if it finds one, defers to &lt;code&gt;chruby&lt;/code&gt;
+to load the correct ruby environment.&lt;/p&gt;
+
+&lt;p&gt;I can now use this function in a project &lt;code&gt;.envrc&lt;/code&gt; to load ruby before I modify
+the path:&lt;/p&gt;
+&lt;pre class="highlight shell"&gt;use_ruby
+PATH_add bin
+&lt;/pre&gt;
+
+&lt;p&gt;This seems to work really well. The only downside is that I don&amp;rsquo;t have
+autoswitching of ruby versions anymore &amp;mdash; unless I decide that&amp;rsquo;s what
+I want, so I have to be explicit about that.&lt;/p&gt;
+</content>
+  </entry>
+</feed>
