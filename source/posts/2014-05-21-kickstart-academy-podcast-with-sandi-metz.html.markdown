@@ -19,6 +19,8 @@
 [Matt][matt], [Chris][chris] and [I][tooky] were joined yesterday by [Sandi
 Metz][sandi] for a live google hangout.
 
+(READMORE)
+
 <iframe width="560" height="315" src="//www.youtube.com/embed/u-d2v_8YYw4" frameborder="0" allowfullscreen></iframe>
 
 You can [download an audio only version of the podcsast

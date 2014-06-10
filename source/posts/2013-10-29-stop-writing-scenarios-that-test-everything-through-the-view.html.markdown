@@ -6,7 +6,7 @@
 ---
 Following on from my [last post][gherkin-reading], I wanted to mention a common anti-pattern that [Kevin's case against cucumber][case-against] mentioned. Scenarios that are too focussed on the user interface. Scenarios written as an imperative set of instructions for a machine to follow.
 
-READMORE
+(READMORE)
 
 Scenarios like this.
 

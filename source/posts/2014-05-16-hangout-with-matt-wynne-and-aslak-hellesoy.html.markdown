@@ -18,6 +18,8 @@ A few weeks ago Matt, Aslak and I held a live google hangout. Today I realised
 that I hadn't mentioned it here. If you haven't seen it yet you can watch it
 here:
 
+(READMORE)
+
 <iframe width="560" height="315" src="//www.youtube.com/embed/P6znT1H04PE" frameborder="0" allowfullscreen></iframe>
 
 I'd love to hear what you thought about it, and what we can do better next time
