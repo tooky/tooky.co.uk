@@ -77,7 +77,7 @@ activate :syntax, line_numbers: false
 # Methods defined in the helpers block are available in templates
  helpers do
    def author(page_data = current_page.data)
-     data.people[page_data.author]
+     data.people[page_data.author || "tooky"]
    end
 
    def meta_tags
