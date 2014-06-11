@@ -40,7 +40,7 @@ version of `libicu` installed by `apt`.
 
 My solution builds upon the previous solution, but rather than use a custom
 version of the `heroku-buildpack-apt` I have added one more buildpack into the
-mix &mdash [`heroku-bundle-config`][heroku-bundle-config].
+mix &mdash; [`heroku-bundle-config`][heroku-bundle-config].
 
 This buildpack allows you to configure your heroku bundler config in your
 repository in the `.heroku-bundle` directory. During the build it will move this
