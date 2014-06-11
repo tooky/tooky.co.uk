@@ -10,7 +10,7 @@
     <link rel="alternate" href="http://tooky.co.uk/using-charklock_holmes-on-heroku/"/>
     <id>http://tooky.co.uk/using-charklock_holmes-on-heroku/</id>
     <published>2014-06-11T00:00:00Z</published>
-    <updated>2014-06-11T13:52:38+01:00</updated>
+    <updated>2014-06-11T13:58:54+01:00</updated>
     <author>
       <name>Steve Tooke</name>
     </author>
@@ -46,7 +46,7 @@ version of &lt;code&gt;libicu&lt;/code&gt; installed by &lt;code&gt;apt&lt;/code
 
 &lt;p&gt;My solution builds upon the previous solution, but rather than use a custom
 version of the &lt;code&gt;heroku-buildpack-apt&lt;/code&gt; I have added one more buildpack into the
-mix &amp;amp;mdash &lt;a href="https://github.com/timolehto/heroku-bundle-config"&gt;&lt;code&gt;heroku-bundle-config&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+mix &amp;mdash; &lt;a href="https://github.com/timolehto/heroku-bundle-config"&gt;&lt;code&gt;heroku-bundle-config&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;This buildpack allows you to configure your heroku bundler config in your
 repository in the &lt;code&gt;.heroku-bundle&lt;/code&gt; directory. During the build it will move this
