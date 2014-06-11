@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Steve Tooke - deploymnent</title>
+  <id>http://tooky.co.uk/</id>
+  <link href="http://tooky.co.uk/tags/deploymnent/"/>
+  <link href="http://tooky.co.uk/tags/deploymnent.xml" rel="self"/>
+  <updated>2014-06-11T00:00:00Z</updated>
+  <entry>
+    <title>Using charklock_holmes on Heroku</title>
+    <link rel="alternate" href="http://tooky.co.uk/using-charklock_holmes-on-heroku/"/>
+    <id>http://tooky.co.uk/using-charklock_holmes-on-heroku/</id>
+    <published>2014-06-11T00:00:00Z</published>
+    <updated>2014-06-11T13:52:38+01:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;a href="https://github.com/brianmario/charlock_holmes"&gt;&lt;code&gt;charlock_holmes&lt;/code&gt;&lt;/a&gt; is a useful gem if you have to deal with
+user supplied data which may come in a variety of text-encodings. Not only does
+it enable you to detect the encoding of a string, but it also allows you to
+transcode the string to a different encoding.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;charklock_holmes&lt;/code&gt; uses &lt;a href="http://site.icu-project.org"&gt;&lt;code&gt;libicu&lt;/code&gt;&lt;/a&gt; to deal with string encoding.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, the default &lt;a href="https://www.heroku.com"&gt;Heroku&lt;/a&gt; buildpack for Ruby doesn&amp;rsquo;t include
+&lt;code&gt;libicu&lt;/code&gt; which prevents bundler from being able to compile &lt;code&gt;charklock_holmes&lt;/code&gt;
+C-extension.&lt;/p&gt;
+
+&lt;p&gt;There have been a few attempts at solving this problem, most of which are
+discussed over on &lt;a href="http://stackoverflow.com/questions/18926574/how-to-install-charlock-holmes-dependency-libicu-dev-on-heroku"&gt;stack overflow&lt;/a&gt;. The &lt;a href="http://stackoverflow.com/a/18926982/223996"&gt;accepted
+answer&lt;/a&gt; is a common solution, which relies on using
+a version of the gem which includes a bundled version of &lt;code&gt;libicu&lt;/code&gt;. While this
+works, it does result in very slow build times both on heroku, and locally when
+doing a bundle install.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://stackoverflow.com/a/20507705/223996"&gt;Another solution&lt;/a&gt; uses a custom version of the ruby
+buildpack which includes &lt;code&gt;libicu&lt;/code&gt; &amp;mdash; while this is a simple solution it
+relies on the maintainer of that solution keeping it up to date with heroku&amp;rsquo;s
+ruby buildpack.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://stackoverflow.com/a/22662875/223996"&gt;My favourite solution&lt;/a&gt; seems to move in the right direction,
+it uses &lt;a href="https://github.com/ddollar/heroku-buildpack-multi"&gt;&lt;code&gt;heroku-buildpack-multi&lt;/code&gt;&lt;/a&gt; and
+&lt;a href="https://github.com/ddollar/heroku-buildpack-apt"&gt;&lt;code&gt;heroku-buildpack-apt&lt;/code&gt;&lt;/a&gt; to install &lt;code&gt;libicu&lt;/code&gt; using apt.
+Unfortunately it uses a forked version of the &lt;code&gt;heroku-buildpack-apt&lt;/code&gt; which
+adds specific behaviour for &lt;code&gt;charlock_holmes&lt;/code&gt; and where &lt;code&gt;bundler&lt;/code&gt; can find the
+version of &lt;code&gt;libicu&lt;/code&gt; installed by &lt;code&gt;apt&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;My solution builds upon the previous solution, but rather than use a custom
+version of the &lt;code&gt;heroku-buildpack-apt&lt;/code&gt; I have added one more buildpack into the
+mix &amp;amp;mdash &lt;a href="https://github.com/timolehto/heroku-bundle-config"&gt;&lt;code&gt;heroku-bundle-config&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This buildpack allows you to configure your heroku bundler config in your
+repository in the &lt;code&gt;.heroku-bundle&lt;/code&gt; directory. During the build it will move this
+directory to &lt;code&gt;.bundle&lt;/code&gt;, and most importantly, make sure that all &lt;code&gt;/app&lt;/code&gt; paths
+point correctly to the temporary build directory.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve created a &lt;a href="https://github.com/tooky/heroku-charlock-holmes"&gt;sample project&lt;/a&gt;, that can be &lt;a href="http://heroku-charlock-holmes.herokuapp.com"&gt;deployed to heroku&lt;/a&gt; – the only thing
+you need to do is ensure that you have set the &lt;code&gt;BUILDPACK_URL&lt;/code&gt; to
+&lt;code&gt;https://github.com/ddollar/heroku-buildpack-multi.git&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;$ heroku config:set BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
+&lt;/pre&gt;
+
+&lt;p&gt;When you push to heroku, this buildpack will check for a &lt;code&gt;.buildpacks&lt;/code&gt; file,
+which specify the different buildpacks you want to use:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;https://github.com/ddollar/heroku-buildpack-apt
+https://github.com/timolehto/heroku-bundle-config
+https://github.com/heroku/heroku-buildpack-ruby
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;heroku-buildpack-apt&lt;/code&gt; will then check for an &lt;code&gt;Aptfile&lt;/code&gt; and install the
+specified packages:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;libicu-dev
+&lt;/pre&gt;
+
+&lt;p&gt;Finally, you need to configure you &lt;code&gt;.heroku-bundle/config&lt;/code&gt; to make sure that
+&lt;code&gt;bundler&lt;/code&gt; can use your newly installed version of &lt;code&gt;libicu&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;---
+BUNDLE_FROZEN: '1'
+BUNDLE_PATH: vendor/bundle
+BUNDLE_BIN: vendor/bundle/bin
+BUNDLE_JOBS: 4
+BUNDLE_WITHOUT: development:test
+BUNDLE_DISABLE_SHARED_GEMS: '1'
+BUNDLE_BUILD__CHARLOCK_HOLMES: --with-icu-lib=/app/.apt/usr/lib --with-icu-include=/app/.apt/usr/include
+&lt;/pre&gt;
+
+&lt;p&gt;That should be all you need.&lt;/p&gt;
+</content>
+  </entry>
+</feed>

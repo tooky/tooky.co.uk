@@ -29,80 +29,101 @@
     <div id="main" role="main">
       <article>
   <header>
-    <h1><a href="/using-direnv-and-chruby-together/">Using `direnv` and `chruby` together</a> </h1>
+    <h1><a href="/using-charklock_holmes-on-heroku/">Using charklock_holmes on Heroku</a> </h1>
     <section class="author">
       <img class="avatar" src="/images/tooky-avatar.jpg">
       <p class="byline">by Steve Tooke</p>
-      <time datetime="2014-06-10" itemprop="datePublished">June 10th, 2014</time>
+      <time datetime="2014-06-11" itemprop="datePublished">June 11th, 2014</time>
     </section>
   </header>
   <section class="article-body">
-    <p>I&rsquo;ve been using <a href="https://github.com/postmodern/chruby"><code>chruby</code></a> to manage my ruby versions for a few
-months &mdash; I like it&rsquo;s lightweight approach.</p>
+    <p><a href="https://github.com/brianmario/charlock_holmes"><code>charlock_holmes</code></a> is a useful gem if you have to deal with
+user supplied data which may come in a variety of text-encodings. Not only does
+it enable you to detect the encoding of a string, but it also allows you to
+transcode the string to a different encoding.</p>
 
-<p>A combination of <a href="http://bundler.io">bundler&rsquo;s</a> <a href="http://robots.thoughtbot.com/use-bundlers-binstubs">binstubs</a>, the introduction
-of rails 4 introducing the <code>bin</code> directory and trying to <a href="http://12factor.net">use the
-environment to configure my apps</a> has meant I wanted a way to
-to manage my environment on a per project basis.</p>
+<p><code>charklock_holmes</code> uses <a href="http://site.icu-project.org"><code>libicu</code></a> to deal with string encoding.</p>
 
-<p>I&rsquo;ve tried using <a href="https://github.com/bkeepers/dotenv">dotenv</a>, which works well for ruby projects, and for
-setting environment variables to be used by your app &mdash; but, as far as
-I can tell, it doesn&rsquo;t actually modify your environment. So setting your <code>PATH</code>
-to select the correct binary, e.g. <code>bin/rails</code> in a rails app, won&rsquo;t work.</p>
+<p>Unfortunately, the default <a href="https://www.heroku.com">Heroku</a> buildpack for Ruby doesn&rsquo;t include
+<code>libicu</code> which prevents bundler from being able to compile <code>charklock_holmes</code>
+C-extension.</p>
 
-<p>Enter <a href="https://github.com/zimbatm/direnv"><code>direnv</code></a>. <code>direnv</code> looks for a <code>.envrc</code> file in a directory and
-loads any thing there into your environment. You have to specifically allow
-direnv to load a file, and it tracks modifications to the file. It&rsquo;s very nice.</p>
+<p>There have been a few attempts at solving this problem, most of which are
+discussed over on <a href="http://stackoverflow.com/questions/18926574/how-to-install-charlock-holmes-dependency-libicu-dev-on-heroku">stack overflow</a>. The <a href="http://stackoverflow.com/a/18926982/223996">accepted
+answer</a> is a common solution, which relies on using
+a version of the gem which includes a bundled version of <code>libicu</code>. While this
+works, it does result in very slow build times both on heroku, and locally when
+doing a bundle install.</p>
 
-<p>Unfortunately, I had a problem using it alongside <code>chruby</code> &mdash; everytime
-I entered a directory <code>direnv</code> would do it&rsquo;s thing and then <code>chruby</code> would
-follow suit, and I could never quite get the result I wanted! For example, I&rsquo;d
-have the right version of ruby, but the wrong <code>PATH</code> &amp;mdash or the right <code>PATH</code>
-with the wrong ruby.</p>
+<p><a href="http://stackoverflow.com/a/20507705/223996">Another solution</a> uses a custom version of the ruby
+buildpack which includes <code>libicu</code> &mdash; while this is a simple solution it
+relies on the maintainer of that solution keeping it up to date with heroku&rsquo;s
+ruby buildpack.</p>
 
-<p>To fix this I removed <code>chruby</code>&rsquo;s auto switching feature from my default
-environment, and based on a suggestion <a href="https://github.com/zimbatm/direnv/issues/98">here</a> added a <code>use_ruby</code>
-function to my <code>~/.direnvrc</code>:</p>
-<pre class="highlight shell"><span class="nb">source</span> /usr/local/share/chruby/chruby.sh
+<p><a href="http://stackoverflow.com/a/22662875/223996">My favourite solution</a> seems to move in the right direction,
+it uses <a href="https://github.com/ddollar/heroku-buildpack-multi"><code>heroku-buildpack-multi</code></a> and
+<a href="https://github.com/ddollar/heroku-buildpack-apt"><code>heroku-buildpack-apt</code></a> to install <code>libicu</code> using apt.
+Unfortunately it uses a forked version of the <code>heroku-buildpack-apt</code> which
+adds specific behaviour for <code>charlock_holmes</code> and where <code>bundler</code> can find the
+version of <code>libicu</code> installed by <code>apt</code>.</p>
 
-<span class="c"># use ruby [version]</span>
-use_ruby<span class="o">()</span> <span class="o">{</span>
-  <span class="nb">local </span><span class="nv">ver</span><span class="o">=</span><span class="nv">$1</span>
-  <span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$ver</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="o">[[</span> -f .ruby-version <span class="o">]]</span>; <span class="k">then
-    </span><span class="nv">ver</span><span class="o">=</span><span class="k">$(</span>cat .ruby-version<span class="k">)</span>
-  <span class="k">fi
-  if</span> <span class="o">[[</span> -z <span class="nv">$ver</span> <span class="o">]]</span>; <span class="k">then
-    </span><span class="nb">echo </span>Unknown ruby version
-    <span class="nb">exit </span>1
-  <span class="k">fi
-  </span>chruby <span class="nv">$ver</span>
-<span class="o">}</span>
+<p>My solution builds upon the previous solution, but rather than use a custom
+version of the <code>heroku-buildpack-apt</code> I have added one more buildpack into the
+mix &amp;mdash <a href="https://github.com/timolehto/heroku-bundle-config"><code>heroku-bundle-config</code></a>.</p>
+
+<p>This buildpack allows you to configure your heroku bundler config in your
+repository in the <code>.heroku-bundle</code> directory. During the build it will move this
+directory to <code>.bundle</code>, and most importantly, make sure that all <code>/app</code> paths
+point correctly to the temporary build directory.</p>
+
+<p>I&rsquo;ve created a <a href="https://github.com/tooky/heroku-charlock-holmes">sample project</a>, that can be <a href="http://heroku-charlock-holmes.herokuapp.com">deployed to heroku</a> – the only thing
+you need to do is ensure that you have set the <code>BUILDPACK_URL</code> to
+<code>https://github.com/ddollar/heroku-buildpack-multi.git</code>:</p>
+<pre class="highlight plaintext">$ heroku config:set BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
 </pre>
 
-<p>This checks for a <code>.ruby-version</code> file, and, if it finds one, defers to <code>chruby</code>
-to load the correct ruby environment.</p>
-
-<p>I can now use this function in a project <code>.envrc</code> to load ruby before I modify
-the path:</p>
-<pre class="highlight shell">use ruby
-PATH_add bin
+<p>When you push to heroku, this buildpack will check for a <code>.buildpacks</code> file,
+which specify the different buildpacks you want to use:</p>
+<pre class="highlight plaintext">https://github.com/ddollar/heroku-buildpack-apt
+https://github.com/timolehto/heroku-bundle-config
+https://github.com/heroku/heroku-buildpack-ruby
 </pre>
 
-<p>You can also pass a ruby version to the <code>use_ruby</code> function:</p>
-<pre class="highlight shell">use ruby 2.1
-PATH_add bin
+<p><code>heroku-buildpack-apt</code> will then check for an <code>Aptfile</code> and install the
+specified packages:</p>
+<pre class="highlight plaintext">libicu-dev
 </pre>
 
-<p>If you don&rsquo;t want to use a <code>.ruby-version</code> file.</p>
+<p>Finally, you need to configure you <code>.heroku-bundle/config</code> to make sure that
+<code>bundler</code> can use your newly installed version of <code>libicu</code>:</p>
+<pre class="highlight plaintext">---
+BUNDLE_FROZEN: '1'
+BUNDLE_PATH: vendor/bundle
+BUNDLE_BIN: vendor/bundle/bin
+BUNDLE_JOBS: 4
+BUNDLE_WITHOUT: development:test
+BUNDLE_DISABLE_SHARED_GEMS: '1'
+BUNDLE_BUILD__CHARLOCK_HOLMES: --with-icu-lib=/app/.apt/usr/lib --with-icu-include=/app/.apt/usr/include
+</pre>
 
-<p>This seems to work really well. The only downside is that I don&rsquo;t have
-autoswitching of ruby versions anymore &mdash; unless I decide that&rsquo;s what
-I want. I don&rsquo;t think its too bad to have to be explicit about that.</p>
+<p>That should be all you need.</p>
 
   </section>
 </article>
 
 <ul id="suggested-reading">
+  
+    <li class="suggested-reading-card">
+      <h2><a href="/using-direnv-and-chruby-together/">Using `direnv` and `chruby` together</a></h2>
+      <p>I’ve been using <a href="https://github.com/postmodern/chruby"><code>chruby</code></a> to manage my ruby versions for a few
+months — I like it’s lightweight approach.</p>
+
+<p>A combination of <a href="http://bundler.io">bundler’s</a> <a href="http://robots.thoughtbot.com/use-bundlers-binstubs">binstubs</a>, the introduction
+of rails 4 introducing the <code>bin</code> directory and trying to <a href="http://12factor.net">use the
+environment to configure my apps</a> has meant I wanted a way to
+to manage my environment...</p>
+      <a href="/using-direnv-and-chruby-together/">Read more…</a>
+    </li>
   
     <li class="suggested-reading-card">
       <h2><a href="/kickstart-academy-podcast-with-sandi-metz/">Kickstart Academy Podcast with Sandi Metz</a></h2>
@@ -123,21 +144,6 @@ here:</p>
       <a href="/hangout-with-matt-wynne-and-aslak-hellesoy/">Read more…</a>
     </li>
   
-    <li class="suggested-reading-card">
-      <h2><a href="/the-cucumber-test-trap/">The Cucumber Test Trap</a></h2>
-      <p><a href="https://twitter.com/aslak_hellesoy">Aslak Hellesøy</a> recently wrote how cucumber is “<a href="https://cucumber.pro/blog/2014/03/03/the-worlds-most-misunderstood-collaboration-tool.html">the world’s most
-misunderstood collaboration tool</a>.”</p>
-
-<blockquote>
-<p>Cucumber was born out of the frustration with ambiguous requirements and
-misunderstandings between the people who order the software and those who
-deliver it.</p>
-</blockquote>
-
-<p>Anybody who has spent time with more...</p>
-      <a href="/the-cucumber-test-trap/">Read more…</a>
-    </li>
-  
 </ul>
 
     </div>
@@ -149,6 +155,8 @@ deliver it.</p>
           <a href="/feed.xml" class="feed" title="Subscribe!"><i class="fa fa-rss"></i></a>
         </h2>
         
+          <li><a href="/using-charklock_holmes-on-heroku/">Using charklock_holmes on Heroku</a> <span>Jun 11</span></li>
+        
           <li><a href="/using-direnv-and-chruby-together/">Using `direnv` and `chruby` together</a> <span>Jun 10</span></li>
         
           <li><a href="/kickstart-academy-podcast-with-sandi-metz/">Kickstart Academy Podcast with Sandi Metz</a> <span>May 21</span></li>
@@ -156,8 +164,6 @@ deliver it.</p>
           <li><a href="/hangout-with-matt-wynne-and-aslak-hellesoy/">Hangout with Matt Wynne and Aslak Hellesøy</a> <span>May 16</span></li>
         
           <li><a href="/the-cucumber-test-trap/">The Cucumber Test Trap</a> <span>Mar 29</span></li>
-        
-          <li><a href="/discovering-bdd/">Discovering BDD</a> <span>Dec 11</span></li>
         
       </ol>
 
@@ -172,6 +178,8 @@ deliver it.</p>
         
           <li><a href="/tags/bletchley-park/">bletchley park</a></a></li>
         
+          <li><a href="/tags/charlock_holmes/">charlock_holmes</a></a></li>
+        
           <li><a href="/tags/coderetreat/">coderetreat</a></a></li>
         
           <li><a href="/tags/craft/">craft</a></a></li>
@@ -179,6 +187,8 @@ deliver it.</p>
           <li><a href="/tags/craftsmanship/">craftsmanship</a></a></li>
         
           <li><a href="/tags/cucumber/">cucumber</a></a></li>
+        
+          <li><a href="/tags/deploymnent/">deploymnent</a></a></li>
         
           <li><a href="/tags/dev/">dev</a></a></li>
         
@@ -196,11 +206,15 @@ deliver it.</p>
         
           <li><a href="/tags/hacks/">hacks</a></a></li>
         
+          <li><a href="/tags/heroku/">heroku</a></a></li>
+        
           <li><a href="/tags/javascript/">javascript</a></a></li>
         
           <li><a href="/tags/jekyll/">jekyll</a></a></li>
         
           <li><a href="/tags/kickstartac/">kickstartac</a></a></li>
+        
+          <li><a href="/tags/libicu/">libicu</a></a></li>
         
           <li><a href="/tags/macosx/">macosx</a></a></li>
         

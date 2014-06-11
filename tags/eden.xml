@@ -233,4 +233,81 @@ model and the business rules you create.&lt;/p&gt;
 &lt;p&gt;This is how I&amp;rsquo;m going to approach this problem. I&amp;rsquo;m going to try to model a life from the point of view of a baby initially and see how it will evolves with time. I&amp;rsquo;ll continue to record my progress here.&lt;/p&gt;
 </content>
   </entry>
+  <entry>
+    <title>The Language of Software Craftsmanship</title>
+    <link rel="alternate" href="http://tooky.co.uk/language-of-software-craftsmanship/"/>
+    <id>http://tooky.co.uk/language-of-software-craftsmanship/</id>
+    <published>2009-12-11T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;The &lt;a href="http://groups.google.com/group/software_craftsmanship/browse_thread/thread/417bec17184ccfc2#"&gt;software craftsmanship list&lt;/a&gt; had a little flurry of activity today. &lt;a href="http://twitter.com/jasongorman"&gt;Jason Gorman&lt;/a&gt; posted about &lt;a href="http://www.teamsandtechnology.com/dh/blog/"&gt;David Harvey&amp;rsquo;s&lt;/a&gt; &lt;a href="http://qconlondon.com/london-2010/presentation/Danger:+Software+Craftsmen+at+Work"&gt;session&lt;/a&gt; at next years &lt;a href="http://qconlondon.com/london-2010/"&gt;QCon London&lt;/a&gt;. The talk - &lt;a href="http://qconlondon.com/london-2010/presentation/Danger:+Software+Craftsmen+at+Work"&gt;Danger: Software Craftsmen at Work&lt;/a&gt; - unsurprisingly caused some discussion on the list!&lt;/p&gt;
+
+&lt;p&gt;Linked in the thread is an &lt;a href="http://www.teamsandtechnology.com/dh/blog/2009/05/25/software-craftsmanship-can-we-just-get-over-it/"&gt;interesting article&lt;/a&gt; by David that gives a little bit more context to his position.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;I have a problem with the language of software craftsmanship. The notion that somehow we’ll solve
+our nascent profession’s problems by calling ourselves, or regarding ourselves, as “apprentices”,
+“journeymen”, “masters” and so on is more than faintly absurd.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I have &lt;a href="http://tooky.github.com/craftsmanship/eden/2009/11/25/software-craftsmanship.html"&gt;recently joined&lt;/a&gt; the formal apprenticeship scheme at &lt;a href="http://www.edendevelopment.co.uk"&gt;Eden Development&lt;/a&gt;, and I wanted to give some perspective of what being an apprentice means to me.&lt;/p&gt;
+
+&lt;p&gt;Using terms like &amp;ldquo;apprentice&amp;rdquo;, &amp;ldquo;journeymen&amp;rdquo; and &amp;ldquo;master&amp;rdquo; &lt;strong&gt;is&lt;/strong&gt; probably a bit absurd. But its absurd in a good way. &lt;a href="http://c2.com/cgi/wiki?SystemMetaphor"&gt;Metaphor&lt;/a&gt; is one of the core practices of XP, developing a system metaphor gives a team a shared vision for project. Its not meant to define what the software does, but the language of the metaphor gives the team a way to discuss the system.&lt;/p&gt;
+
+&lt;p&gt;The software craftsmanship metaphor gives us shared vision for improving the state of software development. Its not supposed to be new ideas, its just a new way of framing new ideas to give people a common language to use. Calling myself an apprentice allows me to say that I have a lot to learn, that I want to be part of company that is willing to invest in me, if I&amp;rsquo;m willing to invest in myself.&lt;/p&gt;
+
+&lt;p&gt;If I sound absurd when I tell people that, then so be it. It certainly starts the conversation.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Software Craftsmanship and Eden Development</title>
+    <link rel="alternate" href="http://tooky.co.uk/software-craftsmanship/"/>
+    <id>http://tooky.co.uk/software-craftsmanship/</id>
+    <published>2009-11-25T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;I&amp;rsquo;m not sure when I first came across &lt;a href="http://en.wikipedia.org/wiki/Software_Craftsmanship"&gt;software craftsmanship&lt;/a&gt;, but I know that &lt;a href="http://twitter.com/edentodd"&gt;Dave Hoover&lt;/a&gt;&amp;rsquo;s early blogs about &lt;a href="http://oreilly.com/catalog/9780596518387"&gt;apprenticeship patterns&lt;/a&gt; were some of the posts that made it really start to resonate with me!&lt;/p&gt;
+
+&lt;p&gt;In 2005 I read one of Dave&amp;rsquo;s posts - &lt;a href="http://redsquirrel.com/cgi-bin/dave/2005/04/12#a.thread.of.patterns"&gt;A Thread of Patterns&lt;/a&gt; - and I started to recognise some of these patterns in my own experience. This post prompted me to email Dave and tell him a little of my story.&lt;/p&gt;
+
+&lt;p&gt;Reading back over those emails today its striking that I had started to look for a mentor. That I felt that there were serious problems with the way the company I worked for approached software, but I didn&amp;rsquo;t feel I had the experience to fix those problems, and that I needed to move and take the next step in my career.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;I think one area that your patterns need to touch upon is getting the culture
+right. This is an area that I think is making my life more difficult. There
+isn&amp;rsquo;t a culture of developing software in this company. Most of the
+programming here is about quick and dirty solutions to solve one time problems
+for production.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This was 2005 - it was two more years before I left that company, and the move I made then didn&amp;rsquo;t work out the way I hoped. I learnt alot along the way, but have never really found the culture I was looking for.&lt;/p&gt;
+
+&lt;p&gt;Fast-forward to today - after 5 months at &lt;a href="http://edendevelopment.co.uk/"&gt;Eden Development&lt;/a&gt; I feel that I have finally found a company with a culture that I share. The company itself has been on a bit of a &lt;a href="http://blog.edendevelopment.co.uk/2009/10/13/software-craftsmanship-a-meeting-of-minds/"&gt;voyage of discovery&lt;/a&gt; and growth and I am really excited to be part of its future. Not only did we leave our old office for the first time today, but the company started its new
+formal apprenticeship scheme.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m pleased to say that I was offered, and have accepted, an Eden Development apprenticeship under the guidance of &lt;a href="http://twitter.com/edentodd"&gt;Todd Anderson&lt;/a&gt;. I&amp;rsquo;m excited to see how this program develops, and look forward to sharing my experiences.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>UK Apprenticeships and Software Development</title>
+    <link rel="alternate" href="http://tooky.co.uk/uk-apprenticeships-and-software-development/"/>
+    <id>http://tooky.co.uk/uk-apprenticeships-and-software-development/</id>
+    <published>2009-09-02T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;a href="http://twitter.com/coreyhaines"&gt;Corey Haines&lt;/a&gt; recently blogged about &lt;a href="http://programmingtour.blogspot.com/2009/09/software-development-school-idea.html"&gt;building a software development school&lt;/a&gt; and it got me thinking about UK &lt;a href="http://www.apprenticeships.org.uk/Employers/Whats-it-all-about/What-is-an-Apprenticeship.aspx"&gt;Apprenticeships&lt;/a&gt; and how we could improve the &amp;ldquo;craft&amp;rdquo; here in the UK.&lt;/p&gt;
+
+&lt;p&gt;UK Apprenticeships (a rebranding of &amp;ldquo;Modern Apprenticeships&amp;rdquo; - also known as &amp;ldquo;Day Release&amp;rdquo;) is essentially a scheme that combines on and off the job training. They cover a large array of careers but all have the same common principle: apprentices spend most of their time (typically 4-days per week) working in a real business under a mentor, and the remaining time at college studying for a recognised qualification.&lt;/p&gt;
+
+&lt;p&gt;According to the &lt;a href="http://www.apprenticeships.org.uk/Employers/Whats-it-all-about/What-is-an-Apprenticeship.aspx"&gt;Apprenticeships website&lt;/a&gt;) an Apprenticeship is not a qualification itself but a framework  containing separately certificated elements.&lt;/p&gt;
+
+&lt;p&gt;The Apprenticeship frameworks cover a wide range of &lt;a href="http://www.apprenticeships.org.uk/Types-of-Apprenticeships.aspx"&gt;industries&lt;/a&gt; including an &lt;a href="http://www.apprenticeships.org.uk/Types-of-Apprenticeships/Information-and-Communication-Technology/ICT-Professional.aspx"&gt;ICT Professional apprenticeship&lt;/a&gt; - I wonder what it would take to develop a scheme for software developers which would enable UK development workshops to start taking an active role in developing the next generation of software craftsmen?&lt;/p&gt;
+</content>
+  </entry>
 </feed>

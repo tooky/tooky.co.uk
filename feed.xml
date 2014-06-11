@@ -4,7 +4,88 @@
   <id>http://tooky.co.uk/</id>
   <link href="http://tooky.co.uk/"/>
   <link href="http://tooky.co.uk/feed.xml" rel="self"/>
-  <updated>2014-06-10T00:00:00Z</updated>
+  <updated>2014-06-11T00:00:00Z</updated>
+  <entry>
+    <title>Using charklock_holmes on Heroku</title>
+    <link rel="alternate" href="http://tooky.co.uk/using-charklock_holmes-on-heroku/"/>
+    <id>http://tooky.co.uk/using-charklock_holmes-on-heroku/</id>
+    <published>2014-06-11T00:00:00Z</published>
+    <updated>2014-06-11T13:52:38+01:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;a href="https://github.com/brianmario/charlock_holmes"&gt;&lt;code&gt;charlock_holmes&lt;/code&gt;&lt;/a&gt; is a useful gem if you have to deal with
+user supplied data which may come in a variety of text-encodings. Not only does
+it enable you to detect the encoding of a string, but it also allows you to
+transcode the string to a different encoding.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;charklock_holmes&lt;/code&gt; uses &lt;a href="http://site.icu-project.org"&gt;&lt;code&gt;libicu&lt;/code&gt;&lt;/a&gt; to deal with string encoding.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, the default &lt;a href="https://www.heroku.com"&gt;Heroku&lt;/a&gt; buildpack for Ruby doesn&amp;rsquo;t include
+&lt;code&gt;libicu&lt;/code&gt; which prevents bundler from being able to compile &lt;code&gt;charklock_holmes&lt;/code&gt;
+C-extension.&lt;/p&gt;
+
+&lt;p&gt;There have been a few attempts at solving this problem, most of which are
+discussed over on &lt;a href="http://stackoverflow.com/questions/18926574/how-to-install-charlock-holmes-dependency-libicu-dev-on-heroku"&gt;stack overflow&lt;/a&gt;. The &lt;a href="http://stackoverflow.com/a/18926982/223996"&gt;accepted
+answer&lt;/a&gt; is a common solution, which relies on using
+a version of the gem which includes a bundled version of &lt;code&gt;libicu&lt;/code&gt;. While this
+works, it does result in very slow build times both on heroku, and locally when
+doing a bundle install.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://stackoverflow.com/a/20507705/223996"&gt;Another solution&lt;/a&gt; uses a custom version of the ruby
+buildpack which includes &lt;code&gt;libicu&lt;/code&gt; &amp;mdash; while this is a simple solution it
+relies on the maintainer of that solution keeping it up to date with heroku&amp;rsquo;s
+ruby buildpack.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://stackoverflow.com/a/22662875/223996"&gt;My favourite solution&lt;/a&gt; seems to move in the right direction,
+it uses &lt;a href="https://github.com/ddollar/heroku-buildpack-multi"&gt;&lt;code&gt;heroku-buildpack-multi&lt;/code&gt;&lt;/a&gt; and
+&lt;a href="https://github.com/ddollar/heroku-buildpack-apt"&gt;&lt;code&gt;heroku-buildpack-apt&lt;/code&gt;&lt;/a&gt; to install &lt;code&gt;libicu&lt;/code&gt; using apt.
+Unfortunately it uses a forked version of the &lt;code&gt;heroku-buildpack-apt&lt;/code&gt; which
+adds specific behaviour for &lt;code&gt;charlock_holmes&lt;/code&gt; and where &lt;code&gt;bundler&lt;/code&gt; can find the
+version of &lt;code&gt;libicu&lt;/code&gt; installed by &lt;code&gt;apt&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;My solution builds upon the previous solution, but rather than use a custom
+version of the &lt;code&gt;heroku-buildpack-apt&lt;/code&gt; I have added one more buildpack into the
+mix &amp;amp;mdash &lt;a href="https://github.com/timolehto/heroku-bundle-config"&gt;&lt;code&gt;heroku-bundle-config&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This buildpack allows you to configure your heroku bundler config in your
+repository in the &lt;code&gt;.heroku-bundle&lt;/code&gt; directory. During the build it will move this
+directory to &lt;code&gt;.bundle&lt;/code&gt;, and most importantly, make sure that all &lt;code&gt;/app&lt;/code&gt; paths
+point correctly to the temporary build directory.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve created a &lt;a href="https://github.com/tooky/heroku-charlock-holmes"&gt;sample project&lt;/a&gt;, that can be &lt;a href="http://heroku-charlock-holmes.herokuapp.com"&gt;deployed to heroku&lt;/a&gt; – the only thing
+you need to do is ensure that you have set the &lt;code&gt;BUILDPACK_URL&lt;/code&gt; to
+&lt;code&gt;https://github.com/ddollar/heroku-buildpack-multi.git&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;$ heroku config:set BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
+&lt;/pre&gt;
+
+&lt;p&gt;When you push to heroku, this buildpack will check for a &lt;code&gt;.buildpacks&lt;/code&gt; file,
+which specify the different buildpacks you want to use:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;https://github.com/ddollar/heroku-buildpack-apt
+https://github.com/timolehto/heroku-bundle-config
+https://github.com/heroku/heroku-buildpack-ruby
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;heroku-buildpack-apt&lt;/code&gt; will then check for an &lt;code&gt;Aptfile&lt;/code&gt; and install the
+specified packages:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;libicu-dev
+&lt;/pre&gt;
+
+&lt;p&gt;Finally, you need to configure you &lt;code&gt;.heroku-bundle/config&lt;/code&gt; to make sure that
+&lt;code&gt;bundler&lt;/code&gt; can use your newly installed version of &lt;code&gt;libicu&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;---
+BUNDLE_FROZEN: '1'
+BUNDLE_PATH: vendor/bundle
+BUNDLE_BIN: vendor/bundle/bin
+BUNDLE_JOBS: 4
+BUNDLE_WITHOUT: development:test
+BUNDLE_DISABLE_SHARED_GEMS: '1'
+BUNDLE_BUILD__CHARLOCK_HOLMES: --with-icu-lib=/app/.apt/usr/lib --with-icu-include=/app/.apt/usr/include
+&lt;/pre&gt;
+
+&lt;p&gt;That should be all you need.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Using `direnv` and `chruby` together</title>
     <link rel="alternate" href="http://tooky.co.uk/using-direnv-and-chruby-together/"/>
@@ -462,6 +543,720 @@ reward.&lt;/p&gt;
 &lt;h3&gt;Dependency Inversion Principle&lt;/h3&gt;
 
 &lt;p&gt;&lt;img alt="Dependency Inversion Principle" src="https://dl.dropboxusercontent.com/u/41915/otb-solid/dependency-inversion.jpg" /&gt;&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Stop Writing Scenarios That Test Everything Through The View</title>
+    <link rel="alternate" href="http://tooky.co.uk/stop-writing-scenarios-that-test-everything-through-the-view/"/>
+    <id>http://tooky.co.uk/stop-writing-scenarios-that-test-everything-through-the-view/</id>
+    <published>2013-10-29T00:00:00Z</published>
+    <updated>2014-06-10T07:02:29+01:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;Following on from my &lt;a href="http://tooky.co.uk/this-gherkins-not-for-reading/"&gt;last post&lt;/a&gt;, I wanted to mention a common anti-pattern that &lt;a href="http://blog.8thlight.com/kevin-liddle/2013/09/18/a-case-against-cucumber.html"&gt;Kevin&amp;rsquo;s case against cucumber&lt;/a&gt; mentioned. Scenarios that are too focussed on the user interface. Scenarios written as an imperative set of instructions for a machine to follow.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;Scenarios like this.&lt;/p&gt;
+&lt;pre class="highlight gherkin"&gt;&lt;span class="nf"&gt;Given&lt;/span&gt; I go to the homepage
+&lt;span class="nf"&gt;And&lt;/span&gt; I fill in my username
+&lt;span class="nf"&gt;And&lt;/span&gt; I click sign in
+&lt;span class="nf"&gt;When&lt;/span&gt; I click &lt;span class="s"&gt;"Accounts"&lt;/span&gt;
+&lt;span class="nf"&gt;Then&lt;/span&gt; I see &lt;span class="s"&gt;"Current Account"&lt;/span&gt;
+&lt;span class="nf"&gt;And&lt;/span&gt; I see &lt;span class="s"&gt;"Savings Account"&lt;/span&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;sigh&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;There has been quite a lot written about this, the &lt;a href="http://benmabey.com/2008/05/19/imperative-vs-declarative-scenarios-in-user-stories.html"&gt;canonical post&lt;/a&gt; is from 2008. The cucumber team made a mistake including &lt;code&gt;web_steps.rb&lt;/code&gt; - they were &lt;a href="https://github.com/cucumber/cucumber-rails/commit/f027440965b96b780e84e50dd47203a2838e8d7d"&gt;removed&lt;/a&gt; 2 years ago.&lt;/p&gt;
+
+&lt;p&gt;The problem here isn&amp;rsquo;t just isolated to the imperative style of this scenario, but also that the scenario is highly coupled to the view.&lt;/p&gt;
+
+&lt;p&gt;Testing through the view is something you have to be wary of with any tool. It&amp;rsquo;s slow and brittle. That isn&amp;rsquo;t to say it has no value, but you don&amp;rsquo;t need every test to go through the UI. Beware the &lt;a href="http://watirmelon.com/2012/01/31/introducing-the-software-testing-ice-cream-cone/"&gt;ice cream cone&lt;/a&gt; anti-pattern.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve written a little more about this &lt;a href="http://tooky.co.uk/cucumber-and-full-stack-testing/"&gt;here&lt;/a&gt;, Seb has introduced the &lt;a href="http://claysnow.co.uk/the-testing-iceberg/"&gt;Testing Iceberg&lt;/a&gt; and &lt;a href="http://mattwynne.net"&gt;Matt&lt;/a&gt; talks more about it &lt;a href="http://skillsmatter.com/podcast/agile-testing/why-your-step-definitions-should-be-one-liners-and-other-pro-tips"&gt;here&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>This Gherkin's Not For Reading</title>
+    <link rel="alternate" href="http://tooky.co.uk/this-gherkins-not-for-reading/"/>
+    <id>http://tooky.co.uk/this-gherkins-not-for-reading/</id>
+    <published>2013-10-24T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;Recently &lt;a href="http://www.8thlight.com/our-team/kevin-liddle"&gt;Kevin Liddle&lt;/a&gt; made his &lt;a href="http://blog.8thlight.com/kevin-liddle/2013/09/18/a-case-against-cucumber.html"&gt;case against cucumber&lt;/a&gt;. In the article he outlines several problems he experiences working with cucumber. One of his key arguments is that non-technical team members don&amp;rsquo;t read the scenarios written by developers.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;In theory, this is a valuable thing, a bridge between the divergent worlds of
+developers and managers. In practice, however, I’ve never seen Cucumber used
+this way. Non-technical people don’t read code, no matter how easy it is to
+read. They care about the actual use cases and that means using the
+application. And if they use the application, who cares if there is some text
+claiming the application works!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;So why don&amp;rsquo;t non-technical people read the scenarios written by developers or testers?&lt;/p&gt;
+
+&lt;p&gt;Because they aren&amp;rsquo;t written for non-technical people to read! They probably aren&amp;rsquo;t even written with non-technical people in mind. They are written as a test script, they are written as a set of instructions for a computer to follow so they can execute a test plan. At best they&amp;rsquo;re written as set of steps that the developer will go through to get the feature finished.&lt;/p&gt;
+
+&lt;p&gt;Gherkin isn&amp;rsquo;t a scripting language for tests. Cucumber isn&amp;rsquo;t a testing tool. BDD isn&amp;rsquo;t a testing process. Kevin says that &amp;ldquo;non-technical people don&amp;rsquo;t read code&amp;rdquo; and that they &amp;ldquo;care about the actual use cases&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;We don&amp;rsquo;t want them to read our code, or our test plans. We want to talk to them about the behaviour, we want to discuss the impact they are looking to create and collaborate on how we can achieve that.&lt;/p&gt;
+
+&lt;p&gt;Gherkin&amp;rsquo;s value isn&amp;rsquo;t when it&amp;rsquo;s read. It&amp;rsquo;s when it&amp;rsquo;s written - it&amp;rsquo;s value is as a communication tool. It is close enough to natural language that both technical and non-technical people can collaborate but it has enough constraints to encourage thinking in terms of behaviour.&lt;/p&gt;
+
+&lt;p&gt;Writing scenarios with non-technical people, allows you to document the conversations you have about the behaviour of the system. It provides an avenue to explore new features and their value without building anything.&lt;/p&gt;
+
+&lt;p&gt;Kevin&amp;rsquo;s article goes on to highlight the value of gherkin when &amp;ldquo;gathering requirements&amp;rdquo;, but he argues that automating those scenarios using cucumber adds a level of overhead and’ indirection that is not worthwhile.&lt;/p&gt;
+
+&lt;p&gt;I have more to say about that, but that&amp;rsquo;s another post.&lt;/p&gt;
+
+&lt;p&gt;For now try sitting down with with your stakeholders and use gherkin to document examples of how they expect your software to behave. Use those examples to help you when you&amp;rsquo;re writing the code, but also check the assumptions with other people on the team. Do other non-technical stakeholders find them more readable?&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Cucumber and Full Stack Testing</title>
+    <link rel="alternate" href="http://tooky.co.uk/cucumber-and-full-stack-testing/"/>
+    <id>http://tooky.co.uk/cucumber-and-full-stack-testing/</id>
+    <published>2013-01-18T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;There has been two similar questions asked on two different mailing lists I subscribe to (Corey Haines&amp;#39; &lt;a title="Build an app with Corey Haines" href="http://www.cleancoders.com/codecast/bawch-episode-1/show"&gt;BAWCH&lt;/a&gt; mailing list, and &lt;a href="http://rubyrogues.com/"&gt;Ruby Rogues&lt;/a&gt; Parley list). Both of these lists are private so I thought it would be worthwhile posting my answer here.&lt;/p&gt;
+
+&lt;p&gt;Both of the questions were concerned with out-side-in development, full-stack integration testing, and how much of the application needs to be tested through the entire system.&lt;/p&gt;
+
+&lt;p&gt;Firstly consider why we write &lt;a href="http://cukes.info/"&gt;cucumber&lt;/a&gt; scenarios (or &lt;a href="http://fitnesse.org/"&gt;fitnesse&lt;/a&gt; test cases). These tests are business facing acceptance tests. They are a medium through which we can engage with the business people on our team and to help us understand how the system should behave. They give us an opportunity to check &lt;em&gt;our&lt;/em&gt; understanding of what the system should do &amp;mdash; to check the &lt;em&gt;business&lt;/em&gt;&amp;rsquo;s understanding of what the system should do. We automate these tests to give the business confidence that the system behaves as expected.&lt;/p&gt;
+
+&lt;p&gt;Full-stack, end-to-end, integration tests are there to give us confidence that the system fits together correctly, that we have all the different pieces in place, and they are able to talk to each other.&lt;/p&gt;
+
+&lt;p&gt;It&amp;rsquo;s very easy to conflate these two concerns. I have worked on many systems where the business facing acceptance tests were also the end-to-end integration tests. The test runs end up being slow, and the tests are cumbersome to work with.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve been talking about this with &lt;a href="https://twitter.com/mattwynne"&gt;Matt Wynne&lt;/a&gt; and he drew the following diagram:&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="Business Facing Acceptance Tests vs End-To-End Tests" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/business-facing-vs-end-to-end.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;The circle on the left represents the tests that we would write in cucumber (or fitnesse). The circle on the right the tests which exercise the whole system end-to-end. In the centre we have the intersection &amp;mdash; our cucumber scenarios which we run end-to-end against the whole system.&lt;/p&gt;
+
+&lt;p&gt;The key thing is that your business acceptance tests do not all have to drive the whole system end-to-end. We only a need a few scenarios to go end-to-end to give us the confidence the system as a whole is working. We can also write system tests, that aren&amp;rsquo;t part of the acceptance suite, to test specific integrations&lt;/p&gt;
+
+&lt;p&gt;Try to write acceptance tests that directly drive the domain objects. Use these to accurately describe your application&amp;rsquo;s behaviour. Focus them on the behaviour by not having them integrate the UI and the database.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Delegation is not inheritance</title>
+    <link rel="alternate" href="http://tooky.co.uk/delegation-is-not-inheritance/"/>
+    <id>http://tooky.co.uk/delegation-is-not-inheritance/</id>
+    <published>2012-08-08T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;On the train home last night I watched the excellent &lt;a href="https://peepcode.com/products/play-by-play-jimweirich-ruby"&gt;Jim Weirich Play-by-play&lt;/a&gt; from &lt;a href="https://peepcode.com/"&gt;PeepCode&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;During the screencast Jim develops a library that &amp;ldquo;protects against unauthorized data model modification by users in less-privileged roles.&amp;rdquo; The screencast provides a great insight into the way Jim approaches problems, designs apis, and how he&amp;rsquo;s customised his environment to suit the way he works.&lt;/p&gt;
+
+&lt;p&gt;His approach is to build a proxy object which wraps the object to be updated, and provides a whitelist for fields which can be updated. He also inadvertantly demonstrates an easy mistake to make when using proxy objects.&lt;/p&gt;
+
+&lt;p&gt;Here is a simplified version of Jim&amp;rsquo;s solution -  without any of the api for creating / finding proxies - which we will use to demonstrate this pitfall and its effects.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;'delegate'&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;ProtectionProxy&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;SimpleDelegator&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;writable_fields&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@writable_fields&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;writable_fields&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;method_missing&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;method&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;block&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;method_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;method&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;to_s&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;method_name&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;end_with?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'='&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="k"&gt;super&lt;/span&gt;
+    &lt;span class="k"&gt;elsif&lt;/span&gt; &lt;span class="vi"&gt;@writable_fields&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;include?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;method_name&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;.&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;to_sym&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="k"&gt;super&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;This approach works great for silently dropping calls to the accessor methods that are not in the provided whitelist. Here are some rspec examples which show how it works.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;'rspec-given'&lt;/span&gt;
+&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;'protection_proxy'&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;User&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;Struct&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:email&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:membership_level&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="n"&gt;describe&lt;/span&gt; &lt;span class="no"&gt;ProtectionProxy&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="no"&gt;Given&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"Jim"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"jim@somewhere"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"Beginner"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="no"&gt;Given&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:proxy&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="no"&gt;ProtectionProxy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:membership_level&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="no"&gt;Then&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;name&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;should&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;"Jim"&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="s2"&gt;"when modifiying a writable field"&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="no"&gt;When&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;membership_level&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"Advanced"&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="no"&gt;Then&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;membership_level&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;should&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;"Advanced"&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="s2"&gt;"when modifiying a non-writable field"&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="no"&gt;When&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"Joe"&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="no"&gt;Then&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;name&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;should&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;"Jim"&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;Now if we imagine we have a rails project, we can create a proxy to wrap our ActiveRecord object, and specify an attribute whitelist.  This should then prevent mass-assignment of any non-whitelist attributes - it could be used in a controller like this:&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;UserController&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActionController&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;update&lt;/span&gt;
+    &lt;span class="n"&gt;user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:id&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;proxy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;ProtectionProxy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:email&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;update_attributes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="c1"&gt;# happy path&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;
+      &lt;span class="c1"&gt;# error&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;Unfortunately this won&amp;rsquo;t work as we might expect.&lt;/p&gt;
+
+&lt;p&gt;Proxying like this is a great way to add new behaviour to existing objects, without modifying them - or creating new subclasses. but there is one thing to be aware of when you are using delegation in this way.&lt;/p&gt;
+
+&lt;p&gt;Methods called on the wrapped object have &lt;strong&gt;no&lt;/strong&gt; knowledge of the methods in the proxy object.&lt;/p&gt;
+
+&lt;p&gt;So what happens when we call &lt;code&gt;proxy.update_attributes&lt;/code&gt;?&lt;/p&gt;
+
+&lt;p&gt;The proxy object immediately delegates that method call to the user object, it will call &lt;code&gt;user.update_attributes&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you have used ActiveRecord, you will be aware of the way that &lt;code&gt;ActiveRecord::Base#update_attrbiutes&lt;/code&gt; will make use of the accessor methods on its instances to set the field names.&lt;/p&gt;
+
+&lt;p&gt;So, &lt;code&gt;user.update_attributes name: &amp;#39;Joe&amp;#39;&lt;/code&gt; will call &lt;code&gt;user.name = &amp;#39;Joe&amp;#39;&lt;/code&gt;, not the accessor methods on the proxy.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="update attributes sequence diagram" src="http://dl.dropbox.com/u/41915/update_attributes_sequence_diagram.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;As we are not calling the accessor methods on the proxy, we aren&amp;rsquo;t filtering out the fields that don&amp;rsquo;t appear in the whitelist and our attribute protection won&amp;rsquo;t work when we use &lt;code&gt;update_attributes&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here is another example. &lt;code&gt;Capitalise&lt;/code&gt; wraps an object and provides a upper case version of its name method.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;'delegate'&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Capitalise&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;SimpleDelegator&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@source&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;source&lt;/span&gt;
+    &lt;span class="k"&gt;super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;name&lt;/span&gt;
+    &lt;span class="vi"&gt;@source&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;name&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;upcase&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Person&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;Struct&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;greet&lt;/span&gt;
+    &lt;span class="s2"&gt;"Hello, &lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="nb"&gt;name&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="n"&gt;john&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Person&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'john'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;capital_john&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Capitalise&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;john&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;john&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;greet&lt;/span&gt; &lt;span class="c1"&gt;#=&amp;gt; "Hello, john"&lt;/span&gt;
+&lt;span class="n"&gt;capital_john&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;greet&lt;/span&gt; &lt;span class="c1"&gt;#=&amp;gt; "Hello, john"&lt;/span&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;Because &lt;code&gt;greet&lt;/code&gt; is defined in the &lt;code&gt;Person&lt;/code&gt; class, when it calls &lt;code&gt;name&lt;/code&gt; it will always call &lt;code&gt;Person#name&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This has caught me out a couple times. It&amp;rsquo;s so easy in ruby to create proxy objects or decorators that its easy to forget that you have a different object.&lt;/p&gt;
+
+&lt;p&gt;One solution is to implement a version of &lt;code&gt;update_attributes&lt;/code&gt; on the proxy object.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;ProtectionProxy&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;SimpleDelegator&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;writable_fields&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@object&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;object&lt;/span&gt;
+    &lt;span class="vi"&gt;@writable_fields&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;writable_fields&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;update_attributes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;attributes&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{})&lt;/span&gt;
+    &lt;span class="n"&gt;attrs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;attributes&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;select&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;field_name&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+      &lt;span class="vi"&gt;@writable_fields&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;include?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;field_name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="vi"&gt;@object&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;update_attributes&lt;/span&gt; &lt;span class="n"&gt;attrs&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;Here we add an &lt;code&gt;update_attributes&lt;/code&gt; method to the &lt;code&gt;ProtectionProxy&lt;/code&gt; class - this only allows attributes allowed by the whitelist through to &lt;code&gt;User#update_attributes&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href="https://peepcode.com/products/play-by-play-jimweirich-ruby"&gt;screencast&lt;/a&gt; ends with a note that Jim noticed this error later after recording of the screen cast finished. Jim&amp;rsquo;s complete solution, including the nice api, can be found on &lt;a href="https://github.com/jimweirich/protection_proxy"&gt;github&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://gist.github.com/3294185.js"&gt;Here is the whole of the &lt;code&gt;ProxyProtection&lt;/code&gt; implementation&lt;/a&gt;, with rspec examples.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Tracking Project Emotions Using MercuryApp</title>
+    <link rel="alternate" href="http://tooky.co.uk/tracking-project-emotions-using-mercury-app/"/>
+    <id>http://tooky.co.uk/tracking-project-emotions-using-mercury-app/</id>
+    <published>2010-11-23T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;I&amp;rsquo;ve been trying out &lt;a href="http://mercuryapp.com"&gt;MercuryApp&lt;/a&gt; as a way to track how I&amp;rsquo;m feeling about a project we&amp;rsquo;ve just started. I&amp;rsquo;m tracking once a day, usually at about 4pm.&lt;/p&gt;
+
+&lt;p&gt;We try to run regular retrospectives on our projects, this gives us a chance to reflect on how the project is going. We often include a segment where each participant draws a &amp;lsquo;sparkline&amp;rsquo; of how they were feeling over the period of time leading up to the retrospective. This let&amp;rsquo;s us see how various events effect peoples emotions.&lt;/p&gt;
+
+&lt;p&gt;This time I had my sparkline already. &lt;a href="http://mercuryapp.com"&gt;MercuryApp&lt;/a&gt; had been tracking this data for me all week. The surprise for me though was that I seemed to be more upbeat about things than I remembered. If I hadn&amp;rsquo;t had &lt;a href="http://mercuryapp.com"&gt;MercuryApp&lt;/a&gt; I&amp;rsquo;m sure my sparkline would have been less positive.&lt;/p&gt;
+
+&lt;p&gt;I suspect that the negatives I perceived were something to do with my mood at the time of the retrospective. It as towards the end of the day so I was tired, and I&amp;rsquo;d had a tough day.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m guessing that had my day been better, and I was in a more positive mood then my sparkline may well have been influenced in the other direction.&lt;/p&gt;
+
+&lt;p&gt;Having real data is great, not only is it more accurate when thinking about the previous week, but looking at how it differs from your perception gives you the chance to reflect on your mood right now! Liking the results from &lt;a href="http://mercuryapp.com"&gt;MercuryApp&lt;/a&gt; so far.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;p&gt;&lt;em&gt;Disclaimer: &lt;a href="http://edendevelopment.co.uk"&gt;Eden Development&lt;/a&gt; have been working with the guys at &lt;a href="http://mercuryapp.com"&gt;MercuryApp&lt;/a&gt;, but I have not been involved in the project.&lt;/em&gt;&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Fixing "There was a problem with the editor 'vi'" for Git on Mac OS X Snow Leopard</title>
+    <link rel="alternate" href="http://tooky.co.uk/there-was-a-problem-with-the-editor-vi-git-on-mac-os-x/"/>
+    <id>http://tooky.co.uk/there-was-a-problem-with-the-editor-vi-git-on-mac-os-x/</id>
+    <published>2010-04-08T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;I have had an annoying problem with git and vi. I like to use vim to edit my commit messages, but I&amp;rsquo;ve been hit with this annoying message every time I write the message and quit vim.&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;error: There was a problem with the editor 'vi'
+&lt;/pre&gt;
+
+&lt;p&gt;After a little bit of digging I found that this message is shown by git when the editor exits with a non-zero exit code. You can use &lt;code&gt;$?&lt;/code&gt; to see the exit code of last script or application.&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;$ vim     # then exit vim with :q immediately
+$ echo $?
+1
+&lt;/pre&gt;
+
+&lt;p&gt;I&amp;rsquo;m still not sure why vim is exiting with non-zero exit code, but it is definitely related to my &lt;code&gt;.vimrc&lt;/code&gt; - moving it to &lt;code&gt;.vimrc.bak&lt;/code&gt; seemed to fix the problem. I&amp;rsquo;m using the excellent &lt;a href="http://www.vim.org/scripts/script.php?script_id=2332"&gt;pathogen&lt;/a&gt; plugin to manage my vimfiles, so I plan to go through that and my installed plugins to find the cause of the problem.&lt;/p&gt;
+
+&lt;p&gt;There is a fix though, I&amp;rsquo;m not sure what&amp;rsquo;s causing this, but I found a &lt;a href="http://groups.google.com/group/vim_mac/browse_thread/thread/0d33e2f2130867b0"&gt;post on the vim-mac mailing list&lt;/a&gt; which shows this:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;$ vim          # and exit with :q
+$ echo $?
+1
+$ /usr/bin/vim # and exit with :q
+$ echo $?
+0
+$ which vim
+/usr/bin/vim
+&lt;/pre&gt;
+
+&lt;p&gt;Running vim with &lt;code&gt;/usr/bin/vim&lt;/code&gt; seems to make it exit cleanly. So to fix the problem with git commit you just need to run this:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;$ git config --global core.editor /usr/bin/vim
+&lt;/pre&gt;
+
+&lt;p&gt;I&amp;rsquo;d still like to get to the root of the problem, but this gets me my git commit messages back!&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Why I think you should go to a code retreat</title>
+    <link rel="alternate" href="http://tooky.co.uk/why-i-think-you-should-go-to-a-coderetreat/"/>
+    <id>http://tooky.co.uk/why-i-think-you-should-go-to-a-coderetreat/</id>
+    <published>2010-03-17T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;Last Saturday I went along to the UK leg of &lt;a href="http://coreyhaines.com/"&gt;Corey Haines&lt;/a&gt; &lt;a href="http://www.coderetreat.com/how-it-works.html"&gt;Code Retreat tour&lt;/a&gt;. Apart from the early start it was a really interesting day, and I really enjoyed the chance to &lt;a href="http://twitter.com/despo"&gt;pair&lt;/a&gt; &lt;a href="http://twitter.com/morty_uk"&gt;with&lt;/a&gt; &lt;a href="http://twitter.com/duncanbutler"&gt;lots&lt;/a&gt; of new people.&lt;/p&gt;
+
+&lt;p&gt;The day was pretty tiring, pairing is always an intense experience, but I definitely learnt quite a lot. Its amazing how much fun working on the same problem several times in a row is, and how different approaches affect the way you think about it. By repeating the problem you allow your brain to concentrate on how you are solving it, rather than the problem itself. This gives you a really different perspective and is something I want to explore more.&lt;/p&gt;
+
+&lt;p&gt;There were so many things that I took away from the day, some of them are already changing my approach to building software:&lt;/p&gt;
+
+&lt;h3&gt;45 minutes is a really short amount of time&lt;/h3&gt;
+
+&lt;p&gt;The format of the code retreat is to work on the problem with a pair for 45 minutes. When the time is up, you delete all your code, and take break. Spend 15 minutes grabbing a coffee, reflecting on what you&amp;rsquo;ve done, and finding your next pair. Rinse and repeat.&lt;/p&gt;
+
+&lt;p&gt;Every 45 minute session flew by. Even so, with each pairing I was surprised at how far we&amp;rsquo;d managed to get. But what really surprised me, was how useful the short break and change of partner proved to be. The break gave you a real chance to reconsider your assumptions. That little bit of perspective was great in kick starting the next session.&lt;/p&gt;
+
+&lt;p&gt;It really surprised me how easy it was to swap pairs. Granted, everybody had been thinking about the same problem. But everyone was using a different approach, and sometimes a different language. The context switching didn&amp;rsquo;t seem to affect anybody. The new combinations brought new ideas and really contributed to the success of the day.&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;ve been trying the &lt;a href="http://www.pomodorotechnique.com/"&gt;pomodoro technique&lt;/a&gt; at work. I know I&amp;rsquo;ve been a bit resistant to stopping when the timer goes. I always feel like I should just get the rest of my ideas out before I take break, but based on my experience at code retreat, I think the short break from the problem will turn out to be a real benefit. I&amp;rsquo;m determined to try and do it properly and see how it works out.&lt;/p&gt;
+
+&lt;p&gt;I also want to try and swap pairs more often. I think that the new perspective a new pair will bring to a problem will really help to come to the best solution.  I&amp;rsquo;m not sure about every hour, but once or twice a day should be achievable.&lt;/p&gt;
+
+&lt;h3&gt;Pairing is a great way to share insights and learning&lt;/h3&gt;
+
+&lt;p&gt;Leading on from the new perspective a new pair brings is also the amount of shared learning that happens when your pairing. I learnt something from everyone I paired with. Not just how to approach the problem, but new things about the language, the tools. In a team, pairing will really help to bring every team member up to speed on any new part of the code base or library added. Switching often will make this happen even faster.&lt;/p&gt;
+
+&lt;h3&gt;If you don&amp;rsquo;t need the infrastructure yet, don&amp;rsquo;t build it&lt;/h3&gt;
+
+&lt;p&gt;Why do you need to build a class to make your first spec pass? Why not just write the code you need in the spec? Then write the next spec, and the code to pass it in that spec. As soon as you start to see shared behaviour extract a method. When specs are using the same state and the same methods extract a class.&lt;/p&gt;
+
+&lt;p&gt;Working like this is &lt;em&gt;really&lt;/em&gt; hard, but its amazing how the design you need just starts to show itself. &lt;/p&gt;
+
+&lt;h3&gt;Look at one behaviour at a time by isolating it using canned responses&lt;/h3&gt;
+
+&lt;p&gt;Most of the code we write doesn&amp;rsquo;t split up nicely into discreet chunks of behaviour. We build systems that rely on several pieces all working together to produce complicated behaviour. Complexity is difficult to define, so to make it easier we need to try to isolate the part that we&amp;rsquo;re interested in right now.  We can use simple objects that return canned responses, this allows us to consider only the behaviour we care about now.&lt;/p&gt;
+
+&lt;h3&gt;Keeping things really simple is really hard&lt;/h3&gt;
+
+&lt;p&gt;Corey was continually encouraging us to keep things simple. Its amazing how often you think your doing something as simply as possible, and then someone comes along and makes it even simpler. Simple is good, it allows you to work on one thing at a time, and not get bogged down in things that don&amp;rsquo;t matter &lt;em&gt;right now&lt;/em&gt;. &lt;/p&gt;
+
+&lt;p&gt;A lot of the direction at code retreat was about ways to keep things simple, to specify only the smallest piece of behaviour. Writing the code in the spec at first, and using &amp;lsquo;doubles&amp;rsquo; to isolate behaviour are both great techniques to help you do that.&lt;/p&gt;
+
+&lt;p&gt;One of the main things I&amp;rsquo;m taking away from code retreat is to work hard at writing smaller, more focussed specs.&lt;/p&gt;
+
+&lt;p&gt;If there&amp;rsquo;s a &lt;a href="http://www.coderetreat.com/"&gt;code retreat&lt;/a&gt; near you I really encourage you to go along. If there isn&amp;rsquo;t join the &lt;a href="http://coderetreat.ning.com/"&gt;community&lt;/a&gt; and see if there&amp;rsquo;s anyone else who would be interested in helping get one organised.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;d like to say thank you to &lt;a href="http://coreyhaines.com/"&gt;Corey Haines&lt;/a&gt;, the sponsors &lt;a href="http://riverglide.com/"&gt;RiveGlide&lt;/a&gt; and &lt;a href="http://edendevelopment.co.uk/"&gt;Eden Development&lt;/a&gt;, all of the attendees, and of course &lt;a href="http://www.bletchleypark.org.uk/"&gt;Bletchley Park&lt;/a&gt; and the &lt;a href="http://www.tnmoc.org/"&gt;The National Museum of Computing&lt;/a&gt; for making the day such a great success.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Exploring Harmony for javascript BDD with RSpec</title>
+    <link rel="alternate" href="http://tooky.co.uk/exploring-harmony-for-unit-testing-with-rspec/"/>
+    <id>http://tooky.co.uk/exploring-harmony-for-unit-testing-with-rspec/</id>
+    <published>2010-03-02T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;We try to BDD all of our production code, but the one area we always seem to struggle with is our javascript. There are various test/spec frameworks for javascript, but we&amp;rsquo;ve never quite found one we&amp;rsquo;ve been totally happy with.&lt;/p&gt;
+
+&lt;p&gt;There&amp;rsquo;s been a fair amount of interest lately in a new ruby gem which allows you to execute javascript against a DOM from within a ruby process. &lt;a href="http://github.com/mynyml/harmony"&gt;Harmony&lt;/a&gt; uses &lt;a href="http://github.com/jbarnette/johnson/"&gt;Johnson&lt;/a&gt; a ruby wrapper for the &lt;a href="http://www.mozilla.org/js/spidermonkey/"&gt;Mozilla SpiderMonkey&lt;/a&gt; javascript runtime.&lt;/p&gt;
+
+&lt;p&gt;To get started figuring out how I might be able to integrate harmony into my workflow, I&amp;rsquo;ve created a very simple &lt;a href="http://gist.github.com/319235"&gt;project&lt;/a&gt; which uses rspec to make some very simple assertions about javascript behaviour.&lt;/p&gt;
+
+&lt;script src="http://gist.github.com/319235.js?file=rspec_with_harmony.rb"&gt;&lt;/script&gt;
+
+&lt;p&gt;The 3rd and 4th specs are probably the most interesting. They show how how you can use an HTML fixture file, and load the javascript you want to test. This feels like a nice way of isolating your javascript, and would probably encourage me to write much more modular javascript.&lt;/p&gt;
+
+&lt;p&gt;Please fork the &lt;a href="http://gist.github.com/319235"&gt;gist&lt;/a&gt; and play with some more detailed specs.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Remote pairing with GNU Screen and Vim</title>
+    <link rel="alternate" href="http://tooky.co.uk/remote-pairing-with-gnu-screen-and-vim/"/>
+    <id>http://tooky.co.uk/remote-pairing-with-gnu-screen-and-vim/</id>
+    <published>2010-01-08T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;All the recent &lt;a href="http://search.twitter.com/search?q=%23uksnow"&gt;#uksnow&lt;/a&gt; has left the &lt;a href="http://edendevelopment.co.uk/blogs/company/2009/11/28/welcome-to-our-new-office/"&gt;Eden studio&lt;/a&gt; a little deserted. With several of us having longish drives in to the office, we&amp;rsquo;ve been forced to get much better at remote pairing.&lt;/p&gt;
+
+&lt;p&gt;In the past we&amp;rsquo;ve used iChat screen sharing in the office for pairing on laptops, but with two people both at the end of a DSL connection, the screen + voice bandwidth demands are pretty high, and the guest user is at a painful disadvantage.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.vim.org/"&gt;Vim&lt;/a&gt; is currently undergoing something of a rennaisance at &lt;a href="http://edendevelopment.co.uk"&gt;Eden Development&lt;/a&gt;. Several of us have been trying to use it for all our coding. Fortunately this has stood us in good stead to take advantage of a great low bandwidth pair programming solution.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://www.gnu.org/software/screen/"&gt;GNU Screen&lt;/a&gt; + &lt;a href="http://www.vim.org/"&gt;vim&lt;/a&gt; (+ &lt;a href="http://skype.com"&gt;skype&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;John Haruska gives a great &lt;a href="http://haruska.com/2009/09/29/remote-pair-programming/"&gt;overview of different remote pairing solution&lt;/a&gt; and outlines how to use screen to set up a shared terminal. Unfortunately we weren&amp;rsquo;t able to use the acl method to allow different UNIX users to share a &amp;lsquo;screen&amp;rsquo; on our macs, but if both users logged in to the same unix account it worked like a dream.&lt;/p&gt;
+
+&lt;p&gt;Our basic process is:&lt;/p&gt;
+
+&lt;p&gt;User 1 sets up a screen as a shared user on the host machine&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;pairing$ screen -S pairing
+Ctrl-a :multiuser on
+&lt;/pre&gt;
+
+&lt;p&gt;User 2, logs into the maching via ssh, and connects to the shared screen&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;local$ ssh pairing@shared_machine
+pairing$ screen -x pairing
+&lt;/pre&gt;
+
+&lt;p&gt;That&amp;rsquo;s basically it. Both users then have access to a full shared terminal environment. A shared screen can have multiple windows, so we tend to work with one screen for vim and another for running tests and other terminal commands. We also make extensive use of &lt;a href="http://www.linux.com/archive/articles/59533"&gt;vim tabs&lt;/a&gt; and shell execution from within vim.&lt;/p&gt;
+
+&lt;p&gt;A couple of tips:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;make use of the &lt;a href="http://www.samsarin.com/blog/2007/03/11/gnu-screen-working-with-the-scrollback-buffer/"&gt;GNU screen scrollback buffer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;remote pairing can be quite intense, we find using &lt;a href="http://www.pomodorotechnique.com/"&gt;The Pomodoro Technique&lt;/a&gt; really useful in helping combat that - see &lt;a href="http://tomatoi.st/"&gt;http://tomatoi.st/&lt;/a&gt; for a shared timer.&lt;/li&gt;
+&lt;li&gt;audio is essential, but having a video link is even better&lt;/li&gt;
+&lt;li&gt;SSH requires some kind of NAT/firewall traversal - we found it simplest to just connect to the office vpn.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href="http://edendevelopment.co.uk/blogs/aimee/"&gt;aimee&lt;/a&gt; has a great description of how aimee, &lt;a href="http://blog.nexwerk.com/"&gt;Enrique&lt;/a&gt; and I ended up &lt;a href="http://edendevelopment.co.uk/blogs/aimee/2010/01/06/remote-trio-programming/"&gt;trio-programming&lt;/a&gt; over the last couple of days, and here&amp;rsquo;s a photo to prove it. I&amp;rsquo;m the remote on the macbook to aimee&amp;rsquo;s left.&lt;/p&gt;
+
+&lt;p&gt;&lt;img title="Trio-programming with aimee and Enrique" alt="trio-programming" src="http://farm5.static.flickr.com/4055/4257007886_3442ceceba_d.jpg" /&gt;&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>A Model for Life</title>
+    <link rel="alternate" href="http://tooky.co.uk/model_for_life/"/>
+    <id>http://tooky.co.uk/model_for_life/</id>
+    <published>2009-12-17T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;Its nearly two weeks since &lt;a href="http://twitter.com/edentodd"&gt;Todd&lt;/a&gt; gave me my first apprenticeship task:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Assignment: To logically model an individual&amp;rsquo;s life from the perspective of a parent instructing their
+child guidelines on how to make decisions to maximize happiness.&lt;/p&gt;
+
+&lt;p&gt;Requirements: Your model of a &amp;ldquo;Life&amp;rdquo; can be as extensive or granular as you wish to take it.  There is
+generally no wrong answer, other that it must reflect reality.  You will be expected to defend your
+model and the business rules you create.&lt;/p&gt;
+
+&lt;p&gt;Your model must take into to account (at minimum):&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Desires&lt;/li&gt;
+&lt;li&gt;Needs&lt;/li&gt;
+&lt;li&gt;Relationships&lt;/li&gt;
+&lt;li&gt;Finances&lt;/li&gt;
+&lt;li&gt;A State of well-being (happiness)&lt;/li&gt;
+&lt;li&gt;An unforeseen disaster&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;My son will be 2 on Monday. Its been amazing to watch him grow up and see him develop into a real character. When I think back to those first few weeks, I can say exactly what he needed and what made him happy then.&lt;/p&gt;
+
+&lt;p&gt;So long as he was warm, dry and fed and he had his mum he was happy - he was also mostly asleep.&lt;/p&gt;
+
+&lt;p&gt;Now its a different story. He still needs to be warm, dry and fed, but its no longer enough. He has to be entertained or challenged. He needs to see all the significant people in his life (coming home from work to excited shrieks of &amp;ldquo;Daddy, daddy&amp;rdquo; never gets old). He loves to visit his favourite places, play with favourite toys and watch his favourite DVDs. His life has become much more complex, and what makes him happy has followed suit.&lt;/p&gt;
+
+&lt;p&gt;This is how I&amp;rsquo;m going to approach this problem. I&amp;rsquo;m going to try to model a life from the point of view of a baby initially and see how it will evolves with time. I&amp;rsquo;ll continue to record my progress here.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>The Language of Software Craftsmanship</title>
+    <link rel="alternate" href="http://tooky.co.uk/language-of-software-craftsmanship/"/>
+    <id>http://tooky.co.uk/language-of-software-craftsmanship/</id>
+    <published>2009-12-11T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;The &lt;a href="http://groups.google.com/group/software_craftsmanship/browse_thread/thread/417bec17184ccfc2#"&gt;software craftsmanship list&lt;/a&gt; had a little flurry of activity today. &lt;a href="http://twitter.com/jasongorman"&gt;Jason Gorman&lt;/a&gt; posted about &lt;a href="http://www.teamsandtechnology.com/dh/blog/"&gt;David Harvey&amp;rsquo;s&lt;/a&gt; &lt;a href="http://qconlondon.com/london-2010/presentation/Danger:+Software+Craftsmen+at+Work"&gt;session&lt;/a&gt; at next years &lt;a href="http://qconlondon.com/london-2010/"&gt;QCon London&lt;/a&gt;. The talk - &lt;a href="http://qconlondon.com/london-2010/presentation/Danger:+Software+Craftsmen+at+Work"&gt;Danger: Software Craftsmen at Work&lt;/a&gt; - unsurprisingly caused some discussion on the list!&lt;/p&gt;
+
+&lt;p&gt;Linked in the thread is an &lt;a href="http://www.teamsandtechnology.com/dh/blog/2009/05/25/software-craftsmanship-can-we-just-get-over-it/"&gt;interesting article&lt;/a&gt; by David that gives a little bit more context to his position.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;I have a problem with the language of software craftsmanship. The notion that somehow we’ll solve
+our nascent profession’s problems by calling ourselves, or regarding ourselves, as “apprentices”,
+“journeymen”, “masters” and so on is more than faintly absurd.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I have &lt;a href="http://tooky.github.com/craftsmanship/eden/2009/11/25/software-craftsmanship.html"&gt;recently joined&lt;/a&gt; the formal apprenticeship scheme at &lt;a href="http://www.edendevelopment.co.uk"&gt;Eden Development&lt;/a&gt;, and I wanted to give some perspective of what being an apprentice means to me.&lt;/p&gt;
+
+&lt;p&gt;Using terms like &amp;ldquo;apprentice&amp;rdquo;, &amp;ldquo;journeymen&amp;rdquo; and &amp;ldquo;master&amp;rdquo; &lt;strong&gt;is&lt;/strong&gt; probably a bit absurd. But its absurd in a good way. &lt;a href="http://c2.com/cgi/wiki?SystemMetaphor"&gt;Metaphor&lt;/a&gt; is one of the core practices of XP, developing a system metaphor gives a team a shared vision for project. Its not meant to define what the software does, but the language of the metaphor gives the team a way to discuss the system.&lt;/p&gt;
+
+&lt;p&gt;The software craftsmanship metaphor gives us shared vision for improving the state of software development. Its not supposed to be new ideas, its just a new way of framing new ideas to give people a common language to use. Calling myself an apprentice allows me to say that I have a lot to learn, that I want to be part of company that is willing to invest in me, if I&amp;rsquo;m willing to invest in myself.&lt;/p&gt;
+
+&lt;p&gt;If I sound absurd when I tell people that, then so be it. It certainly starts the conversation.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Software Craftsmanship and Eden Development</title>
+    <link rel="alternate" href="http://tooky.co.uk/software-craftsmanship/"/>
+    <id>http://tooky.co.uk/software-craftsmanship/</id>
+    <published>2009-11-25T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;I&amp;rsquo;m not sure when I first came across &lt;a href="http://en.wikipedia.org/wiki/Software_Craftsmanship"&gt;software craftsmanship&lt;/a&gt;, but I know that &lt;a href="http://twitter.com/edentodd"&gt;Dave Hoover&lt;/a&gt;&amp;rsquo;s early blogs about &lt;a href="http://oreilly.com/catalog/9780596518387"&gt;apprenticeship patterns&lt;/a&gt; were some of the posts that made it really start to resonate with me!&lt;/p&gt;
+
+&lt;p&gt;In 2005 I read one of Dave&amp;rsquo;s posts - &lt;a href="http://redsquirrel.com/cgi-bin/dave/2005/04/12#a.thread.of.patterns"&gt;A Thread of Patterns&lt;/a&gt; - and I started to recognise some of these patterns in my own experience. This post prompted me to email Dave and tell him a little of my story.&lt;/p&gt;
+
+&lt;p&gt;Reading back over those emails today its striking that I had started to look for a mentor. That I felt that there were serious problems with the way the company I worked for approached software, but I didn&amp;rsquo;t feel I had the experience to fix those problems, and that I needed to move and take the next step in my career.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;I think one area that your patterns need to touch upon is getting the culture
+right. This is an area that I think is making my life more difficult. There
+isn&amp;rsquo;t a culture of developing software in this company. Most of the
+programming here is about quick and dirty solutions to solve one time problems
+for production.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This was 2005 - it was two more years before I left that company, and the move I made then didn&amp;rsquo;t work out the way I hoped. I learnt alot along the way, but have never really found the culture I was looking for.&lt;/p&gt;
+
+&lt;p&gt;Fast-forward to today - after 5 months at &lt;a href="http://edendevelopment.co.uk/"&gt;Eden Development&lt;/a&gt; I feel that I have finally found a company with a culture that I share. The company itself has been on a bit of a &lt;a href="http://blog.edendevelopment.co.uk/2009/10/13/software-craftsmanship-a-meeting-of-minds/"&gt;voyage of discovery&lt;/a&gt; and growth and I am really excited to be part of its future. Not only did we leave our old office for the first time today, but the company started its new
+formal apprenticeship scheme.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m pleased to say that I was offered, and have accepted, an Eden Development apprenticeship under the guidance of &lt;a href="http://twitter.com/edentodd"&gt;Todd Anderson&lt;/a&gt;. I&amp;rsquo;m excited to see how this program develops, and look forward to sharing my experiences.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>How I'm going to try to become a better pair.</title>
+    <link rel="alternate" href="http://tooky.co.uk/how-to-improve-my-pairing/"/>
+    <id>http://tooky.co.uk/how-to-improve-my-pairing/</id>
+    <published>2009-09-02T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;I started my new job with &lt;a href="http://www.edendevelopment.co.uk"&gt;Eden Development&lt;/a&gt; about 2 months ago now. So far its been going great, I&amp;rsquo;ve been working on an interesting project (which I hope to speak more about soon) with a great team.&lt;/p&gt;
+
+&lt;p&gt;One of our core practices at Eden is &lt;a href="http://en.wikipedia.org/wiki/Pair_programming"&gt;pair programming&lt;/a&gt;, which is something I&amp;rsquo;ve only had limited experience of in the past, but after 2 months of doing it every day with a variety of people, I&amp;rsquo;m convinced of its &lt;a href="http://en.wikipedia.org/wiki/Pair_programming#Benefits"&gt;merits&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Pairing is hard though. Doing it well is a skill, and because its now something I do every day I want to get better at it. &lt;a href="http://www.markhneedham.com"&gt;Mark Needham&lt;/a&gt; posted an interesting article on &lt;a href="http://www.markhneedham.com/blog/2009/08/27/pair-programming-observations-on-anti-patterns/"&gt;pair programming anti-patterns&lt;/a&gt; which I really identified with.&lt;/p&gt;
+
+&lt;p&gt;I can definitely recognise the anti-pattern behaviour he describes in my own pairing, and I&amp;rsquo;ve been frustrated by the same behaviour by my pair!&lt;/p&gt;
+
+&lt;p&gt;What I take away from Mark&amp;rsquo;s post is that effective pairing is really about good communication! You have to let your pair know what your doing and you have to listen to what their saying. &lt;/p&gt;
+
+&lt;p&gt;When I&amp;rsquo;m driving I&amp;rsquo;m going to try to slow down a little - rather than just diving headlong into solving the problem, and racing around the code I am going to try to spend more time explaining what I&amp;rsquo;m doing and why I&amp;rsquo;m doing it.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m pretty sure that taking the time to explain my thinking will not only help my pair stay involved but will give us both chance to think about it, and pick up on any potential problems or wrong assumptions.&lt;/p&gt;
+
+&lt;p&gt;Hopefully talking more will make it easier for my pair to offer an alternative strategy. If we&amp;rsquo;ve slowed down, and we&amp;rsquo;re talking more about the solution its less work to stop and change direction to try an alternative - it feels less like an interruption perhaps.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>UK Apprenticeships and Software Development</title>
+    <link rel="alternate" href="http://tooky.co.uk/uk-apprenticeships-and-software-development/"/>
+    <id>http://tooky.co.uk/uk-apprenticeships-and-software-development/</id>
+    <published>2009-09-02T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;a href="http://twitter.com/coreyhaines"&gt;Corey Haines&lt;/a&gt; recently blogged about &lt;a href="http://programmingtour.blogspot.com/2009/09/software-development-school-idea.html"&gt;building a software development school&lt;/a&gt; and it got me thinking about UK &lt;a href="http://www.apprenticeships.org.uk/Employers/Whats-it-all-about/What-is-an-Apprenticeship.aspx"&gt;Apprenticeships&lt;/a&gt; and how we could improve the &amp;ldquo;craft&amp;rdquo; here in the UK.&lt;/p&gt;
+
+&lt;p&gt;UK Apprenticeships (a rebranding of &amp;ldquo;Modern Apprenticeships&amp;rdquo; - also known as &amp;ldquo;Day Release&amp;rdquo;) is essentially a scheme that combines on and off the job training. They cover a large array of careers but all have the same common principle: apprentices spend most of their time (typically 4-days per week) working in a real business under a mentor, and the remaining time at college studying for a recognised qualification.&lt;/p&gt;
+
+&lt;p&gt;According to the &lt;a href="http://www.apprenticeships.org.uk/Employers/Whats-it-all-about/What-is-an-Apprenticeship.aspx"&gt;Apprenticeships website&lt;/a&gt;) an Apprenticeship is not a qualification itself but a framework  containing separately certificated elements.&lt;/p&gt;
+
+&lt;p&gt;The Apprenticeship frameworks cover a wide range of &lt;a href="http://www.apprenticeships.org.uk/Types-of-Apprenticeships.aspx"&gt;industries&lt;/a&gt; including an &lt;a href="http://www.apprenticeships.org.uk/Types-of-Apprenticeships/Information-and-Communication-Technology/ICT-Professional.aspx"&gt;ICT Professional apprenticeship&lt;/a&gt; - I wonder what it would take to develop a scheme for software developers which would enable UK development workshops to start taking an active role in developing the next generation of software craftsmen?&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Simple Old-school webcam using iSightcapture and dropbox</title>
+    <link rel="alternate" href="http://tooky.co.uk/webcam-with-isightcapture-and-dropbox/"/>
+    <id>http://tooky.co.uk/webcam-with-isightcapture-and-dropbox/</id>
+    <published>2009-02-20T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;I&amp;rsquo;ve been having a bit of trouble with my shoulder and back for the last couple of weeks - mostly rugby related I think - and I&amp;rsquo;ve been seeing my osteopath to get it sorted. He suggested that I might be making things worse by the way I&amp;rsquo;m sitting at my desk. He&amp;rsquo;s probably right, I think I&amp;rsquo;m a chronic sloucher. His idea was to get someone at the office to keep an eye on me, or take photos of me every now and again&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Well I didn&amp;rsquo;t think that sounded too great, so I decided I could just use my macbook pro&amp;rsquo;s built in iSight to do the job - throw in &lt;a href="http://www.intergalactic.de/pages/iSight.html"&gt;isightcapture&lt;/a&gt; with a cron job and I have an image of how i&amp;rsquo;m sitting every 20 mins.&lt;/p&gt;
+
+&lt;p&gt;After doing that I couldn&amp;rsquo;t resist putting up a page with of &lt;a href="/me.html"&gt;me&lt;/a&gt; with the updated image, in the old-school webcam style. I&amp;rsquo;m just using dropbox to sync the image to my public folder as it seemed the simplest thing.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Getting started with Cucumber and Sinatra</title>
+    <link rel="alternate" href="http://tooky.co.uk/getting-started-with-cucumber-and-sinatra/"/>
+    <id>http://tooky.co.uk/getting-started-with-cucumber-and-sinatra/</id>
+    <published>2009-02-05T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;strong&gt;UPDATE&lt;/strong&gt; Sinatra and cucumber integration has changed now, Rob Holland updated the &lt;a href="https://github.com/cucumber/cucumber/wiki/sinatra"&gt;wiki&lt;/a&gt; to reflect it. There is also a more full featured example on his &lt;a href="http://github.com/robholland/cucumber/commit/0e12d8100ca8541af014abe6a480c53a90b6aebd"&gt;branch&lt;/a&gt; of cucumber. I&amp;rsquo;ve updated the blog to reflect that.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://sinatra.github.com"&gt;Sinatra&lt;/a&gt; is probably the most popular ruby micro web framework at the moment. Its simple dsl for quickly creating web apps, it give you &amp;ldquo;just enough&amp;rdquo; framework to get things done.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://cukes.info"&gt;Cucumber&lt;/a&gt; is that latest development from the &lt;a href="http://dannorth.net/introducing-bdd"&gt;BDD&lt;/a&gt; / &lt;a href="http://rspec.info"&gt;RSpec&lt;/a&gt; guys. &lt;a href="http://cukes.info"&gt;Cucumber&lt;/a&gt; lets you describe the behaviour of your software in plain text. These files then serve as automated tests and documentation.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve been considering using both of these tools for an upcoming project so I wanted to make sure they worked happily together. A quick google seemed to suggest that some work had been done, but I could find a tutorial for getting up and running. Happily the latest releases of Cucumber (and &lt;a href="http://github.com/brynary/webrat/tree/master"&gt;Webrat&lt;/a&gt;) have Sinatra support built in so its really very easy!&lt;/p&gt;
+
+&lt;p&gt;With cucumber you write your plain text specifications in terms of &amp;lsquo;features&amp;rsquo;, by convention they are in a features directory with the .feature extension. So for our purposes we will start with a very simple feature:&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;Feature: view pages
+
+  Scenario: Home page
+    Given I am viewing "/"
+    Then I should see "Hello, world!
+&lt;/pre&gt;
+
+&lt;p&gt;To run our feature (and test our code against it) is as simple as &lt;code&gt;cucumber feature/home.feature&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="cucumber pending steps" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber1.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Cucumber parses the feature and looks for matching step definitions. As we can see in the screenshot we need to implement the steps in our feature so cucumber knows how to run it. Step definitions are implemented in ruby.&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;Given /^I am viewing "(.+)"$/ do |url|
+  visit(url)
+end
+
+Then /^I should see "(.+)"$/ do |text|
+  response_body.should =~ Regexp.new(Regexp.escape(text))
+end
+&lt;/pre&gt;
+
+&lt;p&gt;These two simple steps make use of webrat to request the url from our app and check that the response contains the text we&amp;rsquo;re looking for.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="cucumber failing without webrat" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber2.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;The feature is currently failing as a method we have used in our step definition doesn&amp;rsquo;t exist. &lt;code&gt;visit&lt;/code&gt; is a method from webrat so we need to configure cucumber&amp;rsquo;s environment to use webrat. Webrat has a &lt;code&gt;SinatraSession&lt;/code&gt; specifically for testing sinatra web apps. We will also need to require the RSpec expectations as we are using them to check the response.&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;require 'spec/expectations'
+require 'webrat'
+Webrat.configure do |config|
+  config.mode = :sinatra
+end
+
+World do
+  Webrat::SinatraSession.new
+end
+&lt;/pre&gt;
+
+&lt;p&gt;Running the scenario again, and we see that everything is hooked up properly and the scenario is failing (as expected because we haven&amp;rsquo;t written any code).&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="cucumber failing no code" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber3.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now we have our failing scenario we can start putting together our web app and make sure we&amp;rsquo;re running with a green light!&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;require 'sinatra'
+
+get '/' do
+  "Hello, world!"
+end
+&lt;/pre&gt;
+
+&lt;p&gt;Now if we run out scenario again unfortunately it still fails, we need to hook cucumber up to our app.&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;require 'spec/expectations'
+require 'webrat'
+Webrat.configure do |config|
+  config.mode = :sinatra
+end
+
+World do
+  Webrat::SinatraSession.new
+end
+
+require File.dirname(__FILE__) + '/../../hello''
+&lt;/pre&gt;
+
+&lt;p&gt;Finally running cucumber gives us that nice green feeling.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="green cucumber" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber4.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;The only thing left to do is to add a rake file to run our features for us.&lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;require 'rubygems'
+require 'cucumber/rake/task'
+
+Cucumber::Rake::Task.new(:features) do |t|
+  t.cucumber_opts = "--format pretty"
+end
+&lt;/pre&gt;
+
+&lt;p&gt;&lt;img alt="rake features" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber5.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;All of the code for this getting started guide is available from &lt;a href="http://gist.github.com/58647"&gt;gist&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>GitHub Pages and Jekyll</title>
+    <link rel="alternate" href="http://tooky.co.uk/github-pages-and-jekyll/"/>
+    <id>http://tooky.co.uk/github-pages-and-jekyll/</id>
+    <published>2008-12-18T00:00:00Z</published>
+    <updated>2013-12-18T10:29:53+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;a href="http://github.com"&gt;GitHub&amp;rsquo;s&lt;/a&gt; new GitHub pages service makes it incredibly easy to host a static site, which is completely version controlled, when you add &lt;a href="http://mojombo.github.com"&gt;Tom Preston-Werner&amp;rsquo;s&lt;/a&gt; &lt;a href="http://github.com/mojombo/jekyll"&gt;Jekyll&lt;/a&gt; into the mix you get a fantastically simple blogging platform.&lt;/p&gt;
+
+&lt;p&gt;To set up your github pages site all you need to do is create a [username].github.com repository and push your site to the repository. Really simple. Checkout &lt;a href="http://you.github.com"&gt;you.github.com&lt;/a&gt; for more detailed instructions!&lt;/p&gt;
+
+&lt;p&gt;The great thing about this is that &lt;a href="http://github.com"&gt;GitHub&lt;/a&gt; run your repository through &lt;a href="http://github.com/mojombo/jekyll/tree/master"&gt;Jekyll&lt;/a&gt;. This means that you can create a really simple blogging platform with all your posts stored and version controlled in git! See &lt;a href="http://mojombo.github.com/2008/11/17/blogging-like-a-hacker.html"&gt;Blogging Like a Hacker&lt;/a&gt; for more details.&lt;/p&gt;
+
+&lt;p&gt;Tom has also published his &lt;a href="http://github.com/mojombo/tpw/tree/master"&gt;repository&lt;/a&gt; to help you get started as well.&lt;/p&gt;
+
+&lt;p&gt;Many thanks to Tom for all of this, I&amp;rsquo;ve managed to put together a nice simple clean site based on his ideas, which I&amp;rsquo;m really pleased with!&lt;/p&gt;
 </content>
   </entry>
 </feed>
