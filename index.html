@@ -29,89 +29,115 @@
     <div id="main" role="main">
       <article>
   <header>
-    <h1><a href="/using-charklock_holmes-on-heroku/">Using charklock_holmes on Heroku</a> </h1>
+    <h1><a href="/kickstart-academy-podcast-with-corey-haines-and-sandi-metz/">Kickstart Academy Podcast with Corey Haines and Sandi Metz</a> </h1>
     <section class="author">
       <img class="avatar" src="/images/tooky-avatar.jpg">
       <p class="byline">by Steve Tooke</p>
-      <time datetime="2014-06-11" itemprop="datePublished">June 11th, 2014</time>
+      <time datetime="2014-07-29" itemprop="datePublished">July 29th, 2014</time>
     </section>
   </header>
   <section class="article-body">
-    <p><a href="https://github.com/brianmario/charlock_holmes"><code>charlock_holmes</code></a> is a useful gem if you have to deal with
-user supplied data which may come in a variety of text-encodings. Not only does
-it enable you to detect the encoding of a string, but it also allows you to
-transcode the string to a different encoding.</p>
+    <p>Last month we broadcast our 2nd live podcast. We were fortunate to be joined by
+<a href="https://twitter.com/coreyhaines">Corey Haines</a> &mdash; to discuss simple design &mdash; and by <a href="https://twitter.com/sandimetz/">Sandi
+Metz</a> &mdash; who was kind enough to return for a second show.</p>
 
-<p><code>charklock_holmes</code> uses <a href="http://site.icu-project.org"><code>libicu</code></a> to deal with string encoding.</p>
+<p></p>
 
-<p>Unfortunately, the default <a href="https://www.heroku.com">Heroku</a> buildpack for Ruby doesn&rsquo;t include
-<code>libicu</code> which prevents bundler from being able to compile <code>charklock_holmes</code>
-C-extension.</p>
+<iframe width="560" height="315" src="//www.youtube.com/embed/BT7MYd07OFw"
+frameborder="0" allowfullscreen></iframe>
 
-<p>There have been a few attempts at solving this problem, most of which are
-discussed over on <a href="http://stackoverflow.com/questions/18926574/how-to-install-charlock-holmes-dependency-libicu-dev-on-heroku">stack overflow</a>. The <a href="http://stackoverflow.com/a/18926982/223996">accepted
-answer</a> is a common solution, which relies on using
-a version of the gem which includes a bundled version of <code>libicu</code>. While this
-works, it does result in very slow build times both on heroku, and locally when
-doing a bundle install.</p>
+<p>There is an <a href="http://bit.ly/1lR4AsO">audio version of this podcast available here</a> - but due to the nature
+of the live code examples on the video version that is probably the better
+experience.</p>
 
-<p><a href="http://stackoverflow.com/a/20507705/223996">Another solution</a> uses a custom version of the ruby
-buildpack which includes <code>libicu</code> &mdash; while this is a simple solution it
-relies on the maintainer of that solution keeping it up to date with heroku&rsquo;s
-ruby buildpack.</p>
+<h2>Show Notes</h2>
 
-<p><a href="http://stackoverflow.com/a/22662875/223996">My favourite solution</a> seems to move in the right direction,
-it uses <a href="https://github.com/ddollar/heroku-buildpack-multi"><code>heroku-buildpack-multi</code></a> and
-<a href="https://github.com/ddollar/heroku-buildpack-apt"><code>heroku-buildpack-apt</code></a> to install <code>libicu</code> using apt.
-Unfortunately it uses a forked version of the <code>heroku-buildpack-apt</code> which
-adds specific behaviour for <code>charlock_holmes</code> and where <code>bundler</code> can find the
-version of <code>libicu</code> installed by <code>apt</code>.</p>
+<ul>
+<li>[0:02:20] &mdash; 4 rules of simple design
 
-<p>My solution builds upon the previous solution, but rather than use a custom
-version of the <code>heroku-buildpack-apt</code> I have added one more buildpack into the
-mix &mdash; <a href="https://github.com/timolehto/heroku-bundle-config"><code>heroku-bundle-config</code></a>.</p>
+<ul>
+<li><a href="https://twitter.com/kentbeck">Kent Beck</a></li>
+<li>&ldquo;Design that is easier to change&rdquo; - Corey</li>
+<li><a href="http://www.jbrains.ca/permalink/the-four-elements-of-simple-design">Four elements of simple design</a> &mdash; <a href="https://twitter.com/jbrains">J. B. Rainsberger</a></li>
+</ul></li>
+<li>[0:6:11] &mdash; <a href="https://leanpub.com/4rulesofsimpledesign">Understanding the 4 Rules of Simple Design</a>
 
-<p>This buildpack allows you to configure your heroku bundler config in your
-repository in the <code>.heroku-bundle</code> directory. During the build it will move this
-directory to <code>.bundle</code>, and most importantly, make sure that all <code>/app</code> paths
-point correctly to the temporary build directory.</p>
+<ul>
+<li><a href="http://coderetreat.org/">Code Retreat</a></li>
+<li>Sandi doesn&rsquo;t hate Corey&hellip;</li>
+</ul></li>
+<li>[0:10:17] Understanding Testing Book
 
-<p>I&rsquo;ve created a <a href="https://github.com/tooky/heroku-charlock-holmes">sample project</a>, that can be <a href="http://heroku-charlock-holmes.herokuapp.com">deployed to heroku</a> – the only thing
-you need to do is ensure that you have set the <code>BUILDPACK_URL</code> to
-<code>https://github.com/ddollar/heroku-buildpack-multi.git</code>:</p>
-<pre class="highlight plaintext">$ heroku config:set BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
-</pre>
+<ul>
+<li>What can you learn from writing your own assert method?</li>
+<li>All testing frameworks bring baggage with them - leaving that aside allows
+you to understand the fundamentals</li>
+<li>Do you start with <code>assert</code> or <code>assert_true</code> ?</li>
+</ul></li>
+<li>[0:19:55] Writing your own assert method demo
 
-<p>When you push to heroku, this buildpack will check for a <code>.buildpacks</code> file,
-which specify the different buildpacks you want to use:</p>
-<pre class="highlight plaintext">https://github.com/ddollar/heroku-buildpack-apt
-https://github.com/timolehto/heroku-bundle-config
-https://github.com/heroku/heroku-buildpack-ruby
-</pre>
+<ul>
+<li>(apologies about the sound cutting in and out, Hangouts appears to mute
+typing)</li>
+<li>&ldquo;Fundamentally testing is about checking that two things are the same&rdquo; - Corey</li>
+</ul></li>
+<li>[0:30:02] Having rich ways of verifying your system can mask design feedback from simple tests
 
-<p><code>heroku-buildpack-apt</code> will then check for an <code>Aptfile</code> and install the
-specified packages:</p>
-<pre class="highlight plaintext">libicu-dev
-</pre>
+<ul>
+<li><a href="http://www.typemock.com/">TypeMock</a> for mocking static methods in .NET masked the need to inject dependencies</li>
+</ul></li>
+<li>[0:36:00] Only having simple testing features can lead to writing a single method that does everything</li>
+<li>[0:38:10] The tension between learning and getting things out in production
 
-<p>Finally, you need to configure you <code>.heroku-bundle/config</code> to make sure that
-<code>bundler</code> can use your newly installed version of <code>libicu</code>:</p>
-<pre class="highlight plaintext">---
-BUNDLE_FROZEN: '1'
-BUNDLE_PATH: vendor/bundle
-BUNDLE_BIN: vendor/bundle/bin
-BUNDLE_JOBS: 4
-BUNDLE_WITHOUT: development:test
-BUNDLE_DISABLE_SHARED_GEMS: '1'
-BUNDLE_BUILD__CHARLOCK_HOLMES: --with-icu-lib=/app/.apt/usr/lib --with-icu-include=/app/.apt/usr/include
-</pre>
+<ul>
+<li>Being able to explain the value of the things that you use</li>
+<li>Doing something because smart people say you should do it, and understanding why they do it</li>
+</ul></li>
+<li>[0:45:21] What&rsquo;s the best approach to teaching design sense to new programmers?
 
-<p>That should be all you need.</p>
+<ul>
+<li>Go back to the mechanical refactoring steps - back to the fundamentals</li>
+<li>&ldquo;refactorings are little machines that produce objects&rdquo; - Sandi</li>
+<li><a href="http://en.wikipedia.org/wiki/SOLID_%28object-oriented_design%29">SOLID</a> principles are guide points</li>
+</ul></li>
+<li>[0:54:10] Actionable principles
+
+<ul>
+<li>SOLID principles are hard to action, minute-by-minute</li>
+<li>Inner/outer design loops</li>
+<li><a href="http://industriallogic.com/xp/refactoring/">Refactoring to Patterns - Joshua Kerievsky</a></li>
+</ul></li>
+<li>[01:01:22] Efficient ways of travelling the long road
+
+<ul>
+<li>Paying attention to what your doing</li>
+<li><a href="http://www.innovationexcellence.com/blog/2012/10/24/divergent-and-convergent-thinking/">Divergent/convergent thinking</a> phases</li>
+<li><a href="http://en.wikipedia.org/wiki/Sunk_costs">Sunk cost fallacy</a></li>
+</ul></li>
+<li>[01:04:07] Only ever one undo away from being back to green
+
+<ul>
+<li><a href="https://gist.github.com/tooky/a75778f70499af2f9435">Corey&rsquo;s Challenge</a></li>
+<li><a href="http://www.infoq.com/presentations/The-Limited-Red-Society">Limited Red Society - Joshua Kerievsky</a></li>
+<li><a href="http://vimeo.com/3763583">Time to Green Graph - Gary Bernhardt</a></li>
+</ul></li>
+</ul>
 
   </section>
 </article>
 
 <ul id="suggested-reading">
+  
+    <li class="suggested-reading-card">
+      <h2><a href="/using-charklock_holmes-on-heroku/">Using charklock_holmes on Heroku</a></h2>
+      <p><a href="https://github.com/brianmario/charlock_holmes"><code>charlock_holmes</code></a> is a useful gem if you have to deal with
+user supplied data which may come in a variety of text-encodings. Not only does
+it enable you to detect the encoding of a string, but it also allows you to
+transcode the string to a different encoding.</p>
+
+<p><code>charklock_holmes</code> uses <a href="http://site.icu-project.org"><code>libicu</code></a> to deal with...</p>
+      <a href="/using-charklock_holmes-on-heroku/">Read more…</a>
+    </li>
   
     <li class="suggested-reading-card">
       <h2><a href="/using-direnv-and-chruby-together/">Using `direnv` and `chruby` together</a></h2>
@@ -134,16 +160,6 @@ Metz</a> for a live google hangout.</p>
       <a href="/kickstart-academy-podcast-with-sandi-metz/">Read more…</a>
     </li>
   
-    <li class="suggested-reading-card">
-      <h2><a href="/hangout-with-matt-wynne-and-aslak-hellesoy/">Hangout with Matt Wynne and Aslak Hellesøy</a></h2>
-      <p>A few weeks ago Matt, Aslak and I held a live google hangout. Today I realised
-that I hadn&rsquo;t mentioned it here. If you haven&rsquo;t seen it yet you can watch it
-here:</p>
-
-<p>
-      <a href="/hangout-with-matt-wynne-and-aslak-hellesoy/">Read more…</a>
-    </li>
-  
 </ul>
 
     </div>
@@ -155,6 +171,8 @@ here:</p>
           <a href="/feed.xml" class="feed" title="Subscribe!"><i class="fa fa-rss"></i></a>
         </h2>
         
+          <li><a href="/kickstart-academy-podcast-with-corey-haines-and-sandi-metz/">Kickstart Academy Podcast with Corey Haines and Sandi Metz</a> <span>Jul 29</span></li>
+        
           <li><a href="/using-charklock_holmes-on-heroku/">Using charklock_holmes on Heroku</a> <span>Jun 11</span></li>
         
           <li><a href="/using-direnv-and-chruby-together/">Using `direnv` and `chruby` together</a> <span>Jun 10</span></li>
@@ -162,8 +180,6 @@ here:</p>
           <li><a href="/kickstart-academy-podcast-with-sandi-metz/">Kickstart Academy Podcast with Sandi Metz</a> <span>May 21</span></li>
         
           <li><a href="/hangout-with-matt-wynne-and-aslak-hellesoy/">Hangout with Matt Wynne and Aslak Hellesøy</a> <span>May 16</span></li>
-        
-          <li><a href="/the-cucumber-test-trap/">The Cucumber Test Trap</a> <span>Mar 29</span></li>
         
       </ol>
 
@@ -181,6 +197,8 @@ here:</p>
           <li><a href="/tags/charlock_holmes/">charlock_holmes</a></a></li>
         
           <li><a href="/tags/coderetreat/">coderetreat</a></a></li>
+        
+          <li><a href="/tags/corey-haines/">corey-haines</a></a></li>
         
           <li><a href="/tags/craft/">craft</a></a></li>
         

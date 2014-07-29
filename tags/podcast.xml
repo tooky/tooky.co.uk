@@ -4,7 +4,103 @@
   <id>http://tooky.co.uk/</id>
   <link href="http://tooky.co.uk/tags/podcast/"/>
   <link href="http://tooky.co.uk/tags/podcast.xml" rel="self"/>
-  <updated>2014-05-21T00:00:00Z</updated>
+  <updated>2014-07-29T00:00:00Z</updated>
+  <entry>
+    <title>Kickstart Academy Podcast with Corey Haines and Sandi Metz</title>
+    <link rel="alternate" href="http://tooky.co.uk/kickstart-academy-podcast-with-corey-haines-and-sandi-metz/"/>
+    <id>http://tooky.co.uk/kickstart-academy-podcast-with-corey-haines-and-sandi-metz/</id>
+    <published>2014-07-29T00:00:00Z</published>
+    <updated>2014-07-29T11:25:30+01:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;Last month we broadcast our 2nd live podcast. We were fortunate to be joined by
+&lt;a href="https://twitter.com/coreyhaines"&gt;Corey Haines&lt;/a&gt; &amp;mdash; to discuss simple design &amp;mdash; and by &lt;a href="https://twitter.com/sandimetz/"&gt;Sandi
+Metz&lt;/a&gt; &amp;mdash; who was kind enough to return for a second show.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;iframe width="560" height="315" src="//www.youtube.com/embed/BT7MYd07OFw"
+frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;p&gt;There is an &lt;a href="http://bit.ly/1lR4AsO"&gt;audio version of this podcast available here&lt;/a&gt; - but due to the nature
+of the live code examples on the video version that is probably the better
+experience.&lt;/p&gt;
+
+&lt;h2&gt;Show Notes&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;[0:02:20] &amp;mdash; 4 rules of simple design
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://twitter.com/kentbeck"&gt;Kent Beck&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;Design that is easier to change&amp;rdquo; - Corey&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.jbrains.ca/permalink/the-four-elements-of-simple-design"&gt;Four elements of simple design&lt;/a&gt; &amp;mdash; &lt;a href="https://twitter.com/jbrains"&gt;J. B. Rainsberger&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:6:11] &amp;mdash; &lt;a href="https://leanpub.com/4rulesofsimpledesign"&gt;Understanding the 4 Rules of Simple Design&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://coderetreat.org/"&gt;Code Retreat&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Sandi doesn&amp;rsquo;t hate Corey&amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:10:17] Understanding Testing Book
+
+&lt;ul&gt;
+&lt;li&gt;What can you learn from writing your own assert method?&lt;/li&gt;
+&lt;li&gt;All testing frameworks bring baggage with them - leaving that aside allows
+you to understand the fundamentals&lt;/li&gt;
+&lt;li&gt;Do you start with &lt;code&gt;assert&lt;/code&gt; or &lt;code&gt;assert_true&lt;/code&gt; ?&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:19:55] Writing your own assert method demo
+
+&lt;ul&gt;
+&lt;li&gt;(apologies about the sound cutting in and out, Hangouts appears to mute
+typing)&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;Fundamentally testing is about checking that two things are the same&amp;rdquo; - Corey&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:30:02] Having rich ways of verifying your system can mask design feedback from simple tests
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.typemock.com/"&gt;TypeMock&lt;/a&gt; for mocking static methods in .NET masked the need to inject dependencies&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:36:00] Only having simple testing features can lead to writing a single method that does everything&lt;/li&gt;
+&lt;li&gt;[0:38:10] The tension between learning and getting things out in production
+
+&lt;ul&gt;
+&lt;li&gt;Being able to explain the value of the things that you use&lt;/li&gt;
+&lt;li&gt;Doing something because smart people say you should do it, and understanding why they do it&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:45:21] What&amp;rsquo;s the best approach to teaching design sense to new programmers?
+
+&lt;ul&gt;
+&lt;li&gt;Go back to the mechanical refactoring steps - back to the fundamentals&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;refactorings are little machines that produce objects&amp;rdquo; - Sandi&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://en.wikipedia.org/wiki/SOLID_%28object-oriented_design%29"&gt;SOLID&lt;/a&gt; principles are guide points&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:54:10] Actionable principles
+
+&lt;ul&gt;
+&lt;li&gt;SOLID principles are hard to action, minute-by-minute&lt;/li&gt;
+&lt;li&gt;Inner/outer design loops&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://industriallogic.com/xp/refactoring/"&gt;Refactoring to Patterns - Joshua Kerievsky&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[01:01:22] Efficient ways of travelling the long road
+
+&lt;ul&gt;
+&lt;li&gt;Paying attention to what your doing&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.innovationexcellence.com/blog/2012/10/24/divergent-and-convergent-thinking/"&gt;Divergent/convergent thinking&lt;/a&gt; phases&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://en.wikipedia.org/wiki/Sunk_costs"&gt;Sunk cost fallacy&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[01:04:07] Only ever one undo away from being back to green
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://gist.github.com/tooky/a75778f70499af2f9435"&gt;Corey&amp;rsquo;s Challenge&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.infoq.com/presentations/The-Limited-Red-Society"&gt;Limited Red Society - Joshua Kerievsky&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://vimeo.com/3763583"&gt;Time to Green Graph - Gary Bernhardt&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
   <entry>
     <title>Kickstart Academy Podcast with Sandi Metz</title>
     <link rel="alternate" href="http://tooky.co.uk/kickstart-academy-podcast-with-sandi-metz/"/>
