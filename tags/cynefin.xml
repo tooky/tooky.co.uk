@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Steve Tooke - cynefin</title>
+  <id>http://tooky.co.uk/</id>
+  <link href="http://tooky.co.uk/tags/cynefin/"/>
+  <link href="http://tooky.co.uk/tags/cynefin.xml" rel="self"/>
+  <updated>2014-07-31T00:00:00Z</updated>
+  <entry>
+    <title>Kickstart Academy Podcast with Liz Keogh and Corey Haines</title>
+    <link rel="alternate" href="http://tooky.co.uk/kickstart-academy-podcast-with-liz-keogh-and-corey-haines/"/>
+    <id>http://tooky.co.uk/kickstart-academy-podcast-with-liz-keogh-and-corey-haines/</id>
+    <published>2014-07-31T00:00:00Z</published>
+    <updated>2014-07-31T12:57:48+01:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;For the third installment of the Kickstart Academy podcast we were pleased to
+have &lt;a href="https://twitter.com/lunivore"&gt;Liz Keogh&lt;/a&gt; join us &amp;mdash; and &lt;a href="https://twitter.com/coreyhaines"&gt;Corey Haines&lt;/a&gt; returned to the
+panel for his second appearance.&lt;/p&gt;
+
+&lt;p&gt;We enjoyed having &lt;a href="https://twitter.com/sandimetz"&gt;Sandi Metz&lt;/a&gt; on the panel for the &lt;a href="http://kickstartacademy.io/blog/2014-07-29-kickstart-academy-podcast-with-corey-haines-and-sandi-metz"&gt;last
+podcast&lt;/a&gt; so much that we hope to have a running theme of inviting
+the previous guest back to the following show – in a similar vein to BBC Radio
+4&amp;rsquo;s &lt;a href="http://en.wikipedia.org/wiki/Chain_Reaction_%28radio%29"&gt;Chain Reaction&lt;/a&gt;.&lt;/p&gt;
+
+&lt;iframe width="560" height="315" src="//www.youtube.com/embed/_hKO-AVjCJM"
+frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;p&gt;There is an &lt;a href="https://dl.dropboxusercontent.com/u/41915/kickstart-academy-podcast/003-liz-keogh-and-corey-haines.mp3"&gt;audio version of this podcast available here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Show Notes&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;[0:01:39] Liz&amp;rsquo;s backstory&lt;/li&gt;
+&lt;li&gt;[0:04:17] Define &lt;a href="http://en.wikipedia.org/wiki/Cynefin"&gt;Cynefin&lt;/a&gt; - a sense making framework
+
+&lt;ul&gt;
+&lt;li&gt;Simple/Obvious - children can solve it&lt;/li&gt;
+&lt;li&gt;Requires expertise - watchmaker&lt;/li&gt;
+&lt;li&gt;Complex - not predictable outcomes&lt;/li&gt;
+&lt;li&gt;Chaos - accident and emergency&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:08:30] Software development approaches within the different cynefin domains
+
+&lt;ul&gt;
+&lt;li&gt;Commoditised requirements vs Differentiating Requirements&lt;/li&gt;
+&lt;li&gt;Chaos - Experiment / Spike / Probe&lt;/li&gt;
+&lt;li&gt;Requires expertise - Analyze (e.g. BDD)&lt;/li&gt;
+&lt;li&gt;Simple - off the shelf&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:12:25] Capabilities vs Goals
+
+&lt;ul&gt;
+&lt;li&gt;Understanding the goal behind the capability&lt;/li&gt;
+&lt;li&gt;Which stakeholders are getting the benefit?&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://twitter.com/imtomgilb"&gt;Tom Gilb&lt;/a&gt; - &lt;a href="http://gilb.com/Project-Management"&gt;Evolutionary Project Management&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:16:31] Is BDD a design activity not required for obvious requirements? - &lt;a href="https://twitter.com/mattwynne"&gt;Matt Wynne&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Analyze as simply as possible&lt;/li&gt;
+&lt;li&gt;Name the scenarios&lt;/li&gt;
+&lt;li&gt;Ask: is there anything different?&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:20:40] BDD: automation and regression testing
+
+&lt;ul&gt;
+&lt;li&gt;How you set the context with &amp;ldquo;Given&amp;rdquo; doesn&amp;rsquo;t matter&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;When&amp;rdquo; is the actual behaviour your interested in&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:22:11] Liz&amp;rsquo;s scale for classifying capabilities
+
+&lt;ul&gt;
+&lt;li&gt;5 - nobody in the world has ever done it before&lt;/li&gt;
+&lt;li&gt;4 - somebody has done it before but not in this organisation&lt;/li&gt;
+&lt;li&gt;3 - somebody in this organisation has done it before, and we need their expertise&lt;/li&gt;
+&lt;li&gt;2 - somebody in the team has done it before&lt;/li&gt;
+&lt;li&gt;1 - we all know how to do it&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:23:05] When automated scenarios catch a regression bug it&amp;rsquo;s usually because of poor design
+
+&lt;ul&gt;
+&lt;li&gt;Don&amp;rsquo;t just throw more scenarios at it find out why your getting the bugs&lt;/li&gt;
+&lt;li&gt;Often because two capabilities are bleeding in to each other&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:25:51] Techniques for talking through capabilities with stakeholders
+
+&lt;ul&gt;
+&lt;li&gt;Why are we doing this project?&lt;/li&gt;
+&lt;li&gt;Who are we doing it for?&lt;/li&gt;
+&lt;li&gt;Can you give me an example?&lt;/li&gt;
+&lt;li&gt;What will you be able to do that you can&amp;rsquo;t do now?&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:30:44] Focusing on the outcome
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://twitter.com/PapaChrisMatts"&gt;Chris Matts&lt;/a&gt; - &lt;a href="http://theitriskmanager.wordpress.com/2014/07/06/a-tale-of-two-feature-injections-a-cynefin-tale/"&gt;Value Mapping&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Assign numbers from Liz&amp;rsquo;s scale to capabilities&lt;/li&gt;
+&lt;li&gt;For 1s and 2s, &amp;ldquo;Choose the technology that&amp;rsquo;s easy to change&amp;rdquo; - Chris Matts&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:37:01] Applying BDD at the different levels
+
+&lt;ul&gt;
+&lt;li&gt;When outcomes are uncertain, can lead to analysis paralysis&lt;/li&gt;
+&lt;li&gt;Often an indicator of 4s and 5s&lt;/li&gt;
+&lt;li&gt;So find a way to prototype/experiment&lt;/li&gt;
+&lt;li&gt;Listen for the uncertainty&lt;/li&gt;
+&lt;li&gt;Listen for the boredom&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:42:05] What is BDD?
+
+&lt;ul&gt;
+&lt;li&gt;Not testing tools with BDD mode - &amp;ldquo;should&amp;rdquo; or &amp;ldquo;expect&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;Using examples to illustrate behaviour&amp;rdquo; - Liz&lt;/li&gt;
+&lt;li&gt;Let dev&amp;rsquo;s write the scenarios, and get feedback from the testers and experts&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://twitter.com/tastapod"&gt;Dan North&lt;/a&gt;&amp;rsquo;s &lt;a href="http://en.wikipedia.org/wiki/Behavior-driven_development#History"&gt;definition&lt;/a&gt; true in 2009, maybe not 2010&lt;/li&gt;
+&lt;li&gt;It&amp;rsquo;s not necessarily high-automation&lt;/li&gt;
+&lt;li&gt;It&amp;rsquo;s still outside-in&lt;/li&gt;
+&lt;li&gt;It&amp;rsquo;s still 2nd generation&lt;/li&gt;
+&lt;li&gt;It&amp;rsquo;s still pull-based&lt;/li&gt;
+&lt;li&gt;It&amp;rsquo;s still multiple-scale&lt;/li&gt;
+&lt;li&gt;It&amp;rsquo;s still agile&lt;/li&gt;
+&lt;li&gt;It&amp;rsquo;s still about getting feedback&lt;/li&gt;
+&lt;li&gt;It&amp;rsquo;s still a cycle of interactions&lt;/li&gt;
+&lt;li&gt;We now respect we can&amp;rsquo;t always get well defined outputs&lt;/li&gt;
+&lt;li&gt;It still results in software that matters&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:49:01] Patterns for improving scenarios
+
+&lt;ul&gt;
+&lt;li&gt;Just write down what people say&lt;/li&gt;
+&lt;li&gt;Have the conversation&lt;/li&gt;
+&lt;li&gt;Don&amp;rsquo;t try to make patterns fit existing steps&lt;/li&gt;
+&lt;li&gt;Step away from the tools&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:53:14] How does having theses conversations about the system itself affect the minute-by-minute development process?
+
+&lt;ul&gt;
+&lt;li&gt;Leads to more spikes and prototypes, and understanding why to do them?&lt;/li&gt;
+&lt;li&gt;Less useful for large organisations where a lot of the work is governed by regulations&lt;/li&gt;
+&lt;li&gt;Removes frustrations of things like 4-hour planning meetings&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[0:55:25] Can you use examples to identify and then test your assumptions?&lt;/li&gt;
+&lt;li&gt;[0:57:45] Leveling capabilities
+
+&lt;ul&gt;
+&lt;li&gt;Map out the capabilities&lt;/li&gt;
+&lt;li&gt;Map the stakeholders - then understand the capailities they are looking for&lt;/li&gt;
+&lt;li&gt;Try estimating them using relative sizes&lt;/li&gt;
+&lt;li&gt;Find the capabilities that are new&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[1:00:33] Liz&amp;rsquo;s Fantasy Fiction
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://leanpub.com/silversongchild"&gt;The Silversong Child&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://leanpub.com/nightingalethrone"&gt;The Nightingale Throne&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;High-level fantasy - a bit like Game of Thrones, with less killings and more magic&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;[1:01:40] How do you guard against new adopters of BDD from just rewriting existing requirements with new words, e.g. should, then, describe, expect - &lt;a href="https://twitter.com/kerryb"&gt;Kerry Buckley&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://vimeo.com/75923366"&gt;What is the value of Social Capital? - Jabe Bloom&lt;/a&gt; - &lt;a href="https://twitter.com/cyetain"&gt;Jabe Bloom&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+</feed>
