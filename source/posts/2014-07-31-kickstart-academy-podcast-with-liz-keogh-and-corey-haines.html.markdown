@@ -20,6 +20,8 @@ For the third installment of the Kickstart Academy podcast we were pleased to
 have [Liz Keogh][liz] join us &mdash; and [Corey Haines][corey] returned to the
 panel for his second appearance.
 
+(READMORE)
+
 We enjoyed having [Sandi Metz][sandi] on the panel for the [last
 podcast][corey-show] so much that we hope to have a running theme of inviting
 the previous guest back to the following show – in a similar vein to BBC Radio
