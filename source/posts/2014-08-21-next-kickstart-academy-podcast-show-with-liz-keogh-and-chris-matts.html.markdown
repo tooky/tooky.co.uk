@@ -8,7 +8,7 @@
 :date: 2014-08-21
 ---
 Our next live Kickstart Academy podcast show will be on Monday, 1st
-September at 15:30 BST. We pleased to welcome back [Liz Keogh][lunivore] and
+September at 15:30 BST. We're pleased to welcome back [Liz Keogh][lunivore] and
 her invited guest [Chris Matts][chris-matts].
 
 The show will be broadcast live here as well as from the [event
