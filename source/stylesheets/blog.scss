@@ -72,11 +72,12 @@ body { font: 16px/21px $main-font;}
   }
 }
 
-pre.highlight {
+pre {
   padding: 0.5em;
   overflow: scroll;
   margin-bottom: 1em;
   font-family: $code-font !important;
+  background-color: #f8f8f8;
 }
 
 code {
