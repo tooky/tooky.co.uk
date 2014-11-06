@@ -59,7 +59,8 @@ method. If an `Adapter` is changed to handle different schemes, then this method
 will also need to change.
 
 The refactoring that Andre has implemented doesn't rid us of Connascence of
-Meaning but it reduces both the *Degree* of the connascence and the *Locality*.
+Meaning but it reduces the *Degree* of and increases the *Locality* of the
+connascence.
 
 When we are looking at connascence and deciding whether any particular instance
 of connascence is acceptable there are two concepts that we need to consider.
