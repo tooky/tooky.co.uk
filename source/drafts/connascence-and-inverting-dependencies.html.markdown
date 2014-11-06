@@ -10,15 +10,15 @@ tags:
 ---
 
 Recently [Andre Bernardes][andre] [wrote about inverting
-dependencies][inverting] and a refactoring in the [Ruby Object Mapper][rom] code
-base that applied this principle.
+dependencies][inverting] and a refactoring that he made in the [Ruby Object
+Mapper][rom] codebase.
 
 It's a great article and if you haven't read it yet it won't take you long.
-I can wait.
+Go on, I can wait.
 
-The original code isn't just a great example of code that violates the
-[Dependency Inversion Principle]. Let's take a closer look and see what else we
-can find.
+The original code though, doesn't just provide a great example of code that
+violates the [Dependency Inversion Principle][DIP]. Let's take a closer look and
+see what else we can find.
 
 ```ruby
 class Adapter
@@ -40,9 +40,9 @@ class Adapter
 end
 ```
 
-In 200x I saw Jim Weirich speak about the [Grand Unified Theory of Software
-Development][GUT] where he introduced his audience to the idea of
-[Connascence][connascence], from wikipedia:
+In 2010 I saw Jim Weirich speak about the [Grand Unified Theory of Software
+Development][GUT] (this is the version from Aloha on Rails) where he introduced
+his audience to the idea of [Connascence][connascence], from wikipedia:
 
   > In software engineering, two components are connascent if a change in one
   > would require the other to be modified in order to maintain the overall
@@ -119,10 +119,10 @@ Adapter.setup("memory://test").class
 # => Adapter::Memory
 ```
 
-We still have Connascence of Meaning, but it is now isolated to each individual
-adapter class. The *locality* of connascence has been increased. Each specific
-adapter will only have a small number of schemes that it matches - rather than
-all of them. The *degree* of connascence has been reduced.
+We still have Connascence of Meaning, but it is now isolated inside the
+individual adapter class. The *locality* of connascence has been increased. Each
+specific adapter will only have a small number of schemes that it matches
+&mdash; rather than all of them. The *degree* of connascence has been reduced.
 
 By increasing the locality and reducing the degree of connascence Andre has made
 the connascence of meaning more acceptable. The connascence of meaning resulted
@@ -142,3 +142,14 @@ at in [The problem with code smells][smells]. Finding the areas in our code that
 are more connascent &mdash; having the stronger forms of connascence, having
 a high degree of connascence, or having low locality of connascence &mdash; will
 help us to improve the design of software.
+
+[andre]: http://twitter.com/abernardes
+[inverting]: http://abernardes.github.io/2014/11/04/inverting-dependencies.html
+[rom]: http://rom-rb.org
+[DIP]: http://en.wikipedia.org/wiki/Dependency_inversion_principle
+[GUT]: http://vimeo.com/10837903
+[connascence]: http://en.wikipedia.org/wiki/Connascence_(computer_programming)
+[CoM]: http://en.wikipedia.org/wiki/Connascence_(computer_programming)#Connascence_of_Meaning_.28CoM.29
+[ocp]: http://en.wikipedia.org/wiki/Open/closed_principle
+[kevin]: http://twitter.com/kevinrutherford
+[smells]: http://silkandspinach.net/2012/09/03/the-problem-with-code-smells/
