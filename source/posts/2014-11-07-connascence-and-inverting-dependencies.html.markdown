@@ -1,14 +1,13 @@
 ---
-title: 'Connascence and Inverting Dependencies'
-author: tooky
-# date: TBD When publishing
-tags:
+:title: Connascence and Inverting Dependencies
+:author: tooky
+:tags:
 - oo
 - connascence
 - design
 - solid
+:date: 2014-11-07
 ---
-
 Recently [Andre Bernardes][andre] [wrote about inverting
 dependencies][inverting] and a refactoring that he made in the [Ruby Object
 Mapper][rom] codebase.
