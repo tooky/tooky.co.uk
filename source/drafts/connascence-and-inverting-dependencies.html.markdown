@@ -47,8 +47,6 @@ his audience to the idea of [Connascence][connascence].
   > In software engineering, two components are connascent if a change in one
   > would require the other to be modified in order to maintain the overall
   > correctness of the system.
-  >
-  > [*Wikipedia*][connascence]
 
 Let's look again at the `Adapter` code through the lens of connascence.
 
@@ -58,7 +56,8 @@ Meaning][CoM].
 
 As Andre pointed out in his post, adding a new adapter also means changing this
 method. If an `Adapter` is changed to handle different schemes, then this method
-will also need to change.
+will also need to change. They must change together because they share the
+meaning of the URI scheme.
 
 The refactoring that Andre has implemented doesn't rid us of Connascence of
 Meaning but it reduces the *Degree* and increases the *Locality* of the
@@ -123,8 +122,10 @@ Adapter.setup("memory://test").class
 ```
 
 We still have Connascence of Meaning, but it is now isolated inside the
-individual adapter class. The *locality* of connascence has been increased. Each
-specific adapter will only have a small number of schemes that it matches,
+individual adapter class, an adapter will change if the URI scheme it supports
+changes. The *locality* of connascence has been increased.
+
+Each specific adapter will only have a small number of schemes that it matches,
 rather than all of them. The *degree* of connascence has been reduced.
 
 By increasing the locality and reducing the degree of connascence, Andre has
