@@ -28,30 +28,164 @@
     <div id="main" role="main">
       <article>
   <header>
-    <h1><a href="/next-kickstart-academy-podcast-show-with-liz-keogh-and-chris-matts/">Next Kickstart Academy Podcast Show with Liz Keogh and Chris Matts</a> </h1>
+    <h1><a href="/connascence-and-inverting-dependencies/">Connascence and Inverting Dependencies</a> </h1>
     <section class="author">
       <img class="avatar" src="/images/tooky-avatar.jpg">
       <p class="byline">by Steve Tooke</p>
-      <time datetime="2014-08-21" itemprop="datePublished">August 21st, 2014</time>
+      <time datetime="2014-11-07" itemprop="datePublished">November 7th, 2014</time>
     </section>
   </header>
   <section class="article-body">
-    <p>Our next live Kickstart Academy podcast show will be on Monday, 1st
-September at 15:30 BST. We&rsquo;re pleased to welcome back <a href="https://twitter.com/lunivore">Liz Keogh</a> and
-her invited guest <a href="https://twitter.com/PapaChrisMatts">Chris Matts</a>.</p>
+    <p>Recently <a href="http://twitter.com/abernardes">Andre Bernardes</a> <a href="http://abernardes.github.io/2014/11/04/inverting-dependencies.html">wrote about inverting
+dependencies</a> and a refactoring that he made in the <a href="http://rom-rb.org">Ruby Object
+Mapper</a> codebase.</p>
 
-<p>The show will be broadcast live here as well as from the <a href="https://plus.google.com/u/2/b/112947453773806733442/events/ca1jlhcdngrc29v5s96i8f2rdgc">event
-page</a>. If you have any questions during the show, please use the Q&amp;A
-app on the <a href="https://plus.google.com/u/2/b/112947453773806733442/events/ca1jlhcdngrc29v5s96i8f2rdgc">event page</a> or tweet us
-<a href="https://twitter.com/kickstartac">@kickstartac</a>.</p>
+<p>It&rsquo;s a great article and if you haven&rsquo;t read it yet it won&rsquo;t take you long.
+Go on, I can wait.</p>
 
-<iframe width="560" height="315" src="//www.youtube.com/embed/VHmjW3qjkLE"
-frameborder="0" allowfullscreen></iframe>
+<p>The original code, however, doesn&rsquo;t simply provide a great example of code that
+violates the <a href="http://en.wikipedia.org/wiki/Dependency_inversion_principle">Dependency Inversion Principle</a>. Let&rsquo;s take a closer look and
+see what else we can find.</p>
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Adapter</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">def</span> <span class="nb">self</span><span class="p">.</span><span class="nf">setup</span><span class="p">(</span><span class="n">uri_string</span><span class="p">)</span>
+    <span class="n">uri</span> <span class="o">=</span> <span class="no">Addressable</span><span class="o">::</span><span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">uri_string</span><span class="p">)</span>
+    <span class="n">adapter</span> <span class="o">=</span>
+        <span class="k">case</span> <span class="n">uri</span><span class="p">.</span><span class="nf">scheme</span>
+        <span class="k">when</span> <span class="s1">'sqlite'</span><span class="p">,</span> <span class="s1">'jdbc'</span> <span class="k">then</span> <span class="no">Adapter</span><span class="o">::</span><span class="no">Sequel</span>
+        <span class="k">when</span> <span class="s1">'memory'</span> <span class="k">then</span> <span class="no">Adapter</span><span class="o">::</span><span class="no">Memory</span>
+        <span class="k">when</span> <span class="s1">'mongo'</span> <span class="k">then</span> <span class="no">Adapter</span><span class="o">::</span><span class="no">Mongo</span>
+        <span class="k">else</span>
+          <span class="k">raise</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="s2">"</span><span class="si">#{</span><span class="n">uri_string</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2"> uri is not supported"</span>
+        <span class="k">end</span>
+
+    <span class="n">adapter</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+  <span class="k">end</span>
+  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+<span class="nf">end</span>
+</code></pre>
+
+<p>In 2010 I saw Jim Weirich speak about the <a href="http://vimeo.com/10837903">Grand Unified Theory of Software
+Development</a> (this is the version from Aloha on Rails) where he introduced
+his audience to the idea of <a href="http://en.wikipedia.org/wiki/Connascence_(computer_programming)">Connascence</a>.</p>
+
+<blockquote>
+<p>In software engineering, two components are connascent if a change in one
+would require the other to be modified in order to maintain the overall
+correctness of the system.</p>
+</blockquote>
+
+<p>Let&rsquo;s look again at the <code>Adapter</code> code through the lens of connascence.</p>
+
+<p>The <code>setup</code> method is checking the scheme of the <code>uri</code> and deciding which
+specific adapter to use in this instance. This is an example of <a href="http://en.wikipedia.org/wiki/Connascence_(computer_programming)#Connascence_of_Meaning_.28CoM.29">Connascence of
+Meaning</a>.</p>
+
+<p>As Andre pointed out in his post, adding a new adapter also means changing this
+method. If an <code>Adapter</code> is changed to handle different schemes, then this method
+will also need to change. They must change together because they share the
+meaning of the URI scheme.</p>
+
+<p>The refactoring that Andre has implemented doesn&rsquo;t rid us of Connascence of
+Meaning but it reduces the <em>Degree</em> and increases the <em>Locality</em> of the
+connascence.</p>
+
+<p>When we are looking at connascence and deciding whether any particular instance
+of connascence is acceptable, there are two concepts that we need to consider.</p>
+
+<p>The degree of connascence is really about the volume of connascence, how much of
+it we can see. Andre mentions in his post that the example presented above is
+not terrible, but when he was about to add 19 more branches to the case
+statement it would have become much worse. The degree of connascence would have
+increased, and would only have continued increasing.</p>
+
+<p>The locality of connascence is concerned with how closely related the elements
+are. Stronger forms of connascence are considered to be more acceptable when the
+elements involved are closer together. In the original <code>setup</code> method the
+connascence of meaning ties the <code>Adapter</code> class to the specific adapters.</p>
+
+<p>Let&rsquo;s take a look at Andre&rsquo;s refactoring.</p>
+<pre><code class="highlight ruby"><span class="c1"># adapter.rb</span>
+
+<span class="k">class</span> <span class="nc">Adapter</span>
+  <span class="vi">@adapters</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">setup</span><span class="p">(</span><span class="n">uri_string</span><span class="p">)</span>
+    <span class="n">uri</span> <span class="o">=</span> <span class="no">Addressable</span><span class="o">::</span><span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">uri_string</span><span class="p">)</span>
+
+    <span class="k">unless</span> <span class="n">adapter</span> <span class="o">=</span> <span class="nb">self</span><span class="p">[</span><span class="n">uri</span><span class="p">.</span><span class="nf">scheme</span><span class="p">]</span>
+      <span class="k">raise</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="s2">"</span><span class="si">#{</span><span class="n">uri_string</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2"> uri is not supported"</span>
+    <span class="k">end</span>
+
+    <span class="n">adapter</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">register</span><span class="p">(</span><span class="n">adapter</span><span class="p">)</span>
+    <span class="vi">@adapters</span> <span class="o">&lt;&lt;</span> <span class="n">adapter</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">[]</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
+    <span class="vi">@adapters</span><span class="p">.</span><span class="nf">detect</span> <span class="p">{</span> <span class="o">|</span><span class="n">adapter</span><span class="o">|</span> <span class="n">adapter</span><span class="p">.</span><span class="nf">schemes</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">scheme</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">)</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># adapter/memory.rb</span>
+<span class="k">class</span> <span class="nc">Adapter</span>
+  <span class="k">class</span> <span class="nc">Memory</span>
+    <span class="k">def</span> <span class="nf">schemes</span>
+      <span class="p">[</span><span class="ss">:memory</span><span class="p">]</span>
+    <span class="k">end</span>
+
+    <span class="c1"># Methods to communicate with DB omitted.</span>
+
+    <span class="no">Adapter</span><span class="p">.</span><span class="nf">register</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Adapter</span><span class="p">.</span><span class="nf">setup</span><span class="p">(</span><span class="s2">"memory://test"</span><span class="p">).</span><span class="nf">class</span>
+<span class="c1"># =&gt; Adapter::Memory</span>
+</code></pre>
+
+<p>We still have Connascence of Meaning, but it is now isolated inside the
+individual adapter class, an adapter will change if the URI scheme it supports
+changes. The <em>locality</em> of connascence has been increased.</p>
+
+<p>Each specific adapter will only have a small number of schemes that it matches,
+rather than all of them. The <em>degree</em> of connascence has been reduced.</p>
+
+<p>By increasing the locality and reducing the degree of connascence, Andre has
+made the connascence of meaning more acceptable. The connascence of meaning
+resulted in the <code>Adapter</code> abstraction depending on the details of the specific
+adapters.</p>
+
+<p>It also prevented the <code>Adapter</code> from being <em>Closed for Modification</em>. Any time
+we add a new adapter we need to change the <code>Adapter</code> class to add another
+branch to the switch statement. It violated the <a href="http://en.wikipedia.org/wiki/Open/closed_principle">Open/Closed Principle</a>.</p>
+
+<p>Andre&rsquo;s refactoring reduced the degree and increased the locality of connascence
+of meaning. This makes the code adhere more closely to both the Single
+Responsibility Principle and the Open/Closed Principle.</p>
+
+<p>I think this is a good example of what <a href="http://twitter.com/kevinrutherford">Kevin Rutherford</a> hints at in
+<a href="http://silkandspinach.net/2012/09/03/the-problem-with-code-smells/">The problem with code smells</a>. By finding where our code is
+more connascent &mdash; having the stronger forms of connascence, having a high
+degree of connascence, or having low locality of connascence &mdash; and making
+the connascence more acceptable, we will improve the design of our software.</p>
 
   </section>
 </article>
 
 <ul id="suggested-reading">
+    <li class="suggested-reading-card">
+      <h2><a href="/next-kickstart-academy-podcast-show-with-liz-keogh-and-chris-matts/">Next Kickstart Academy Podcast Show with Liz Keogh and Chris Matts</a></h2>
+      <p>Our next live Kickstart Academy podcast show will be on Monday, 1st
+September at 15:30 BST. We’re pleased to welcome back <a href="https://twitter.com/lunivore">Liz Keogh</a> and
+her invited guest <a href="https://twitter.com/PapaChrisMatts">Chris Matts</a>.</p>
+
+<p>The show will be broadcast live here as well as from the <a href="https://plus.google.com/u/2/b/112947453773806733442/events/ca1jlhcdngrc29v5s96i8f2rdgc">event
+page</a>. If you have any questions during the show, please use the Q&amp;A...</p>
+      <a href="/next-kickstart-academy-podcast-show-with-liz-keogh-and-chris-matts/">Read more…</a>
+    </li>
     <li class="suggested-reading-card">
       <h2><a href="/kickstart-academy-podcast-with-liz-keogh-and-corey-haines/">Kickstart Academy Podcast with Liz Keogh and Corey Haines</a></h2>
       <p>For the third installment of the Kickstart Academy podcast we were pleased to
@@ -70,16 +204,6 @@ Metz</a> &mdash; who was kind enough to return for a second show.</p>
 <p>
       <a href="/kickstart-academy-podcast-with-corey-haines-and-sandi-metz/">Read more…</a>
     </li>
-    <li class="suggested-reading-card">
-      <h2><a href="/using-charklock_holmes-on-heroku/">Using charklock_holmes on Heroku</a></h2>
-      <p><a href="https://github.com/brianmario/charlock_holmes"><code>charlock_holmes</code></a> is a useful gem if you have to deal with
-user supplied data which may come in a variety of text-encodings. Not only does
-it enable you to detect the encoding of a string, but it also allows you to
-transcode the string to a different encoding.</p>
-
-<p><code>charklock_holmes</code> uses <a href="http://site.icu-project.org"><code>libicu</code></a> to deal with...</p>
-      <a href="/using-charklock_holmes-on-heroku/">Read more…</a>
-    </li>
 </ul>
 
     </div>
@@ -90,11 +214,11 @@ transcode the string to a different encoding.</p>
           Recent Articles
           <a href="/feed.xml" class="feed" title="Subscribe!"><i class="fa fa-rss"></i></a>
         </h2>
+          <li><a href="/connascence-and-inverting-dependencies/">Connascence and Inverting Dependencies</a> <span>Nov  7</span></li>
           <li><a href="/next-kickstart-academy-podcast-show-with-liz-keogh-and-chris-matts/">Next Kickstart Academy Podcast Show with Liz Keogh and Chris Matts</a> <span>Aug 21</span></li>
           <li><a href="/kickstart-academy-podcast-with-liz-keogh-and-corey-haines/">Kickstart Academy Podcast with Liz Keogh and Corey Haines</a> <span>Jul 31</span></li>
           <li><a href="/kickstart-academy-podcast-with-corey-haines-and-sandi-metz/">Kickstart Academy Podcast with Corey Haines and Sandi Metz</a> <span>Jul 29</span></li>
           <li><a href="/using-charklock_holmes-on-heroku/">Using charklock_holmes on Heroku</a> <span>Jun 11</span></li>
-          <li><a href="/using-direnv-and-chruby-together/">Using `direnv` and `chruby` together</a> <span>Jun 10</span></li>
       </ol>
 
       <ul id="tags">
@@ -106,12 +230,14 @@ transcode the string to a different encoding.</p>
           <li><a href="/tags/charlock_holmes/">charlock_holmes</a></a></li>
           <li><a href="/tags/chris-matts/">chris-matts</a></a></li>
           <li><a href="/tags/coderetreat/">coderetreat</a></a></li>
+          <li><a href="/tags/connascence/">connascence</a></a></li>
           <li><a href="/tags/corey-haines/">corey-haines</a></a></li>
           <li><a href="/tags/craft/">craft</a></a></li>
           <li><a href="/tags/craftsmanship/">craftsmanship</a></a></li>
           <li><a href="/tags/cucumber/">cucumber</a></a></li>
           <li><a href="/tags/cynefin/">cynefin</a></a></li>
           <li><a href="/tags/deploymnent/">deploymnent</a></a></li>
+          <li><a href="/tags/design/">design</a></a></li>
           <li><a href="/tags/dev/">dev</a></a></li>
           <li><a href="/tags/development/">development</a></a></li>
           <li><a href="/tags/eden/">eden</a></a></li>

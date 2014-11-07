@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Steve Tooke - design</title>
+  <id>http://tooky.co.uk/</id>
+  <link href="http://tooky.co.uk/tags/design/"/>
+  <link href="http://tooky.co.uk/tags/design.xml" rel="self"/>
+  <updated>2014-11-07T00:00:00+00:00</updated>
+  <entry>
+    <title>Connascence and Inverting Dependencies</title>
+    <link rel="alternate" href="http://tooky.co.uk/connascence-and-inverting-dependencies/"/>
+    <id>http://tooky.co.uk/connascence-and-inverting-dependencies/</id>
+    <published>2014-11-07T00:00:00+00:00</published>
+    <updated>2014-11-07T07:52:18+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;Recently &lt;a href="http://twitter.com/abernardes"&gt;Andre Bernardes&lt;/a&gt; &lt;a href="http://abernardes.github.io/2014/11/04/inverting-dependencies.html"&gt;wrote about inverting
+dependencies&lt;/a&gt; and a refactoring that he made in the &lt;a href="http://rom-rb.org"&gt;Ruby Object
+Mapper&lt;/a&gt; codebase.&lt;/p&gt;
+
+&lt;p&gt;It&amp;rsquo;s a great article and if you haven&amp;rsquo;t read it yet it won&amp;rsquo;t take you long.
+Go on, I can wait.&lt;/p&gt;
+
+&lt;p&gt;The original code, however, doesn&amp;rsquo;t simply provide a great example of code that
+violates the &lt;a href="http://en.wikipedia.org/wiki/Dependency_inversion_principle"&gt;Dependency Inversion Principle&lt;/a&gt;. Let&amp;rsquo;s take a closer look and
+see what else we can find.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="highlight ruby"&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Adapter&lt;/span&gt;
+  &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;.&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+  &lt;span class="nf"&gt;def&lt;/span&gt; &lt;span class="nb"&gt;self&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;uri_string&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;uri&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Addressable&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;URI&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;uri_string&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;adapter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+        &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="n"&gt;uri&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;scheme&lt;/span&gt;
+        &lt;span class="k"&gt;when&lt;/span&gt; &lt;span class="s1"&gt;'sqlite'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'jdbc'&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; &lt;span class="no"&gt;Adapter&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Sequel&lt;/span&gt;
+        &lt;span class="k"&gt;when&lt;/span&gt; &lt;span class="s1"&gt;'memory'&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; &lt;span class="no"&gt;Adapter&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Memory&lt;/span&gt;
+        &lt;span class="k"&gt;when&lt;/span&gt; &lt;span class="s1"&gt;'mongo'&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; &lt;span class="no"&gt;Adapter&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Mongo&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;
+          &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="no"&gt;ArgumentError&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;uri_string&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;inspect&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; uri is not supported"&lt;/span&gt;
+        &lt;span class="k"&gt;end&lt;/span&gt;
+
+    &lt;span class="n"&gt;adapter&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;uri&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;.&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;span class="nf"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In 2010 I saw Jim Weirich speak about the &lt;a href="http://vimeo.com/10837903"&gt;Grand Unified Theory of Software
+Development&lt;/a&gt; (this is the version from Aloha on Rails) where he introduced
+his audience to the idea of &lt;a href="http://en.wikipedia.org/wiki/Connascence_(computer_programming)"&gt;Connascence&lt;/a&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;In software engineering, two components are connascent if a change in one
+would require the other to be modified in order to maintain the overall
+correctness of the system.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Let&amp;rsquo;s look again at the &lt;code&gt;Adapter&lt;/code&gt; code through the lens of connascence.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;setup&lt;/code&gt; method is checking the scheme of the &lt;code&gt;uri&lt;/code&gt; and deciding which
+specific adapter to use in this instance. This is an example of &lt;a href="http://en.wikipedia.org/wiki/Connascence_(computer_programming)#Connascence_of_Meaning_.28CoM.29"&gt;Connascence of
+Meaning&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;As Andre pointed out in his post, adding a new adapter also means changing this
+method. If an &lt;code&gt;Adapter&lt;/code&gt; is changed to handle different schemes, then this method
+will also need to change. They must change together because they share the
+meaning of the URI scheme.&lt;/p&gt;
+
+&lt;p&gt;The refactoring that Andre has implemented doesn&amp;rsquo;t rid us of Connascence of
+Meaning but it reduces the &lt;em&gt;Degree&lt;/em&gt; and increases the &lt;em&gt;Locality&lt;/em&gt; of the
+connascence.&lt;/p&gt;
+
+&lt;p&gt;When we are looking at connascence and deciding whether any particular instance
+of connascence is acceptable, there are two concepts that we need to consider.&lt;/p&gt;
+
+&lt;p&gt;The degree of connascence is really about the volume of connascence, how much of
+it we can see. Andre mentions in his post that the example presented above is
+not terrible, but when he was about to add 19 more branches to the case
+statement it would have become much worse. The degree of connascence would have
+increased, and would only have continued increasing.&lt;/p&gt;
+
+&lt;p&gt;The locality of connascence is concerned with how closely related the elements
+are. Stronger forms of connascence are considered to be more acceptable when the
+elements involved are closer together. In the original &lt;code&gt;setup&lt;/code&gt; method the
+connascence of meaning ties the &lt;code&gt;Adapter&lt;/code&gt; class to the specific adapters.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s take a look at Andre&amp;rsquo;s refactoring.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="highlight ruby"&gt;&lt;span class="c1"&gt;# adapter.rb&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Adapter&lt;/span&gt;
+  &lt;span class="vi"&gt;@adapters&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nc"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;uri_string&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;uri&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;Addressable&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;URI&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;uri_string&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;unless&lt;/span&gt; &lt;span class="n"&gt;adapter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;self&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;uri&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;scheme&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+      &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="no"&gt;ArgumentError&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;uri_string&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;inspect&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; uri is not supported"&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+
+    &lt;span class="n"&gt;adapter&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;uri&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nc"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;register&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;adapter&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@adapters&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;adapter&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nc"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;[]&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scheme&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="vi"&gt;@adapters&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;detect&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;adapter&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;adapter&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;schemes&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;include?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scheme&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;to_sym&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="c1"&gt;# adapter/memory.rb&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Adapter&lt;/span&gt;
+  &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Memory&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;schemes&lt;/span&gt;
+      &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:memory&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Methods to communicate with DB omitted.&lt;/span&gt;
+
+    &lt;span class="no"&gt;Adapter&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;register&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;self&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="no"&gt;Adapter&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"memory://test"&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;class&lt;/span&gt;
+&lt;span class="c1"&gt;# =&amp;gt; Adapter::Memory&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We still have Connascence of Meaning, but it is now isolated inside the
+individual adapter class, an adapter will change if the URI scheme it supports
+changes. The &lt;em&gt;locality&lt;/em&gt; of connascence has been increased.&lt;/p&gt;
+
+&lt;p&gt;Each specific adapter will only have a small number of schemes that it matches,
+rather than all of them. The &lt;em&gt;degree&lt;/em&gt; of connascence has been reduced.&lt;/p&gt;
+
+&lt;p&gt;By increasing the locality and reducing the degree of connascence, Andre has
+made the connascence of meaning more acceptable. The connascence of meaning
+resulted in the &lt;code&gt;Adapter&lt;/code&gt; abstraction depending on the details of the specific
+adapters.&lt;/p&gt;
+
+&lt;p&gt;It also prevented the &lt;code&gt;Adapter&lt;/code&gt; from being &lt;em&gt;Closed for Modification&lt;/em&gt;. Any time
+we add a new adapter we need to change the &lt;code&gt;Adapter&lt;/code&gt; class to add another
+branch to the switch statement. It violated the &lt;a href="http://en.wikipedia.org/wiki/Open/closed_principle"&gt;Open/Closed Principle&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Andre&amp;rsquo;s refactoring reduced the degree and increased the locality of connascence
+of meaning. This makes the code adhere more closely to both the Single
+Responsibility Principle and the Open/Closed Principle.&lt;/p&gt;
+
+&lt;p&gt;I think this is a good example of what &lt;a href="http://twitter.com/kevinrutherford"&gt;Kevin Rutherford&lt;/a&gt; hints at in
+&lt;a href="http://silkandspinach.net/2012/09/03/the-problem-with-code-smells/"&gt;The problem with code smells&lt;/a&gt;. By finding where our code is
+more connascent &amp;mdash; having the stronger forms of connascence, having a high
+degree of connascence, or having low locality of connascence &amp;mdash; and making
+the connascence more acceptable, we will improve the design of our software.&lt;/p&gt;
+</content>
+  </entry>
+</feed>
