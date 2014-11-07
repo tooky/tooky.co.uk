@@ -4,12 +4,12 @@
   <id>http://tooky.co.uk/</id>
   <link href="http://tooky.co.uk/tags/atdd/"/>
   <link href="http://tooky.co.uk/tags/atdd.xml" rel="self"/>
-  <updated>2013-12-11T00:00:00Z</updated>
+  <updated>2013-12-11T00:00:00+00:00</updated>
   <entry>
     <title>Discovering BDD</title>
     <link rel="alternate" href="http://tooky.co.uk/discovering-bdd/"/>
     <id>http://tooky.co.uk/discovering-bdd/</id>
-    <published>2013-12-11T00:00:00Z</published>
+    <published>2013-12-11T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -72,12 +72,12 @@
     <title>Cucumber and Full Stack Testing</title>
     <link rel="alternate" href="http://tooky.co.uk/cucumber-and-full-stack-testing/"/>
     <id>http://tooky.co.uk/cucumber-and-full-stack-testing/</id>
-    <published>2013-01-18T00:00:00Z</published>
+    <published>2013-01-18T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
     </author>
-    <content type="html">&lt;p&gt;There has been two similar questions asked on two different mailing lists I subscribe to (Corey Haines&amp;#39; &lt;a title="Build an app with Corey Haines" href="http://www.cleancoders.com/codecast/bawch-episode-1/show"&gt;BAWCH&lt;/a&gt; mailing list, and &lt;a href="http://rubyrogues.com/"&gt;Ruby Rogues&lt;/a&gt; Parley list). Both of these lists are private so I thought it would be worthwhile posting my answer here.&lt;/p&gt;
+    <content type="html">&lt;p&gt;There has been two similar questions asked on two different mailing lists I subscribe to (Corey Haines&amp;rsquo; &lt;a title="Build an app with Corey Haines" href="http://www.cleancoders.com/codecast/bawch-episode-1/show"&gt;BAWCH&lt;/a&gt; mailing list, and &lt;a href="http://rubyrogues.com/"&gt;Ruby Rogues&lt;/a&gt; Parley list). Both of these lists are private so I thought it would be worthwhile posting my answer here.&lt;/p&gt;
 
 &lt;p&gt;Both of the questions were concerned with out-side-in development, full-stack integration testing, and how much of the application needs to be tested through the entire system.&lt;/p&gt;
 

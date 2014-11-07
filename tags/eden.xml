@@ -4,12 +4,12 @@
   <id>http://tooky.co.uk/</id>
   <link href="http://tooky.co.uk/tags/eden/"/>
   <link href="http://tooky.co.uk/tags/eden.xml" rel="self"/>
-  <updated>2010-11-23T00:00:00Z</updated>
+  <updated>2010-11-23T00:00:00+00:00</updated>
   <entry>
     <title>Tracking Project Emotions Using MercuryApp</title>
     <link rel="alternate" href="http://tooky.co.uk/tracking-project-emotions-using-mercury-app/"/>
     <id>http://tooky.co.uk/tracking-project-emotions-using-mercury-app/</id>
-    <published>2010-11-23T00:00:00Z</published>
+    <published>2010-11-23T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -35,25 +35,25 @@
     <title>Fixing "There was a problem with the editor 'vi'" for Git on Mac OS X Snow Leopard</title>
     <link rel="alternate" href="http://tooky.co.uk/there-was-a-problem-with-the-editor-vi-git-on-mac-os-x/"/>
     <id>http://tooky.co.uk/there-was-a-problem-with-the-editor-vi-git-on-mac-os-x/</id>
-    <published>2010-04-08T00:00:00Z</published>
+    <published>2010-04-08T01:00:00+01:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
     </author>
     <content type="html">&lt;p&gt;I have had an annoying problem with git and vi. I like to use vim to edit my commit messages, but I&amp;rsquo;ve been hit with this annoying message every time I write the message and quit vim.&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;error: There was a problem with the editor 'vi'
-&lt;/pre&gt;
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;error: There was a problem with the editor 'vi'
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;After a little bit of digging I found that this message is shown by git when the editor exits with a non-zero exit code. You can use &lt;code&gt;$?&lt;/code&gt; to see the exit code of last script or application.&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;$ vim     # then exit vim with :q immediately
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;$ vim     # then exit vim with :q immediately
 $ echo $?
 1
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;I&amp;rsquo;m still not sure why vim is exiting with non-zero exit code, but it is definitely related to my &lt;code&gt;.vimrc&lt;/code&gt; - moving it to &lt;code&gt;.vimrc.bak&lt;/code&gt; seemed to fix the problem. I&amp;rsquo;m using the excellent &lt;a href="http://www.vim.org/scripts/script.php?script_id=2332"&gt;pathogen&lt;/a&gt; plugin to manage my vimfiles, so I plan to go through that and my installed plugins to find the cause of the problem.&lt;/p&gt;
 
 &lt;p&gt;There is a fix though, I&amp;rsquo;m not sure what&amp;rsquo;s causing this, but I found a &lt;a href="http://groups.google.com/group/vim_mac/browse_thread/thread/0d33e2f2130867b0"&gt;post on the vim-mac mailing list&lt;/a&gt; which shows this:&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;$ vim          # and exit with :q
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;$ vim          # and exit with :q
 $ echo $?
 1
 $ /usr/bin/vim # and exit with :q
@@ -61,11 +61,11 @@ $ echo $?
 0
 $ which vim
 /usr/bin/vim
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Running vim with &lt;code&gt;/usr/bin/vim&lt;/code&gt; seems to make it exit cleanly. So to fix the problem with git commit you just need to run this:&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;$ git config --global core.editor /usr/bin/vim
-&lt;/pre&gt;
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;$ git config --global core.editor /usr/bin/vim
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;I&amp;rsquo;d still like to get to the root of the problem, but this gets me my git commit messages back!&lt;/p&gt;
 </content>
@@ -74,7 +74,7 @@ $ which vim
     <title>Why I think you should go to a code retreat</title>
     <link rel="alternate" href="http://tooky.co.uk/why-i-think-you-should-go-to-a-coderetreat/"/>
     <id>http://tooky.co.uk/why-i-think-you-should-go-to-a-coderetreat/</id>
-    <published>2010-03-17T00:00:00Z</published>
+    <published>2010-03-17T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -128,7 +128,7 @@ $ which vim
     <title>Exploring Harmony for javascript BDD with RSpec</title>
     <link rel="alternate" href="http://tooky.co.uk/exploring-harmony-for-unit-testing-with-rspec/"/>
     <id>http://tooky.co.uk/exploring-harmony-for-unit-testing-with-rspec/</id>
-    <published>2010-03-02T00:00:00Z</published>
+    <published>2010-03-02T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -139,7 +139,7 @@ $ which vim
 
 &lt;p&gt;To get started figuring out how I might be able to integrate harmony into my workflow, I&amp;rsquo;ve created a very simple &lt;a href="http://gist.github.com/319235"&gt;project&lt;/a&gt; which uses rspec to make some very simple assertions about javascript behaviour.&lt;/p&gt;
 
-&lt;script src="http://gist.github.com/319235.js?file=rspec_with_harmony.rb"&gt;&lt;/script&gt;
+&lt;p&gt;&lt;script src="http://gist.github.com/319235.js?file=rspec_with_harmony.rb"&gt;&lt;/script&gt;&lt;/p&gt;
 
 &lt;p&gt;The 3rd and 4th specs are probably the most interesting. They show how how you can use an HTML fixture file, and load the javascript you want to test. This feels like a nice way of isolating your javascript, and would probably encourage me to write much more modular javascript.&lt;/p&gt;
 
@@ -150,7 +150,7 @@ $ which vim
     <title>Remote pairing with GNU Screen and Vim</title>
     <link rel="alternate" href="http://tooky.co.uk/remote-pairing-with-gnu-screen-and-vim/"/>
     <id>http://tooky.co.uk/remote-pairing-with-gnu-screen-and-vim/</id>
-    <published>2010-01-08T00:00:00Z</published>
+    <published>2010-01-08T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -168,14 +168,14 @@ $ which vim
 &lt;p&gt;Our basic process is:&lt;/p&gt;
 
 &lt;p&gt;User 1 sets up a screen as a shared user on the host machine&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;pairing$ screen -S pairing
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;pairing$ screen -S pairing
 Ctrl-a :multiuser on
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;User 2, logs into the maching via ssh, and connects to the shared screen&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;local$ ssh pairing@shared_machine
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;local$ ssh pairing@shared_machine
 pairing$ screen -x pairing
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;That&amp;rsquo;s basically it. Both users then have access to a full shared terminal environment. A shared screen can have multiple windows, so we tend to work with one screen for vim and another for running tests and other terminal commands. We also make extensive use of &lt;a href="http://www.linux.com/archive/articles/59533"&gt;vim tabs&lt;/a&gt; and shell execution from within vim.&lt;/p&gt;
 
@@ -197,7 +197,7 @@ pairing$ screen -x pairing
     <title>A Model for Life</title>
     <link rel="alternate" href="http://tooky.co.uk/model_for_life/"/>
     <id>http://tooky.co.uk/model_for_life/</id>
-    <published>2009-12-17T00:00:00Z</published>
+    <published>2009-12-17T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -237,7 +237,7 @@ model and the business rules you create.&lt;/p&gt;
     <title>The Language of Software Craftsmanship</title>
     <link rel="alternate" href="http://tooky.co.uk/language-of-software-craftsmanship/"/>
     <id>http://tooky.co.uk/language-of-software-craftsmanship/</id>
-    <published>2009-12-11T00:00:00Z</published>
+    <published>2009-12-11T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -265,7 +265,7 @@ our nascent profession’s problems by calling ourselves, or regarding ourselves
     <title>Software Craftsmanship and Eden Development</title>
     <link rel="alternate" href="http://tooky.co.uk/software-craftsmanship/"/>
     <id>http://tooky.co.uk/software-craftsmanship/</id>
-    <published>2009-11-25T00:00:00Z</published>
+    <published>2009-11-25T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -296,7 +296,7 @@ formal apprenticeship scheme.&lt;/p&gt;
     <title>UK Apprenticeships and Software Development</title>
     <link rel="alternate" href="http://tooky.co.uk/uk-apprenticeships-and-software-development/"/>
     <id>http://tooky.co.uk/uk-apprenticeships-and-software-development/</id>
-    <published>2009-09-02T00:00:00Z</published>
+    <published>2009-09-02T01:00:00+01:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>

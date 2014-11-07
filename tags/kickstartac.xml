@@ -4,12 +4,12 @@
   <id>http://tooky.co.uk/</id>
   <link href="http://tooky.co.uk/tags/kickstartac/"/>
   <link href="http://tooky.co.uk/tags/kickstartac.xml" rel="self"/>
-  <updated>2014-05-16T15:11:00Z</updated>
+  <updated>2014-05-16T16:11:00+01:00</updated>
   <entry>
     <title>Hangout with Matt Wynne and Aslak Hellesøy</title>
     <link rel="alternate" href="http://tooky.co.uk/hangout-with-matt-wynne-and-aslak-hellesoy/"/>
     <id>http://tooky.co.uk/hangout-with-matt-wynne-and-aslak-hellesoy/</id>
-    <published>2014-05-16T15:11:00Z</published>
+    <published>2014-05-16T16:11:00+01:00</published>
     <updated>2014-06-10T07:00:47+01:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -37,7 +37,7 @@ discuss.&lt;/p&gt;
     <title>Learning by Teaching</title>
     <link rel="alternate" href="http://tooky.co.uk/learning-by-teaching/"/>
     <id>http://tooky.co.uk/learning-by-teaching/</id>
-    <published>2013-11-06T00:00:00Z</published>
+    <published>2013-11-06T00:00:00+00:00</published>
     <updated>2013-12-18T12:36:38+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -81,12 +81,12 @@ discuss.&lt;/p&gt;
     <title>Cucumber and Full Stack Testing</title>
     <link rel="alternate" href="http://tooky.co.uk/cucumber-and-full-stack-testing/"/>
     <id>http://tooky.co.uk/cucumber-and-full-stack-testing/</id>
-    <published>2013-01-18T00:00:00Z</published>
+    <published>2013-01-18T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
     </author>
-    <content type="html">&lt;p&gt;There has been two similar questions asked on two different mailing lists I subscribe to (Corey Haines&amp;#39; &lt;a title="Build an app with Corey Haines" href="http://www.cleancoders.com/codecast/bawch-episode-1/show"&gt;BAWCH&lt;/a&gt; mailing list, and &lt;a href="http://rubyrogues.com/"&gt;Ruby Rogues&lt;/a&gt; Parley list). Both of these lists are private so I thought it would be worthwhile posting my answer here.&lt;/p&gt;
+    <content type="html">&lt;p&gt;There has been two similar questions asked on two different mailing lists I subscribe to (Corey Haines&amp;rsquo; &lt;a title="Build an app with Corey Haines" href="http://www.cleancoders.com/codecast/bawch-episode-1/show"&gt;BAWCH&lt;/a&gt; mailing list, and &lt;a href="http://rubyrogues.com/"&gt;Ruby Rogues&lt;/a&gt; Parley list). Both of these lists are private so I thought it would be worthwhile posting my answer here.&lt;/p&gt;
 
 &lt;p&gt;Both of the questions were concerned with out-side-in development, full-stack integration testing, and how much of the application needs to be tested through the entire system.&lt;/p&gt;
 

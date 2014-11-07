@@ -4,12 +4,12 @@
   <id>http://tooky.co.uk/</id>
   <link href="http://tooky.co.uk/"/>
   <link href="http://tooky.co.uk/feed.xml" rel="self"/>
-  <updated>2014-08-21T00:00:00Z</updated>
+  <updated>2014-08-21T01:00:00+01:00</updated>
   <entry>
     <title>Next Kickstart Academy Podcast Show with Liz Keogh and Chris Matts</title>
     <link rel="alternate" href="http://tooky.co.uk/next-kickstart-academy-podcast-show-with-liz-keogh-and-chris-matts/"/>
     <id>http://tooky.co.uk/next-kickstart-academy-podcast-show-with-liz-keogh-and-chris-matts/</id>
-    <published>2014-08-21T00:00:00Z</published>
+    <published>2014-08-21T01:00:00+01:00</published>
     <updated>2014-09-01T09:10:21+01:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -31,7 +31,7 @@ frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
     <title>Kickstart Academy Podcast with Liz Keogh and Corey Haines</title>
     <link rel="alternate" href="http://tooky.co.uk/kickstart-academy-podcast-with-liz-keogh-and-corey-haines/"/>
     <id>http://tooky.co.uk/kickstart-academy-podcast-with-liz-keogh-and-corey-haines/</id>
-    <published>2014-07-31T00:00:00Z</published>
+    <published>2014-07-31T01:00:00+01:00</published>
     <updated>2014-07-31T13:00:30+01:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -192,7 +192,7 @@ frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
     <title>Kickstart Academy Podcast with Corey Haines and Sandi Metz</title>
     <link rel="alternate" href="http://tooky.co.uk/kickstart-academy-podcast-with-corey-haines-and-sandi-metz/"/>
     <id>http://tooky.co.uk/kickstart-academy-podcast-with-corey-haines-and-sandi-metz/</id>
-    <published>2014-07-29T00:00:00Z</published>
+    <published>2014-07-29T01:00:00+01:00</published>
     <updated>2014-07-29T11:25:30+01:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -288,7 +288,7 @@ typing)&lt;/li&gt;
     <title>Using charklock_holmes on Heroku</title>
     <link rel="alternate" href="http://tooky.co.uk/using-charklock_holmes-on-heroku/"/>
     <id>http://tooky.co.uk/using-charklock_holmes-on-heroku/</id>
-    <published>2014-06-11T00:00:00Z</published>
+    <published>2014-06-11T01:00:00+01:00</published>
     <updated>2014-06-11T13:58:54+01:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -335,24 +335,24 @@ point correctly to the temporary build directory.&lt;/p&gt;
 &lt;p&gt;I&amp;rsquo;ve created a &lt;a href="https://github.com/tooky/heroku-charlock-holmes"&gt;sample project&lt;/a&gt;, that can be &lt;a href="http://heroku-charlock-holmes.herokuapp.com"&gt;deployed to heroku&lt;/a&gt; – the only thing
 you need to do is ensure that you have set the &lt;code&gt;BUILDPACK_URL&lt;/code&gt; to
 &lt;code&gt;https://github.com/ddollar/heroku-buildpack-multi.git&lt;/code&gt;:&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;$ heroku config:set BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
-&lt;/pre&gt;
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;$ heroku config:set BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;When you push to heroku, this buildpack will check for a &lt;code&gt;.buildpacks&lt;/code&gt; file,
 which specify the different buildpacks you want to use:&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;https://github.com/ddollar/heroku-buildpack-apt
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;https://github.com/ddollar/heroku-buildpack-apt
 https://github.com/timolehto/heroku-bundle-config
 https://github.com/heroku/heroku-buildpack-ruby
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;code&gt;heroku-buildpack-apt&lt;/code&gt; will then check for an &lt;code&gt;Aptfile&lt;/code&gt; and install the
 specified packages:&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;libicu-dev
-&lt;/pre&gt;
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;libicu-dev
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Finally, you need to configure you &lt;code&gt;.heroku-bundle/config&lt;/code&gt; to make sure that
 &lt;code&gt;bundler&lt;/code&gt; can use your newly installed version of &lt;code&gt;libicu&lt;/code&gt;:&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;---
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;---
 BUNDLE_FROZEN: '1'
 BUNDLE_PATH: vendor/bundle
 BUNDLE_BIN: vendor/bundle/bin
@@ -360,7 +360,7 @@ BUNDLE_JOBS: 4
 BUNDLE_WITHOUT: development:test
 BUNDLE_DISABLE_SHARED_GEMS: '1'
 BUNDLE_BUILD__CHARLOCK_HOLMES: --with-icu-lib=/app/.apt/usr/lib --with-icu-include=/app/.apt/usr/include
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;That should be all you need.&lt;/p&gt;
 </content>
@@ -369,7 +369,7 @@ BUNDLE_BUILD__CHARLOCK_HOLMES: --with-icu-lib=/app/.apt/usr/lib --with-icu-inclu
     <title>Using `direnv` and `chruby` together</title>
     <link rel="alternate" href="http://tooky.co.uk/using-direnv-and-chruby-together/"/>
     <id>http://tooky.co.uk/using-direnv-and-chruby-together/</id>
-    <published>2014-06-10T00:00:00Z</published>
+    <published>2014-06-10T01:00:00+01:00</published>
     <updated>2014-06-10T07:07:17+01:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -400,7 +400,7 @@ with the wrong ruby.&lt;/p&gt;
 &lt;p&gt;To fix this I removed &lt;code&gt;chruby&lt;/code&gt;&amp;rsquo;s auto switching feature from my default
 environment, and based on a suggestion &lt;a href="https://github.com/zimbatm/direnv/issues/98"&gt;here&lt;/a&gt; added a &lt;code&gt;use_ruby&lt;/code&gt;
 function to my &lt;code&gt;~/.direnvrc&lt;/code&gt;:&lt;/p&gt;
-&lt;pre class="highlight shell"&gt;&lt;span class="nb"&gt;source&lt;/span&gt; /usr/local/share/chruby/chruby.sh
+&lt;pre&gt;&lt;code class="highlight shell"&gt;&lt;span class="nb"&gt;source&lt;/span&gt; /usr/local/share/chruby/chruby.sh
 
 &lt;span class="c"&gt;# use ruby [version]&lt;/span&gt;
 use_ruby&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
@@ -414,21 +414,21 @@ use_ruby&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&g
   &lt;span class="k"&gt;fi
   &lt;/span&gt;chruby &lt;span class="nv"&gt;$ver&lt;/span&gt;
 &lt;span class="o"&gt;}&lt;/span&gt;
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;This checks for a &lt;code&gt;.ruby-version&lt;/code&gt; file, and, if it finds one, defers to &lt;code&gt;chruby&lt;/code&gt;
 to load the correct ruby environment.&lt;/p&gt;
 
 &lt;p&gt;I can now use this function in a project &lt;code&gt;.envrc&lt;/code&gt; to load ruby before I modify
 the path:&lt;/p&gt;
-&lt;pre class="highlight shell"&gt;use ruby
+&lt;pre&gt;&lt;code class="highlight shell"&gt;use ruby
 PATH_add bin
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;You can also pass a ruby version to the &lt;code&gt;use_ruby&lt;/code&gt; function:&lt;/p&gt;
-&lt;pre class="highlight shell"&gt;use ruby 2.1
+&lt;pre&gt;&lt;code class="highlight shell"&gt;use ruby 2.1
 PATH_add bin
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;If you don&amp;rsquo;t want to use a &lt;code&gt;.ruby-version&lt;/code&gt; file.&lt;/p&gt;
 
@@ -441,7 +441,7 @@ I want. I don&amp;rsquo;t think its too bad to have to be explicit about that.&l
     <title>Kickstart Academy Podcast with Sandi Metz</title>
     <link rel="alternate" href="http://tooky.co.uk/kickstart-academy-podcast-with-sandi-metz/"/>
     <id>http://tooky.co.uk/kickstart-academy-podcast-with-sandi-metz/</id>
-    <published>2014-05-21T00:00:00Z</published>
+    <published>2014-05-21T01:00:00+01:00</published>
     <updated>2014-06-10T07:00:47+01:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -536,7 +536,7 @@ Matt in London&lt;/li&gt;
     <title>Hangout with Matt Wynne and Aslak Hellesøy</title>
     <link rel="alternate" href="http://tooky.co.uk/hangout-with-matt-wynne-and-aslak-hellesoy/"/>
     <id>http://tooky.co.uk/hangout-with-matt-wynne-and-aslak-hellesoy/</id>
-    <published>2014-05-16T15:11:00Z</published>
+    <published>2014-05-16T16:11:00+01:00</published>
     <updated>2014-06-10T07:00:47+01:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -564,7 +564,7 @@ discuss.&lt;/p&gt;
     <title>The Cucumber Test Trap</title>
     <link rel="alternate" href="http://tooky.co.uk/the-cucumber-test-trap/"/>
     <id>http://tooky.co.uk/the-cucumber-test-trap/</id>
-    <published>2014-03-29T00:00:00Z</published>
+    <published>2014-03-29T00:00:00+00:00</published>
     <updated>2014-04-03T11:55:02+01:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -721,7 +721,7 @@ reward.&lt;/p&gt;
     <title>Discovering BDD</title>
     <link rel="alternate" href="http://tooky.co.uk/discovering-bdd/"/>
     <id>http://tooky.co.uk/discovering-bdd/</id>
-    <published>2013-12-11T00:00:00Z</published>
+    <published>2013-12-11T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -784,7 +784,7 @@ reward.&lt;/p&gt;
     <title>Learning by Teaching</title>
     <link rel="alternate" href="http://tooky.co.uk/learning-by-teaching/"/>
     <id>http://tooky.co.uk/learning-by-teaching/</id>
-    <published>2013-11-06T00:00:00Z</published>
+    <published>2013-11-06T00:00:00+00:00</published>
     <updated>2013-12-18T12:36:38+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -828,7 +828,7 @@ reward.&lt;/p&gt;
     <title>Stop Writing Scenarios That Test Everything Through The View</title>
     <link rel="alternate" href="http://tooky.co.uk/stop-writing-scenarios-that-test-everything-through-the-view/"/>
     <id>http://tooky.co.uk/stop-writing-scenarios-that-test-everything-through-the-view/</id>
-    <published>2013-10-29T00:00:00Z</published>
+    <published>2013-10-29T00:00:00+00:00</published>
     <updated>2014-06-10T07:02:29+01:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -838,13 +838,13 @@ reward.&lt;/p&gt;
 &lt;p&gt;&lt;/p&gt;
 
 &lt;p&gt;Scenarios like this.&lt;/p&gt;
-&lt;pre class="highlight gherkin"&gt;&lt;span class="nf"&gt;Given&lt;/span&gt; I go to the homepage
+&lt;pre&gt;&lt;code class="highlight gherkin"&gt;&lt;span class="nf"&gt;Given&lt;/span&gt; I go to the homepage
 &lt;span class="nf"&gt;And&lt;/span&gt; I fill in my username
 &lt;span class="nf"&gt;And&lt;/span&gt; I click sign in
 &lt;span class="nf"&gt;When&lt;/span&gt; I click &lt;span class="s"&gt;"Accounts"&lt;/span&gt;
 &lt;span class="nf"&gt;Then&lt;/span&gt; I see &lt;span class="s"&gt;"Current Account"&lt;/span&gt;
 &lt;span class="nf"&gt;And&lt;/span&gt; I see &lt;span class="s"&gt;"Savings Account"&lt;/span&gt;
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;em&gt;sigh&lt;/em&gt;&lt;/p&gt;
 
@@ -861,7 +861,7 @@ reward.&lt;/p&gt;
     <title>This Gherkin's Not For Reading</title>
     <link rel="alternate" href="http://tooky.co.uk/this-gherkins-not-for-reading/"/>
     <id>http://tooky.co.uk/this-gherkins-not-for-reading/</id>
-    <published>2013-10-24T00:00:00Z</published>
+    <published>2013-10-24T01:00:00+01:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -900,12 +900,12 @@ claiming the application works!&lt;/p&gt;
     <title>Cucumber and Full Stack Testing</title>
     <link rel="alternate" href="http://tooky.co.uk/cucumber-and-full-stack-testing/"/>
     <id>http://tooky.co.uk/cucumber-and-full-stack-testing/</id>
-    <published>2013-01-18T00:00:00Z</published>
+    <published>2013-01-18T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
     </author>
-    <content type="html">&lt;p&gt;There has been two similar questions asked on two different mailing lists I subscribe to (Corey Haines&amp;#39; &lt;a title="Build an app with Corey Haines" href="http://www.cleancoders.com/codecast/bawch-episode-1/show"&gt;BAWCH&lt;/a&gt; mailing list, and &lt;a href="http://rubyrogues.com/"&gt;Ruby Rogues&lt;/a&gt; Parley list). Both of these lists are private so I thought it would be worthwhile posting my answer here.&lt;/p&gt;
+    <content type="html">&lt;p&gt;There has been two similar questions asked on two different mailing lists I subscribe to (Corey Haines&amp;rsquo; &lt;a title="Build an app with Corey Haines" href="http://www.cleancoders.com/codecast/bawch-episode-1/show"&gt;BAWCH&lt;/a&gt; mailing list, and &lt;a href="http://rubyrogues.com/"&gt;Ruby Rogues&lt;/a&gt; Parley list). Both of these lists are private so I thought it would be worthwhile posting my answer here.&lt;/p&gt;
 
 &lt;p&gt;Both of the questions were concerned with out-side-in development, full-stack integration testing, and how much of the application needs to be tested through the entire system.&lt;/p&gt;
 
@@ -930,7 +930,7 @@ claiming the application works!&lt;/p&gt;
     <title>Delegation is not inheritance</title>
     <link rel="alternate" href="http://tooky.co.uk/delegation-is-not-inheritance/"/>
     <id>http://tooky.co.uk/delegation-is-not-inheritance/</id>
-    <published>2012-08-08T00:00:00Z</published>
+    <published>2012-08-08T01:00:00+01:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -942,7 +942,7 @@ claiming the application works!&lt;/p&gt;
 &lt;p&gt;His approach is to build a proxy object which wraps the object to be updated, and provides a whitelist for fields which can be updated. He also inadvertantly demonstrates an easy mistake to make when using proxy objects.&lt;/p&gt;
 
 &lt;p&gt;Here is a simplified version of Jim&amp;rsquo;s solution -  without any of the api for creating / finding proxies - which we will use to demonstrate this pitfall and its effects.&lt;/p&gt;
-&lt;pre class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;'delegate'&lt;/span&gt;
+&lt;pre&gt;&lt;code class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;'delegate'&lt;/span&gt;
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;ProtectionProxy&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;SimpleDelegator&lt;/span&gt;
   &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;writable_fields&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="k"&gt;super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -953,15 +953,15 @@ claiming the application works!&lt;/p&gt;
     &lt;span class="n"&gt;method_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;method&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;to_s&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;method_name&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;end_with?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'='&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
       &lt;span class="k"&gt;super&lt;/span&gt;
-    &lt;span class="k"&gt;elsif&lt;/span&gt; &lt;span class="vi"&gt;@writable_fields&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;include?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;method_name&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;.&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;to_sym&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;elsif&lt;/span&gt; &lt;span class="vi"&gt;@writable_fields&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;include?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;method_name&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;.&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;].&lt;/span&gt;&lt;span class="nf"&gt;to_sym&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
       &lt;span class="k"&gt;super&lt;/span&gt;
     &lt;span class="k"&gt;end&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;This approach works great for silently dropping calls to the accessor methods that are not in the provided whitelist. Here are some rspec examples which show how it works.&lt;/p&gt;
-&lt;pre class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;'rspec-given'&lt;/span&gt;
+&lt;pre&gt;&lt;code class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;'rspec-given'&lt;/span&gt;
 &lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;'protection_proxy'&lt;/span&gt;
 
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;User&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;Struct&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:email&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:membership_level&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -983,22 +983,22 @@ claiming the application works!&lt;/p&gt;
     &lt;span class="no"&gt;Then&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;name&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;should&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;"Jim"&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now if we imagine we have a rails project, we can create a proxy to wrap our ActiveRecord object, and specify an attribute whitelist.  This should then prevent mass-assignment of any non-whitelist attributes - it could be used in a controller like this:&lt;/p&gt;
-&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;UserController&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActionController&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+&lt;pre&gt;&lt;code class="highlight ruby"&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;UserController&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActionController&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
   &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;update&lt;/span&gt;
-    &lt;span class="n"&gt;user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:id&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;user&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:id&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
     &lt;span class="n"&gt;proxy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;ProtectionProxy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:email&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;update_attributes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;update_attributes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;params&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:user&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
       &lt;span class="c1"&gt;# happy path&lt;/span&gt;
     &lt;span class="k"&gt;else&lt;/span&gt;
       &lt;span class="c1"&gt;# error&lt;/span&gt;
     &lt;span class="k"&gt;end&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Unfortunately this won&amp;rsquo;t work as we might expect.&lt;/p&gt;
 
@@ -1019,7 +1019,7 @@ claiming the application works!&lt;/p&gt;
 &lt;p&gt;As we are not calling the accessor methods on the proxy, we aren&amp;rsquo;t filtering out the fields that don&amp;rsquo;t appear in the whitelist and our attribute protection won&amp;rsquo;t work when we use &lt;code&gt;update_attributes&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;Here is another example. &lt;code&gt;Capitalise&lt;/code&gt; wraps an object and provides a upper case version of its name method.&lt;/p&gt;
-&lt;pre class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;'delegate'&lt;/span&gt;
+&lt;pre&gt;&lt;code class="highlight ruby"&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;'delegate'&lt;/span&gt;
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Capitalise&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;SimpleDelegator&lt;/span&gt;
   &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="vi"&gt;@source&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;source&lt;/span&gt;
@@ -1042,14 +1042,14 @@ claiming the application works!&lt;/p&gt;
 
 &lt;span class="n"&gt;john&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;greet&lt;/span&gt; &lt;span class="c1"&gt;#=&amp;gt; "Hello, john"&lt;/span&gt;
 &lt;span class="n"&gt;capital_john&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;greet&lt;/span&gt; &lt;span class="c1"&gt;#=&amp;gt; "Hello, john"&lt;/span&gt;
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Because &lt;code&gt;greet&lt;/code&gt; is defined in the &lt;code&gt;Person&lt;/code&gt; class, when it calls &lt;code&gt;name&lt;/code&gt; it will always call &lt;code&gt;Person#name&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;This has caught me out a couple times. It&amp;rsquo;s so easy in ruby to create proxy objects or decorators that its easy to forget that you have a different object.&lt;/p&gt;
 
 &lt;p&gt;One solution is to implement a version of &lt;code&gt;update_attributes&lt;/code&gt; on the proxy object.&lt;/p&gt;
-&lt;pre class="highlight ruby"&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;ProtectionProxy&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;SimpleDelegator&lt;/span&gt;
+&lt;pre&gt;&lt;code class="highlight ruby"&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;ProtectionProxy&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;SimpleDelegator&lt;/span&gt;
   &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;writable_fields&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="k"&gt;super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="vi"&gt;@object&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;object&lt;/span&gt;
@@ -1063,7 +1063,7 @@ claiming the application works!&lt;/p&gt;
     &lt;span class="vi"&gt;@object&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;update_attributes&lt;/span&gt; &lt;span class="n"&gt;attrs&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
 &lt;span class="k"&gt;end&lt;/span&gt;
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Here we add an &lt;code&gt;update_attributes&lt;/code&gt; method to the &lt;code&gt;ProtectionProxy&lt;/code&gt; class - this only allows attributes allowed by the whitelist through to &lt;code&gt;User#update_attributes&lt;/code&gt;.&lt;/p&gt;
 
@@ -1076,7 +1076,7 @@ claiming the application works!&lt;/p&gt;
     <title>Tracking Project Emotions Using MercuryApp</title>
     <link rel="alternate" href="http://tooky.co.uk/tracking-project-emotions-using-mercury-app/"/>
     <id>http://tooky.co.uk/tracking-project-emotions-using-mercury-app/</id>
-    <published>2010-11-23T00:00:00Z</published>
+    <published>2010-11-23T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -1102,25 +1102,25 @@ claiming the application works!&lt;/p&gt;
     <title>Fixing "There was a problem with the editor 'vi'" for Git on Mac OS X Snow Leopard</title>
     <link rel="alternate" href="http://tooky.co.uk/there-was-a-problem-with-the-editor-vi-git-on-mac-os-x/"/>
     <id>http://tooky.co.uk/there-was-a-problem-with-the-editor-vi-git-on-mac-os-x/</id>
-    <published>2010-04-08T00:00:00Z</published>
+    <published>2010-04-08T01:00:00+01:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
     </author>
     <content type="html">&lt;p&gt;I have had an annoying problem with git and vi. I like to use vim to edit my commit messages, but I&amp;rsquo;ve been hit with this annoying message every time I write the message and quit vim.&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;error: There was a problem with the editor 'vi'
-&lt;/pre&gt;
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;error: There was a problem with the editor 'vi'
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;After a little bit of digging I found that this message is shown by git when the editor exits with a non-zero exit code. You can use &lt;code&gt;$?&lt;/code&gt; to see the exit code of last script or application.&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;$ vim     # then exit vim with :q immediately
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;$ vim     # then exit vim with :q immediately
 $ echo $?
 1
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;I&amp;rsquo;m still not sure why vim is exiting with non-zero exit code, but it is definitely related to my &lt;code&gt;.vimrc&lt;/code&gt; - moving it to &lt;code&gt;.vimrc.bak&lt;/code&gt; seemed to fix the problem. I&amp;rsquo;m using the excellent &lt;a href="http://www.vim.org/scripts/script.php?script_id=2332"&gt;pathogen&lt;/a&gt; plugin to manage my vimfiles, so I plan to go through that and my installed plugins to find the cause of the problem.&lt;/p&gt;
 
 &lt;p&gt;There is a fix though, I&amp;rsquo;m not sure what&amp;rsquo;s causing this, but I found a &lt;a href="http://groups.google.com/group/vim_mac/browse_thread/thread/0d33e2f2130867b0"&gt;post on the vim-mac mailing list&lt;/a&gt; which shows this:&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;$ vim          # and exit with :q
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;$ vim          # and exit with :q
 $ echo $?
 1
 $ /usr/bin/vim # and exit with :q
@@ -1128,11 +1128,11 @@ $ echo $?
 0
 $ which vim
 /usr/bin/vim
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Running vim with &lt;code&gt;/usr/bin/vim&lt;/code&gt; seems to make it exit cleanly. So to fix the problem with git commit you just need to run this:&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;$ git config --global core.editor /usr/bin/vim
-&lt;/pre&gt;
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;$ git config --global core.editor /usr/bin/vim
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;I&amp;rsquo;d still like to get to the root of the problem, but this gets me my git commit messages back!&lt;/p&gt;
 </content>
@@ -1141,7 +1141,7 @@ $ which vim
     <title>Why I think you should go to a code retreat</title>
     <link rel="alternate" href="http://tooky.co.uk/why-i-think-you-should-go-to-a-coderetreat/"/>
     <id>http://tooky.co.uk/why-i-think-you-should-go-to-a-coderetreat/</id>
-    <published>2010-03-17T00:00:00Z</published>
+    <published>2010-03-17T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -1195,7 +1195,7 @@ $ which vim
     <title>Exploring Harmony for javascript BDD with RSpec</title>
     <link rel="alternate" href="http://tooky.co.uk/exploring-harmony-for-unit-testing-with-rspec/"/>
     <id>http://tooky.co.uk/exploring-harmony-for-unit-testing-with-rspec/</id>
-    <published>2010-03-02T00:00:00Z</published>
+    <published>2010-03-02T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -1206,7 +1206,7 @@ $ which vim
 
 &lt;p&gt;To get started figuring out how I might be able to integrate harmony into my workflow, I&amp;rsquo;ve created a very simple &lt;a href="http://gist.github.com/319235"&gt;project&lt;/a&gt; which uses rspec to make some very simple assertions about javascript behaviour.&lt;/p&gt;
 
-&lt;script src="http://gist.github.com/319235.js?file=rspec_with_harmony.rb"&gt;&lt;/script&gt;
+&lt;p&gt;&lt;script src="http://gist.github.com/319235.js?file=rspec_with_harmony.rb"&gt;&lt;/script&gt;&lt;/p&gt;
 
 &lt;p&gt;The 3rd and 4th specs are probably the most interesting. They show how how you can use an HTML fixture file, and load the javascript you want to test. This feels like a nice way of isolating your javascript, and would probably encourage me to write much more modular javascript.&lt;/p&gt;
 
@@ -1217,7 +1217,7 @@ $ which vim
     <title>Remote pairing with GNU Screen and Vim</title>
     <link rel="alternate" href="http://tooky.co.uk/remote-pairing-with-gnu-screen-and-vim/"/>
     <id>http://tooky.co.uk/remote-pairing-with-gnu-screen-and-vim/</id>
-    <published>2010-01-08T00:00:00Z</published>
+    <published>2010-01-08T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -1235,14 +1235,14 @@ $ which vim
 &lt;p&gt;Our basic process is:&lt;/p&gt;
 
 &lt;p&gt;User 1 sets up a screen as a shared user on the host machine&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;pairing$ screen -S pairing
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;pairing$ screen -S pairing
 Ctrl-a :multiuser on
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;User 2, logs into the maching via ssh, and connects to the shared screen&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;local$ ssh pairing@shared_machine
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;local$ ssh pairing@shared_machine
 pairing$ screen -x pairing
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;That&amp;rsquo;s basically it. Both users then have access to a full shared terminal environment. A shared screen can have multiple windows, so we tend to work with one screen for vim and another for running tests and other terminal commands. We also make extensive use of &lt;a href="http://www.linux.com/archive/articles/59533"&gt;vim tabs&lt;/a&gt; and shell execution from within vim.&lt;/p&gt;
 
@@ -1264,7 +1264,7 @@ pairing$ screen -x pairing
     <title>A Model for Life</title>
     <link rel="alternate" href="http://tooky.co.uk/model_for_life/"/>
     <id>http://tooky.co.uk/model_for_life/</id>
-    <published>2009-12-17T00:00:00Z</published>
+    <published>2009-12-17T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -1304,7 +1304,7 @@ model and the business rules you create.&lt;/p&gt;
     <title>The Language of Software Craftsmanship</title>
     <link rel="alternate" href="http://tooky.co.uk/language-of-software-craftsmanship/"/>
     <id>http://tooky.co.uk/language-of-software-craftsmanship/</id>
-    <published>2009-12-11T00:00:00Z</published>
+    <published>2009-12-11T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -1332,7 +1332,7 @@ our nascent profession’s problems by calling ourselves, or regarding ourselves
     <title>Software Craftsmanship and Eden Development</title>
     <link rel="alternate" href="http://tooky.co.uk/software-craftsmanship/"/>
     <id>http://tooky.co.uk/software-craftsmanship/</id>
-    <published>2009-11-25T00:00:00Z</published>
+    <published>2009-11-25T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -1363,7 +1363,7 @@ formal apprenticeship scheme.&lt;/p&gt;
     <title>How I'm going to try to become a better pair.</title>
     <link rel="alternate" href="http://tooky.co.uk/how-to-improve-my-pairing/"/>
     <id>http://tooky.co.uk/how-to-improve-my-pairing/</id>
-    <published>2009-09-02T00:00:00Z</published>
+    <published>2009-09-02T01:00:00+01:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -1389,7 +1389,7 @@ formal apprenticeship scheme.&lt;/p&gt;
     <title>UK Apprenticeships and Software Development</title>
     <link rel="alternate" href="http://tooky.co.uk/uk-apprenticeships-and-software-development/"/>
     <id>http://tooky.co.uk/uk-apprenticeships-and-software-development/</id>
-    <published>2009-09-02T00:00:00Z</published>
+    <published>2009-09-02T01:00:00+01:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -1407,7 +1407,7 @@ formal apprenticeship scheme.&lt;/p&gt;
     <title>Simple Old-school webcam using iSightcapture and dropbox</title>
     <link rel="alternate" href="http://tooky.co.uk/webcam-with-isightcapture-and-dropbox/"/>
     <id>http://tooky.co.uk/webcam-with-isightcapture-and-dropbox/</id>
-    <published>2009-02-20T00:00:00Z</published>
+    <published>2009-02-20T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -1423,7 +1423,7 @@ formal apprenticeship scheme.&lt;/p&gt;
     <title>Getting started with Cucumber and Sinatra</title>
     <link rel="alternate" href="http://tooky.co.uk/getting-started-with-cucumber-and-sinatra/"/>
     <id>http://tooky.co.uk/getting-started-with-cucumber-and-sinatra/</id>
-    <published>2009-02-05T00:00:00Z</published>
+    <published>2009-02-05T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -1437,33 +1437,33 @@ formal apprenticeship scheme.&lt;/p&gt;
 &lt;p&gt;I&amp;rsquo;ve been considering using both of these tools for an upcoming project so I wanted to make sure they worked happily together. A quick google seemed to suggest that some work had been done, but I could find a tutorial for getting up and running. Happily the latest releases of Cucumber (and &lt;a href="http://github.com/brynary/webrat/tree/master"&gt;Webrat&lt;/a&gt;) have Sinatra support built in so its really very easy!&lt;/p&gt;
 
 &lt;p&gt;With cucumber you write your plain text specifications in terms of &amp;lsquo;features&amp;rsquo;, by convention they are in a features directory with the .feature extension. So for our purposes we will start with a very simple feature:&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;Feature: view pages
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;Feature: view pages
 
   Scenario: Home page
     Given I am viewing "/"
     Then I should see "Hello, world!
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;To run our feature (and test our code against it) is as simple as &lt;code&gt;cucumber feature/home.feature&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;img alt="cucumber pending steps" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber1.png" /&gt;&lt;/p&gt;
 
 &lt;p&gt;Cucumber parses the feature and looks for matching step definitions. As we can see in the screenshot we need to implement the steps in our feature so cucumber knows how to run it. Step definitions are implemented in ruby.&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;Given /^I am viewing "(.+)"$/ do |url|
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;Given /^I am viewing "(.+)"$/ do |url|
   visit(url)
 end
 
 Then /^I should see "(.+)"$/ do |text|
   response_body.should =~ Regexp.new(Regexp.escape(text))
 end
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;These two simple steps make use of webrat to request the url from our app and check that the response contains the text we&amp;rsquo;re looking for.&lt;/p&gt;
 
 &lt;p&gt;&lt;img alt="cucumber failing without webrat" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber2.png" /&gt;&lt;/p&gt;
 
 &lt;p&gt;The feature is currently failing as a method we have used in our step definition doesn&amp;rsquo;t exist. &lt;code&gt;visit&lt;/code&gt; is a method from webrat so we need to configure cucumber&amp;rsquo;s environment to use webrat. Webrat has a &lt;code&gt;SinatraSession&lt;/code&gt; specifically for testing sinatra web apps. We will also need to require the RSpec expectations as we are using them to check the response.&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;require 'spec/expectations'
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;require 'spec/expectations'
 require 'webrat'
 Webrat.configure do |config|
   config.mode = :sinatra
@@ -1472,22 +1472,22 @@ end
 World do
   Webrat::SinatraSession.new
 end
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Running the scenario again, and we see that everything is hooked up properly and the scenario is failing (as expected because we haven&amp;rsquo;t written any code).&lt;/p&gt;
 
 &lt;p&gt;&lt;img alt="cucumber failing no code" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber3.png" /&gt;&lt;/p&gt;
 
 &lt;p&gt;Now we have our failing scenario we can start putting together our web app and make sure we&amp;rsquo;re running with a green light!&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;require 'sinatra'
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;require 'sinatra'
 
 get '/' do
   "Hello, world!"
 end
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now if we run out scenario again unfortunately it still fails, we need to hook cucumber up to our app.&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;require 'spec/expectations'
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;require 'spec/expectations'
 require 'webrat'
 Webrat.configure do |config|
   config.mode = :sinatra
@@ -1498,20 +1498,20 @@ World do
 end
 
 require File.dirname(__FILE__) + '/../../hello''
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Finally running cucumber gives us that nice green feeling.&lt;/p&gt;
 
 &lt;p&gt;&lt;img alt="green cucumber" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber4.png" /&gt;&lt;/p&gt;
 
 &lt;p&gt;The only thing left to do is to add a rake file to run our features for us.&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;require 'rubygems'
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;require 'rubygems'
 require 'cucumber/rake/task'
 
 Cucumber::Rake::Task.new(:features) do |t|
   t.cucumber_opts = "--format pretty"
 end
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;img alt="rake features" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/cucumber5.png" /&gt;&lt;/p&gt;
 
@@ -1522,7 +1522,7 @@ end
     <title>GitHub Pages and Jekyll</title>
     <link rel="alternate" href="http://tooky.co.uk/github-pages-and-jekyll/"/>
     <id>http://tooky.co.uk/github-pages-and-jekyll/</id>
-    <published>2008-12-18T00:00:00Z</published>
+    <published>2008-12-18T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>

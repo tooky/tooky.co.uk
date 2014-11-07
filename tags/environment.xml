@@ -4,12 +4,12 @@
   <id>http://tooky.co.uk/</id>
   <link href="http://tooky.co.uk/tags/environment/"/>
   <link href="http://tooky.co.uk/tags/environment.xml" rel="self"/>
-  <updated>2014-06-10T00:00:00Z</updated>
+  <updated>2014-06-10T01:00:00+01:00</updated>
   <entry>
     <title>Using `direnv` and `chruby` together</title>
     <link rel="alternate" href="http://tooky.co.uk/using-direnv-and-chruby-together/"/>
     <id>http://tooky.co.uk/using-direnv-and-chruby-together/</id>
-    <published>2014-06-10T00:00:00Z</published>
+    <published>2014-06-10T01:00:00+01:00</published>
     <updated>2014-06-10T07:07:17+01:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -40,7 +40,7 @@ with the wrong ruby.&lt;/p&gt;
 &lt;p&gt;To fix this I removed &lt;code&gt;chruby&lt;/code&gt;&amp;rsquo;s auto switching feature from my default
 environment, and based on a suggestion &lt;a href="https://github.com/zimbatm/direnv/issues/98"&gt;here&lt;/a&gt; added a &lt;code&gt;use_ruby&lt;/code&gt;
 function to my &lt;code&gt;~/.direnvrc&lt;/code&gt;:&lt;/p&gt;
-&lt;pre class="highlight shell"&gt;&lt;span class="nb"&gt;source&lt;/span&gt; /usr/local/share/chruby/chruby.sh
+&lt;pre&gt;&lt;code class="highlight shell"&gt;&lt;span class="nb"&gt;source&lt;/span&gt; /usr/local/share/chruby/chruby.sh
 
 &lt;span class="c"&gt;# use ruby [version]&lt;/span&gt;
 use_ruby&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
@@ -54,21 +54,21 @@ use_ruby&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&g
   &lt;span class="k"&gt;fi
   &lt;/span&gt;chruby &lt;span class="nv"&gt;$ver&lt;/span&gt;
 &lt;span class="o"&gt;}&lt;/span&gt;
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;This checks for a &lt;code&gt;.ruby-version&lt;/code&gt; file, and, if it finds one, defers to &lt;code&gt;chruby&lt;/code&gt;
 to load the correct ruby environment.&lt;/p&gt;
 
 &lt;p&gt;I can now use this function in a project &lt;code&gt;.envrc&lt;/code&gt; to load ruby before I modify
 the path:&lt;/p&gt;
-&lt;pre class="highlight shell"&gt;use ruby
+&lt;pre&gt;&lt;code class="highlight shell"&gt;use ruby
 PATH_add bin
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;You can also pass a ruby version to the &lt;code&gt;use_ruby&lt;/code&gt; function:&lt;/p&gt;
-&lt;pre class="highlight shell"&gt;use ruby 2.1
+&lt;pre&gt;&lt;code class="highlight shell"&gt;use ruby 2.1
 PATH_add bin
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;If you don&amp;rsquo;t want to use a &lt;code&gt;.ruby-version&lt;/code&gt; file.&lt;/p&gt;
 

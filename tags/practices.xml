@@ -4,12 +4,12 @@
   <id>http://tooky.co.uk/</id>
   <link href="http://tooky.co.uk/tags/practices/"/>
   <link href="http://tooky.co.uk/tags/practices.xml" rel="self"/>
-  <updated>2010-01-08T00:00:00Z</updated>
+  <updated>2010-01-08T00:00:00+00:00</updated>
   <entry>
     <title>Remote pairing with GNU Screen and Vim</title>
     <link rel="alternate" href="http://tooky.co.uk/remote-pairing-with-gnu-screen-and-vim/"/>
     <id>http://tooky.co.uk/remote-pairing-with-gnu-screen-and-vim/</id>
-    <published>2010-01-08T00:00:00Z</published>
+    <published>2010-01-08T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -27,14 +27,14 @@
 &lt;p&gt;Our basic process is:&lt;/p&gt;
 
 &lt;p&gt;User 1 sets up a screen as a shared user on the host machine&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;pairing$ screen -S pairing
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;pairing$ screen -S pairing
 Ctrl-a :multiuser on
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;User 2, logs into the maching via ssh, and connects to the shared screen&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;local$ ssh pairing@shared_machine
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;local$ ssh pairing@shared_machine
 pairing$ screen -x pairing
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;That&amp;rsquo;s basically it. Both users then have access to a full shared terminal environment. A shared screen can have multiple windows, so we tend to work with one screen for vim and another for running tests and other terminal commands. We also make extensive use of &lt;a href="http://www.linux.com/archive/articles/59533"&gt;vim tabs&lt;/a&gt; and shell execution from within vim.&lt;/p&gt;
 

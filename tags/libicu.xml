@@ -4,12 +4,12 @@
   <id>http://tooky.co.uk/</id>
   <link href="http://tooky.co.uk/tags/libicu/"/>
   <link href="http://tooky.co.uk/tags/libicu.xml" rel="self"/>
-  <updated>2014-06-11T00:00:00Z</updated>
+  <updated>2014-06-11T01:00:00+01:00</updated>
   <entry>
     <title>Using charklock_holmes on Heroku</title>
     <link rel="alternate" href="http://tooky.co.uk/using-charklock_holmes-on-heroku/"/>
     <id>http://tooky.co.uk/using-charklock_holmes-on-heroku/</id>
-    <published>2014-06-11T00:00:00Z</published>
+    <published>2014-06-11T01:00:00+01:00</published>
     <updated>2014-06-11T13:58:54+01:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -56,24 +56,24 @@ point correctly to the temporary build directory.&lt;/p&gt;
 &lt;p&gt;I&amp;rsquo;ve created a &lt;a href="https://github.com/tooky/heroku-charlock-holmes"&gt;sample project&lt;/a&gt;, that can be &lt;a href="http://heroku-charlock-holmes.herokuapp.com"&gt;deployed to heroku&lt;/a&gt; – the only thing
 you need to do is ensure that you have set the &lt;code&gt;BUILDPACK_URL&lt;/code&gt; to
 &lt;code&gt;https://github.com/ddollar/heroku-buildpack-multi.git&lt;/code&gt;:&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;$ heroku config:set BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
-&lt;/pre&gt;
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;$ heroku config:set BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;When you push to heroku, this buildpack will check for a &lt;code&gt;.buildpacks&lt;/code&gt; file,
 which specify the different buildpacks you want to use:&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;https://github.com/ddollar/heroku-buildpack-apt
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;https://github.com/ddollar/heroku-buildpack-apt
 https://github.com/timolehto/heroku-bundle-config
 https://github.com/heroku/heroku-buildpack-ruby
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;code&gt;heroku-buildpack-apt&lt;/code&gt; will then check for an &lt;code&gt;Aptfile&lt;/code&gt; and install the
 specified packages:&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;libicu-dev
-&lt;/pre&gt;
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;libicu-dev
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Finally, you need to configure you &lt;code&gt;.heroku-bundle/config&lt;/code&gt; to make sure that
 &lt;code&gt;bundler&lt;/code&gt; can use your newly installed version of &lt;code&gt;libicu&lt;/code&gt;:&lt;/p&gt;
-&lt;pre class="highlight plaintext"&gt;---
+&lt;pre&gt;&lt;code class="highlight plaintext"&gt;---
 BUNDLE_FROZEN: '1'
 BUNDLE_PATH: vendor/bundle
 BUNDLE_BIN: vendor/bundle/bin
@@ -81,7 +81,7 @@ BUNDLE_JOBS: 4
 BUNDLE_WITHOUT: development:test
 BUNDLE_DISABLE_SHARED_GEMS: '1'
 BUNDLE_BUILD__CHARLOCK_HOLMES: --with-icu-lib=/app/.apt/usr/lib --with-icu-include=/app/.apt/usr/include
-&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;That should be all you need.&lt;/p&gt;
 </content>

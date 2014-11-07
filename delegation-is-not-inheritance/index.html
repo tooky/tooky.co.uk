@@ -6,11 +6,10 @@
     <title>Steve Tooke - Delegation is not inheritance</title>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Merriweather:300italic,300|Source+Sans+Pro:300|Source+Code+Pro' rel='stylesheet' type='text/css'>
-    <link href="/stylesheets/reset.css" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/stylesheets/highlight.css" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/stylesheets/blog.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/reset.css" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/highlight.css" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/blog.css" rel="stylesheet" type="text/css" />
     <script src="/javascripts/track_outbound_links.js" type="text/javascript"></script>
-    
 
   </head>
   <body>
@@ -44,7 +43,7 @@
 <p>His approach is to build a proxy object which wraps the object to be updated, and provides a whitelist for fields which can be updated. He also inadvertantly demonstrates an easy mistake to make when using proxy objects.</p>
 
 <p>Here is a simplified version of Jim&rsquo;s solution -  without any of the api for creating / finding proxies - which we will use to demonstrate this pitfall and its effects.</p>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'delegate'</span>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'delegate'</span>
 <span class="k">class</span> <span class="nc">ProtectionProxy</span> <span class="o">&lt;</span> <span class="no">SimpleDelegator</span>
   <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="o">*</span><span class="n">writable_fields</span><span class="p">)</span>
     <span class="k">super</span><span class="p">(</span><span class="n">object</span><span class="p">)</span>
@@ -55,15 +54,15 @@
     <span class="n">method_name</span> <span class="o">=</span> <span class="nb">method</span><span class="p">.</span><span class="nf">to_s</span>
     <span class="k">if</span> <span class="o">!</span><span class="n">method_name</span><span class="p">.</span><span class="nf">end_with?</span><span class="p">(</span><span class="s1">'='</span><span class="p">)</span>
       <span class="k">super</span>
-    <span class="k">elsif</span> <span class="vi">@writable_fields</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">method_name</span><span class="o">[</span><span class="mi">0</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">-</span><span class="mi">1</span><span class="o">]</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">)</span>
+    <span class="k">elsif</span> <span class="vi">@writable_fields</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">method_name</span><span class="p">[</span><span class="mi">0</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">-</span><span class="mi">1</span><span class="p">].</span><span class="nf">to_sym</span><span class="p">)</span>
       <span class="k">super</span>
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre>
+</code></pre>
 
 <p>This approach works great for silently dropping calls to the accessor methods that are not in the provided whitelist. Here are some rspec examples which show how it works.</p>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'rspec-given'</span>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'rspec-given'</span>
 <span class="nb">require</span> <span class="s1">'protection_proxy'</span>
 
 <span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:membership_level</span><span class="p">)</span>
@@ -85,22 +84,22 @@
     <span class="no">Then</span> <span class="p">{</span> <span class="n">proxy</span><span class="p">.</span><span class="nf">name</span><span class="p">.</span><span class="nf">should</span> <span class="o">==</span> <span class="s2">"Jim"</span> <span class="p">}</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre>
+</code></pre>
 
 <p>Now if we imagine we have a rails project, we can create a proxy to wrap our ActiveRecord object, and specify an attribute whitelist.  This should then prevent mass-assignment of any non-whitelist attributes - it could be used in a controller like this:</p>
-<pre class="highlight ruby"><span class="k">class</span> <span class="nc">UserController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">UserController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
   <span class="k">def</span> <span class="nf">update</span>
-    <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
     <span class="n">proxy</span> <span class="o">=</span> <span class="no">ProtectionProxy</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:email</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">proxy</span><span class="p">.</span><span class="nf">update_attributes</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:user</span><span class="o">]</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">proxy</span><span class="p">.</span><span class="nf">update_attributes</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:user</span><span class="p">])</span>
       <span class="c1"># happy path</span>
     <span class="k">else</span>
       <span class="c1"># error</span>
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre>
+</code></pre>
 
 <p>Unfortunately this won&rsquo;t work as we might expect.</p>
 
@@ -121,7 +120,7 @@
 <p>As we are not calling the accessor methods on the proxy, we aren&rsquo;t filtering out the fields that don&rsquo;t appear in the whitelist and our attribute protection won&rsquo;t work when we use <code>update_attributes</code>.</p>
 
 <p>Here is another example. <code>Capitalise</code> wraps an object and provides a upper case version of its name method.</p>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'delegate'</span>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'delegate'</span>
 <span class="k">class</span> <span class="nc">Capitalise</span> <span class="o">&lt;</span> <span class="no">SimpleDelegator</span>
   <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
     <span class="vi">@source</span> <span class="o">=</span> <span class="n">source</span>
@@ -144,14 +143,14 @@
 
 <span class="n">john</span><span class="p">.</span><span class="nf">greet</span> <span class="c1">#=&gt; "Hello, john"</span>
 <span class="n">capital_john</span><span class="p">.</span><span class="nf">greet</span> <span class="c1">#=&gt; "Hello, john"</span>
-</pre>
+</code></pre>
 
 <p>Because <code>greet</code> is defined in the <code>Person</code> class, when it calls <code>name</code> it will always call <code>Person#name</code>.</p>
 
 <p>This has caught me out a couple times. It&rsquo;s so easy in ruby to create proxy objects or decorators that its easy to forget that you have a different object.</p>
 
 <p>One solution is to implement a version of <code>update_attributes</code> on the proxy object.</p>
-<pre class="highlight ruby"><span class="k">class</span> <span class="nc">ProtectionProxy</span> <span class="o">&lt;</span> <span class="no">SimpleDelegator</span>
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">ProtectionProxy</span> <span class="o">&lt;</span> <span class="no">SimpleDelegator</span>
   <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="o">*</span><span class="n">writable_fields</span><span class="p">)</span>
     <span class="k">super</span><span class="p">(</span><span class="n">object</span><span class="p">)</span>
     <span class="vi">@object</span> <span class="o">=</span> <span class="n">object</span>
@@ -165,7 +164,7 @@
     <span class="vi">@object</span><span class="p">.</span><span class="nf">update_attributes</span> <span class="n">attrs</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre>
+</code></pre>
 
 <p>Here we add an <code>update_attributes</code> method to the <code>ProtectionProxy</code> class - this only allows attributes allowed by the whitelist through to <code>User#update_attributes</code>.</p>
 
@@ -177,7 +176,7 @@
     <section class="promo">
       <h5>Like what you've read?</h5>
 
-      <p>We're running <a style="text-decoration: underline" href="http://kickstartacademy.io/courses/bdd-kickstart" onclick="trackOutboundLink('http://kickstartacademy.io/courses/bdd-kickstart'); return false;">BDD Kickstart</a> in <a href="http://kickstartacademy.io/dates/bdd-berlin-germany" onclick="trackOutboundLink('http://kickstartacademy.io/dates/bdd-berlin-germany'); return false;">Berlin on Oct 22-24</a> and in <a href="http://kickstartacademy.io/dates/bdd-atlanta-ga" onclick="trackOutboundLink('http://kickstartacademy.io/dates/bdd-atlanta-ga'); return false;">Atlanta, GA on July 3-4 2014</a>, learn everything you need to be off and running with Behaviour-Driven Development.</p>
+      <p>We're running <a style="text-decoration: underline" href="http://kickstartacademy.io/courses/bdd-kickstart" onclick="trackOutboundLink('http://kickstartacademy.io/courses/bdd-kickstart'); return false;">BDD Kickstart</a> in <a href="http://kickstartacademy.io/dates/bdd-berlin-germany" onclick="trackOutboundLink('http://kickstartacademy.io/dates/bdd-london-uk'); return false;">London on Feb 4-6</a>, learn everything you need to be off and running with Behaviour-Driven Development.</p>
 
     </section>
   </article>
@@ -190,114 +189,61 @@
           Recent Articles
           <a href="/feed.xml" class="feed" title="Subscribe!"><i class="fa fa-rss"></i></a>
         </h2>
-        
           <li><a href="/next-kickstart-academy-podcast-show-with-liz-keogh-and-chris-matts/">Next Kickstart Academy Podcast Show with Liz Keogh and Chris Matts</a> <span>Aug 21</span></li>
-        
           <li><a href="/kickstart-academy-podcast-with-liz-keogh-and-corey-haines/">Kickstart Academy Podcast with Liz Keogh and Corey Haines</a> <span>Jul 31</span></li>
-        
           <li><a href="/kickstart-academy-podcast-with-corey-haines-and-sandi-metz/">Kickstart Academy Podcast with Corey Haines and Sandi Metz</a> <span>Jul 29</span></li>
-        
           <li><a href="/using-charklock_holmes-on-heroku/">Using charklock_holmes on Heroku</a> <span>Jun 11</span></li>
-        
           <li><a href="/using-direnv-and-chruby-together/">Using `direnv` and `chruby` together</a> <span>Jun 10</span></li>
-        
       </ol>
 
       <ul id="tags">
         <h2>Tags</h2>
-        
           <li><a href="/tags/apprenticeship/">apprenticeship</a></a></li>
-        
           <li><a href="/tags/atdd/">atdd</a></a></li>
-        
           <li><a href="/tags/bdd/">bdd</a></a></li>
-        
           <li><a href="/tags/bletchley-park/">bletchley park</a></a></li>
-        
           <li><a href="/tags/charlock_holmes/">charlock_holmes</a></a></li>
-        
           <li><a href="/tags/chris-matts/">chris-matts</a></a></li>
-        
           <li><a href="/tags/coderetreat/">coderetreat</a></a></li>
-        
           <li><a href="/tags/corey-haines/">corey-haines</a></a></li>
-        
           <li><a href="/tags/craft/">craft</a></a></li>
-        
           <li><a href="/tags/craftsmanship/">craftsmanship</a></a></li>
-        
           <li><a href="/tags/cucumber/">cucumber</a></a></li>
-        
           <li><a href="/tags/cynefin/">cynefin</a></a></li>
-        
           <li><a href="/tags/deploymnent/">deploymnent</a></a></li>
-        
           <li><a href="/tags/dev/">dev</a></a></li>
-        
           <li><a href="/tags/development/">development</a></a></li>
-        
           <li><a href="/tags/eden/">eden</a></a></li>
-        
           <li><a href="/tags/environment/">environment</a></a></li>
-        
           <li><a href="/tags/fitnesse/">fitnesse</a></a></li>
-        
           <li><a href="/tags/git/">git</a></a></li>
-        
           <li><a href="/tags/github/">github</a></a></li>
-        
           <li><a href="/tags/hacks/">hacks</a></a></li>
-        
           <li><a href="/tags/heroku/">heroku</a></a></li>
-        
           <li><a href="/tags/javascript/">javascript</a></a></li>
-        
           <li><a href="/tags/jekyll/">jekyll</a></a></li>
-        
           <li><a href="/tags/kickstartac/">kickstartac</a></a></li>
-        
           <li><a href="/tags/libicu/">libicu</a></a></li>
-        
           <li><a href="/tags/liz-keogh/">liz-keogh</a></a></li>
-        
           <li><a href="/tags/macosx/">macosx</a></a></li>
-        
           <li><a href="/tags/oo/">oo</a></a></li>
-        
           <li><a href="/tags/oop/">oop</a></a></li>
-        
           <li><a href="/tags/pairing/">pairing</a></a></li>
-        
           <li><a href="/tags/podcast/">podcast</a></a></li>
-        
           <li><a href="/tags/practices/">practices</a></a></li>
-        
           <li><a href="/tags/project/">project</a></a></li>
-        
           <li><a href="/tags/retrospective/">retrospective</a></a></li>
-        
           <li><a href="/tags/ruby/">ruby</a></a></li>
-        
           <li><a href="/tags/sandi-metz/">sandi-metz</a></a></li>
-        
           <li><a href="/tags/sinatra/">sinatra</a></a></li>
-        
           <li><a href="/tags/software/">software</a></a></li>
-        
           <li><a href="/tags/solid/">solid</a></a></li>
-        
           <li><a href="/tags/specification-by-example/">specification-by-example</a></a></li>
-        
           <li><a href="/tags/tdd/">tdd</a></a></li>
-        
           <li><a href="/tags/tools/">tools</a></a></li>
-        
           <li><a href="/tags/training/">training</a></a></li>
-        
           <li><a href="/tags/vim/">vim</a></a></li>
-        
           <li><a href="/tags/xp/">xp</a></a></li>
-        
       </ul>
 
       <div id="bio">

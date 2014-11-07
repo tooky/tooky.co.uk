@@ -4,12 +4,12 @@
   <id>http://tooky.co.uk/</id>
   <link href="http://tooky.co.uk/tags/craftsmanship/"/>
   <link href="http://tooky.co.uk/tags/craftsmanship.xml" rel="self"/>
-  <updated>2009-12-11T00:00:00Z</updated>
+  <updated>2009-12-11T00:00:00+00:00</updated>
   <entry>
     <title>The Language of Software Craftsmanship</title>
     <link rel="alternate" href="http://tooky.co.uk/language-of-software-craftsmanship/"/>
     <id>http://tooky.co.uk/language-of-software-craftsmanship/</id>
-    <published>2009-12-11T00:00:00Z</published>
+    <published>2009-12-11T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -37,7 +37,7 @@ our nascent profession’s problems by calling ourselves, or regarding ourselves
     <title>Software Craftsmanship and Eden Development</title>
     <link rel="alternate" href="http://tooky.co.uk/software-craftsmanship/"/>
     <id>http://tooky.co.uk/software-craftsmanship/</id>
-    <published>2009-11-25T00:00:00Z</published>
+    <published>2009-11-25T00:00:00+00:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
@@ -68,7 +68,7 @@ formal apprenticeship scheme.&lt;/p&gt;
     <title>UK Apprenticeships and Software Development</title>
     <link rel="alternate" href="http://tooky.co.uk/uk-apprenticeships-and-software-development/"/>
     <id>http://tooky.co.uk/uk-apprenticeships-and-software-development/</id>
-    <published>2009-09-02T00:00:00Z</published>
+    <published>2009-09-02T01:00:00+01:00</published>
     <updated>2013-12-18T10:29:53+00:00</updated>
     <author>
       <name>Steve Tooke</name>
