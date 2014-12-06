@@ -28,154 +28,507 @@
     <div id="main" role="main">
       <article>
   <header>
-    <h1><a href="/connascence-and-inverting-dependencies/">Connascence and Inverting Dependencies</a> </h1>
+    <h1><a href="/test-first-diamonds/">Test first diamonds</a> </h1>
     <section class="author">
       <img class="avatar" src="/images/tooky-avatar.jpg">
       <p class="byline">by Steve Tooke</p>
-      <time datetime="2014-11-07" itemprop="datePublished">November 7th, 2014</time>
+      <time datetime="2014-12-06" itemprop="datePublished">December 6th, 2014</time>
     </section>
   </header>
   <section class="article-body">
-    <p>Recently <a href="http://twitter.com/abernardes">Andre Bernardes</a> <a href="http://abernardes.github.io/2014/11/04/inverting-dependencies.html">wrote about inverting
-dependencies</a> and a refactoring that he made in the <a href="http://rom-rb.org">Ruby Object
-Mapper</a> codebase.</p>
+    <p><a href="https://twitter.com/sebrose">Seb</a>&rsquo;s recent post <a href="http://claysnow.co.uk/recycling-tests-in-tdd/">Recycling tests in TDD</a> introduced the
+&ldquo;Print Diamond&rdquo; kata. This has provoked a flurry of interesting posts looking at
+different approaches to solving it.</p>
+<pre><code class="highlight plaintext">Given a letter, print a diamond starting with 'A' with the supplied letter at the widest point.
 
-<p>It&rsquo;s a great article and if you haven&rsquo;t read it yet it won&rsquo;t take you long.
-Go on, I can wait.</p>
+For example: print-diamond 'C' prints
 
-<p>The original code, however, doesn&rsquo;t simply provide a great example of code that
-violates the <a href="http://en.wikipedia.org/wiki/Dependency_inversion_principle">Dependency Inversion Principle</a>. Let&rsquo;s take a closer look and
-see what else we can find.</p>
-<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">Adapter</span>
-  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
-  <span class="nf">def</span> <span class="nb">self</span><span class="p">.</span><span class="nf">setup</span><span class="p">(</span><span class="n">uri_string</span><span class="p">)</span>
-    <span class="n">uri</span> <span class="o">=</span> <span class="no">Addressable</span><span class="o">::</span><span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">uri_string</span><span class="p">)</span>
-    <span class="n">adapter</span> <span class="o">=</span>
-        <span class="k">case</span> <span class="n">uri</span><span class="p">.</span><span class="nf">scheme</span>
-        <span class="k">when</span> <span class="s1">'sqlite'</span><span class="p">,</span> <span class="s1">'jdbc'</span> <span class="k">then</span> <span class="no">Adapter</span><span class="o">::</span><span class="no">Sequel</span>
-        <span class="k">when</span> <span class="s1">'memory'</span> <span class="k">then</span> <span class="no">Adapter</span><span class="o">::</span><span class="no">Memory</span>
-        <span class="k">when</span> <span class="s1">'mongo'</span> <span class="k">then</span> <span class="no">Adapter</span><span class="o">::</span><span class="no">Mongo</span>
-        <span class="k">else</span>
-          <span class="k">raise</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="s2">"</span><span class="si">#{</span><span class="n">uri_string</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2"> uri is not supported"</span>
-        <span class="k">end</span>
-
-    <span class="n">adapter</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
-  <span class="k">end</span>
-  <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
-<span class="nf">end</span>
+  A
+ B B
+C   C
+ B B
+  A
 </code></pre>
 
-<p>In 2010 I saw Jim Weirich speak about the <a href="http://vimeo.com/10837903">Grand Unified Theory of Software
-Development</a> (this is the version from Aloha on Rails) where he introduced
-his audience to the idea of <a href="http://en.wikipedia.org/wiki/Connascence_(computer_programming)">Connascence</a>.</p>
+<p><em>Thinking</em> has been the theme that has dominated the posts others have published
+while trying out this kata. <a href="http://alistair.cockburn.us/Thinking+before+programming">Alistair Cockburn</a> began by suggesting
+that this kind of problem is ideal for thinking about the properties of the
+problem, and then deriving the code as an exercise - although his approach is to
+use tests to get him there. <a href="http://ronjeffries.com/articles/diamond/diamond.html">Ron Jeffries</a> and <a href="http://blog.gdinwiddie.com/2014/11/30/another-approach-to-the-diamond-kata/">George Dinwiddie</a>
+both take an incremental TDD approach, although both are different.</p>
 
-<blockquote>
-<p>In software engineering, two components are connascent if a change in one
-would require the other to be modified in order to maintain the overall
-correctness of the system.</p>
-</blockquote>
+<p>Luckily I&rsquo;d had a go at this kata before reading any of the other posts. I say
+lucky because I think having read all of the other posts I&rsquo;d probably have done
+something else. </p>
 
-<p>Let&rsquo;s look again at the <code>Adapter</code> code through the lens of connascence.</p>
+<p>Ron and George both talk about thinking during their approach. I stepped through
+printing &lsquo;A&rsquo;, then &#39;B&rsquo; and &#39;C&rsquo; without really thinking about the algorithm at
+all. My first test looked like:</p>
+<pre><code class="highlight ruby"><span class="k">class</span> <span class="nc">TestPrintDiamond</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="kp">include</span> <span class="no">PrintDiamond</span>
 
-<p>The <code>setup</code> method is checking the scheme of the <code>uri</code> and deciding which
-specific adapter to use in this instance. This is an example of <a href="http://en.wikipedia.org/wiki/Connascence_(computer_programming)#Connascence_of_Meaning_.28CoM.29">Connascence of
-Meaning</a>.</p>
-
-<p>As Andre pointed out in his post, adding a new adapter also means changing this
-method. If an <code>Adapter</code> is changed to handle different schemes, then this method
-will also need to change. They must change together because they share the
-meaning of the URI scheme.</p>
-
-<p>The refactoring that Andre has implemented doesn&rsquo;t rid us of Connascence of
-Meaning but it reduces the <em>Degree</em> and increases the <em>Locality</em> of the
-connascence.</p>
-
-<p>When we are looking at connascence and deciding whether any particular instance
-of connascence is acceptable, there are two concepts that we need to consider.</p>
-
-<p>The degree of connascence is really about the volume of connascence, how much of
-it we can see. Andre mentions in his post that the example presented above is
-not terrible, but when he was about to add 19 more branches to the case
-statement it would have become much worse. The degree of connascence would have
-increased, and would only have continued increasing.</p>
-
-<p>The locality of connascence is concerned with how closely related the elements
-are. Stronger forms of connascence are considered to be more acceptable when the
-elements involved are closer together. In the original <code>setup</code> method the
-connascence of meaning ties the <code>Adapter</code> class to the specific adapters.</p>
-
-<p>Let&rsquo;s take a look at Andre&rsquo;s refactoring.</p>
-<pre><code class="highlight ruby"><span class="c1"># adapter.rb</span>
-
-<span class="k">class</span> <span class="nc">Adapter</span>
-  <span class="vi">@adapters</span> <span class="o">=</span> <span class="p">[]</span>
-
-  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">setup</span><span class="p">(</span><span class="n">uri_string</span><span class="p">)</span>
-    <span class="n">uri</span> <span class="o">=</span> <span class="no">Addressable</span><span class="o">::</span><span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">uri_string</span><span class="p">)</span>
-
-    <span class="k">unless</span> <span class="n">adapter</span> <span class="o">=</span> <span class="nb">self</span><span class="p">[</span><span class="n">uri</span><span class="p">.</span><span class="nf">scheme</span><span class="p">]</span>
-      <span class="k">raise</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="s2">"</span><span class="si">#{</span><span class="n">uri_string</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2"> uri is not supported"</span>
-    <span class="k">end</span>
-
-    <span class="n">adapter</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">register</span><span class="p">(</span><span class="n">adapter</span><span class="p">)</span>
-    <span class="vi">@adapters</span> <span class="o">&lt;&lt;</span> <span class="n">adapter</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">[]</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
-    <span class="vi">@adapters</span><span class="p">.</span><span class="nf">detect</span> <span class="p">{</span> <span class="o">|</span><span class="n">adapter</span><span class="o">|</span> <span class="n">adapter</span><span class="p">.</span><span class="nf">schemes</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">scheme</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">)</span> <span class="p">}</span>
+  <span class="k">def</span> <span class="nf">test_print_a</span>
+    <span class="n">assert_equal</span> <span class="s1">'A'</span><span class="p">,</span> <span class="n">print_diamond</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)</span>
   <span class="k">end</span>
 <span class="k">end</span>
-
-<span class="c1"># adapter/memory.rb</span>
-<span class="k">class</span> <span class="nc">Adapter</span>
-  <span class="k">class</span> <span class="nc">Memory</span>
-    <span class="k">def</span> <span class="nf">schemes</span>
-      <span class="p">[</span><span class="ss">:memory</span><span class="p">]</span>
-    <span class="k">end</span>
-
-    <span class="c1"># Methods to communicate with DB omitted.</span>
-
-    <span class="no">Adapter</span><span class="p">.</span><span class="nf">register</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-
-<span class="no">Adapter</span><span class="p">.</span><span class="nf">setup</span><span class="p">(</span><span class="s2">"memory://test"</span><span class="p">).</span><span class="nf">class</span>
-<span class="c1"># =&gt; Adapter::Memory</span>
 </code></pre>
 
-<p>We still have Connascence of Meaning, but it is now isolated inside the
-individual adapter class, an adapter will change if the URI scheme it supports
-changes. The <em>locality</em> of connascence has been increased.</p>
+<p>I just took the easy way to make it pass:</p>
+<pre><code class="highlight ruby"><span class="k">module</span> <span class="nn">PrintDiamond</span>
+  <span class="k">def</span> <span class="nf">print_diamond</span>
+    <span class="s1">'A'</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 
-<p>Each specific adapter will only have a small number of schemes that it matches,
-rather than all of them. The <em>degree</em> of connascence has been reduced.</p>
+<p>I&rsquo;m not sure why I decided the interface would be a module that I mixed in, but
+I think that&rsquo;s incidental.</p>
 
-<p>By increasing the locality and reducing the degree of connascence, Andre has
-made the connascence of meaning more acceptable. The connascence of meaning
-resulted in the <code>Adapter</code> abstraction depending on the details of the specific
-adapters.</p>
+<p>My second and third tests followed a similar pattern, I&rsquo;m going to put them both
+here because there&rsquo;s nothing interesting about them.</p>
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">test_print_b</span>
+  <span class="n">expected</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">' A '</span><span class="p">,</span>
+    <span class="s1">'B B'</span><span class="p">,</span>
+    <span class="s1">' A '</span><span class="p">,</span>
+  <span class="p">].</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+  <span class="n">assert_equal</span> <span class="n">expected</span><span class="p">,</span> <span class="n">print_diamond</span><span class="p">(</span><span class="s1">'B'</span><span class="p">)</span>
+<span class="k">end</span>
 
-<p>It also prevented the <code>Adapter</code> from being <em>Closed for Modification</em>. Any time
-we add a new adapter we need to change the <code>Adapter</code> class to add another
-branch to the switch statement. It violated the <a href="http://en.wikipedia.org/wiki/Open/closed_principle">Open/Closed Principle</a>.</p>
+<span class="k">def</span> <span class="nf">test_print_c</span>
+  <span class="n">expected</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'  A  '</span><span class="p">,</span>
+    <span class="s1">' B B '</span><span class="p">,</span>
+    <span class="s1">'C   C'</span><span class="p">,</span>
+    <span class="s1">' B B '</span><span class="p">,</span>
+    <span class="s1">'  A  '</span><span class="p">,</span>
+  <span class="p">].</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+  <span class="n">assert_equal</span> <span class="n">expected</span><span class="p">,</span> <span class="n">print_diamond</span><span class="p">(</span><span class="s1">'C'</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
 
-<p>Andre&rsquo;s refactoring reduced the degree and increased the locality of connascence
-of meaning. This makes the code adhere more closely to both the Single
-Responsibility Principle and the Open/Closed Principle.</p>
+<p>I kept going with hard coding the answers, so the implementation for this was
+pretty simple too.</p>
+<pre><code class="highlight ruby"><span class="k">module</span> <span class="nn">PrintDiamond</span>
+  <span class="k">def</span> <span class="nf">print_diamond</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'A'</span>
+      <span class="p">[</span> <span class="s1">'A'</span> <span class="p">]</span>
+    <span class="k">elsif</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'B'</span>
+      <span class="p">[</span> <span class="s1">' A '</span><span class="p">,</span> <span class="s1">'B B'</span><span class="p">,</span> <span class="s1">' A '</span> <span class="p">]</span>
+    <span class="k">else</span>
+      <span class="p">[</span> <span class="s1">'  A  '</span><span class="p">,</span> <span class="s1">' B B '</span><span class="p">,</span> <span class="s1">'C   C'</span><span class="p">,</span> <span class="s1">' B B '</span><span class="p">,</span> <span class="s1">'  A  '</span> <span class="p">]</span>
+    <span class="k">end</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
 
-<p>I think this is a good example of what <a href="http://twitter.com/kevinrutherford">Kevin Rutherford</a> hints at in
-<a href="http://silkandspinach.net/2012/09/03/the-problem-with-code-smells/">The problem with code smells</a>. By finding where our code is
-more connascent &mdash; having the stronger forms of connascence, having a high
-degree of connascence, or having low locality of connascence &mdash; and making
-the connascence more acceptable, we will improve the design of our software.</p>
+<p>So now I had tests that passed, but an implementation that wasn&rsquo;t going to
+scale. This is the point that Seb mentions in his post that we can see the code
+is screaming for us to refactor. Seb points out that this is difficult, because
+there is so much going on at this point that it&rsquo;s hard to know where to start.</p>
+
+<p>Thanks to <a href="https://twitter.com/sandimetz">Sandi Metz</a> I&rsquo;ve been trying recently to make lots of very
+small refactorings. This is a great example of code that doesn&rsquo;t quite look the
+same, but definitely has a pattern. Rather than going straight for trying to fix
+the problem, I wanted to expose the pattern. I want to extract the differences
+so I can more clearly see where the lines are the same.</p>
+
+<p>I decided I wanted to focus on the &ldquo;middle&rdquo; of each row - the letters and the
+spacing between them.</p>
+
+<p>I wrote a method that I thought would give me what I wanted:</p>
+<pre><code class="highlight ruby"><span class="no">ALPHABET</span> <span class="o">=</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="s1">'Z'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">print_line</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'A'</span>
+    <span class="n">letter</span>
+  <span class="k">else</span>
+    <span class="p">[</span><span class="n">letter</span><span class="p">,</span> <span class="s1">' '</span> <span class="o">*</span> <span class="no">ALPHABET</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">letter</span><span class="p">),</span> <span class="n">letter</span><span class="p">].</span><span class="nf">join</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>I had a hunch that the spacing between the letters was the equivalent to the
+index of that letter in the alphabet. There&rsquo;s a special case for &#39;A&rsquo; as it&rsquo;s the
+only character that&rsquo;s printed once, but I figured I would leave that for later.</p>
+
+<p>I then tried using this method in a single place:</p>
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">print_diamond</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'A'</span>
+    <span class="p">[</span><span class="n">print_line</span><span class="p">(</span><span class="n">letter</span><span class="p">)]</span>
+  <span class="k">elsif</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'B'</span>
+    <span class="p">[</span><span class="s1">' A '</span><span class="p">,</span> <span class="s1">'B B'</span><span class="p">,</span> <span class="s1">' A '</span><span class="p">]</span>
+  <span class="k">else</span>
+    <span class="p">[</span><span class="s1">'  A  '</span><span class="p">,</span> <span class="s1">' B B '</span><span class="p">,</span> <span class="s1">'C   C'</span><span class="p">,</span> <span class="s1">' B B '</span><span class="p">,</span> <span class="s1">'  A  '</span><span class="p">]</span>
+  <span class="k">end</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>So I extended using it for each of the central rows - the rows that had no extra
+spaces on the ends.</p>
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">print_diamond</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'A'</span>
+    <span class="p">[</span><span class="n">print_line</span><span class="p">(</span><span class="n">letter</span><span class="p">)]</span>
+  <span class="k">elsif</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'B'</span>
+    <span class="p">[</span><span class="s1">' A '</span><span class="p">,</span> <span class="n">print_line</span><span class="p">(</span><span class="n">letter</span><span class="p">),</span> <span class="s1">' A '</span><span class="p">]</span>
+  <span class="k">else</span>
+    <span class="p">[</span><span class="s1">'  A  '</span><span class="p">,</span> <span class="s1">' B B '</span><span class="p">,</span> <span class="n">print_line</span><span class="p">(</span><span class="n">letter</span><span class="p">),</span> <span class="s1">' B B '</span><span class="p">,</span> <span class="s1">'  A  '</span><span class="p">]</span>
+  <span class="k">end</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>Oh a test failed! My hunch was wrong about the internal padding, or I&rsquo;d
+miss-counted. &#39;C&rsquo; has 3 spaces between it, and yes the pattern is that the
+internal padding is always an odd number.</p>
+<pre><code class="highlight ruby">  <span class="k">def</span> <span class="nf">print_line</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'A'</span>
+      <span class="n">letter</span>
+    <span class="k">else</span>
+      <span class="n">internal_padding</span> <span class="o">=</span> <span class="no">ALPHABET</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+      <span class="p">[</span><span class="n">letter</span><span class="p">,</span> <span class="s1">' '</span> <span class="o">*</span> <span class="n">internal_padding</span><span class="p">,</span> <span class="n">letter</span><span class="p">].</span><span class="nf">join</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre>
+
+<p>Back to green. Now I was confident that this would work for all the other cases,
+so I pushed on and used it throughout, and renamed the method to pad_inside.</p>
+<pre><code class="highlight ruby"><span class="k">module</span> <span class="nn">PrintDiamond</span>
+  <span class="no">ALPHABET</span> <span class="o">=</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="s1">'Z'</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">print_diamond</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'A'</span>
+      <span class="p">[</span><span class="n">pad_inside</span><span class="p">(</span><span class="n">letter</span><span class="p">)]</span>
+    <span class="k">elsif</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'B'</span>
+      <span class="p">[</span><span class="s2">" </span><span class="si">#{</span><span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)</span><span class="si">}</span><span class="s2"> "</span><span class="p">,</span>
+       <span class="n">pad_inside</span><span class="p">(</span><span class="n">letter</span><span class="p">),</span>
+       <span class="s2">" </span><span class="si">#{</span><span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)</span><span class="si">}</span><span class="s2"> "</span><span class="p">]</span>
+    <span class="k">else</span>
+      <span class="p">[</span><span class="s2">"  </span><span class="si">#{</span><span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)</span><span class="si">}</span><span class="s2">  "</span><span class="p">,</span>
+       <span class="s2">" </span><span class="si">#{</span><span class="n">pad_inside</span><span class="p">(</span><span class="s1">'B'</span><span class="p">)</span><span class="si">}</span><span class="s2"> "</span><span class="p">,</span>
+       <span class="n">pad_inside</span><span class="p">(</span><span class="n">letter</span><span class="p">),</span>
+       <span class="s2">" </span><span class="si">#{</span><span class="n">pad_inside</span><span class="p">(</span><span class="s1">'B'</span><span class="p">)</span><span class="si">}</span><span class="s2"> "</span><span class="p">,</span>
+       <span class="s2">"  </span><span class="si">#{</span><span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)</span><span class="si">}</span><span class="s2">  "</span><span class="p">]</span>
+    <span class="k">end</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+  <span class="k">def</span> <span class="nf">pad_inside</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'A'</span>
+      <span class="n">letter</span>
+    <span class="k">else</span>
+      <span class="n">internal_padding</span> <span class="o">=</span> <span class="no">ALPHABET</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+      <span class="p">[</span><span class="n">letter</span><span class="p">,</span> <span class="s1">' '</span> <span class="o">*</span> <span class="n">internal_padding</span><span class="p">,</span> <span class="n">letter</span><span class="p">].</span><span class="nf">join</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>The next thing to tackle is the external padding. Again I started by writing the
+code I thought might handle it:</p>
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">pad_out</span><span class="p">(</span><span class="n">letter</span><span class="p">,</span> <span class="n">mid_letter</span><span class="p">,</span> <span class="n">thing</span><span class="p">)</span>
+  <span class="n">padding</span> <span class="o">=</span> <span class="no">ALPHABET</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">mid_letter</span><span class="p">)</span> <span class="o">-</span> <span class="no">ALPHABET</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+  <span class="p">[</span><span class="s1">' '</span> <span class="o">*</span> <span class="n">padding</span><span class="p">,</span> <span class="n">thing</span><span class="p">,</span> <span class="s1">' '</span> <span class="o">*</span> <span class="n">padding</span><span class="p">]</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>Another hunch. The central row was never padded, and each other row the padding
+increased by one. My simple finger-counting maths seemed to think this would
+work. Let&rsquo;s try it in one place and see how it goes:</p>
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">print_diamond</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'A'</span>
+    <span class="p">[</span><span class="n">pad_inside</span><span class="p">(</span><span class="n">letter</span><span class="p">)]</span>
+  <span class="k">elsif</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'B'</span>
+    <span class="p">[</span><span class="s2">" </span><span class="si">#{</span><span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)</span><span class="si">}</span><span class="s2"> "</span><span class="p">,</span>
+     <span class="n">pad_out</span><span class="p">(</span><span class="n">letter</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="n">letter</span><span class="p">)),</span>
+     <span class="s2">" </span><span class="si">#{</span><span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)</span><span class="si">}</span><span class="s2"> "</span><span class="p">]</span>
+  <span class="k">else</span>
+    <span class="p">[</span><span class="s2">"  </span><span class="si">#{</span><span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)</span><span class="si">}</span><span class="s2">  "</span><span class="p">,</span>
+     <span class="s2">" </span><span class="si">#{</span><span class="n">pad_inside</span><span class="p">(</span><span class="s1">'B'</span><span class="p">)</span><span class="si">}</span><span class="s2"> "</span><span class="p">,</span>
+     <span class="n">pad_inside</span><span class="p">(</span><span class="n">letter</span><span class="p">),</span>
+     <span class="s2">" </span><span class="si">#{</span><span class="n">pad_inside</span><span class="p">(</span><span class="s1">'B'</span><span class="p">)</span><span class="si">}</span><span class="s2"> "</span><span class="p">,</span>
+     <span class="s2">"  </span><span class="si">#{</span><span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)</span><span class="si">}</span><span class="s2">  "</span><span class="p">]</span>
+  <span class="k">end</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>Ok - something failed there&hellip; Ahh, I&rsquo;m returning an array, not the string
+I need.</p>
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">pad_out</span><span class="p">(</span><span class="n">letter</span><span class="p">,</span> <span class="n">mid_letter</span><span class="p">,</span> <span class="n">thing</span><span class="p">)</span>
+  <span class="n">padding</span> <span class="o">=</span> <span class="no">ALPHABET</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">mid_letter</span><span class="p">)</span> <span class="o">-</span> <span class="no">ALPHABET</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+  <span class="p">[</span><span class="s1">' '</span> <span class="o">*</span> <span class="n">padding</span><span class="p">,</span> <span class="n">thing</span><span class="p">,</span> <span class="s1">' '</span> <span class="o">*</span> <span class="n">padding</span><span class="p">]</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>I can now work through using this method throughout:</p>
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">print_diamond</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'A'</span>
+    <span class="p">[</span><span class="n">pad_out</span><span class="p">(</span><span class="n">letter</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="n">letter</span><span class="p">))]</span>
+  <span class="k">elsif</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'B'</span>
+    <span class="p">[</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="n">letter</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="n">letter</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)),</span>
+    <span class="p">]</span>
+  <span class="k">else</span>
+    <span class="p">[</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'B'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'B'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="n">letter</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="n">letter</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'B'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'B'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)),</span>
+    <span class="p">]</span>
+  <span class="k">end</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>Great - that works. I want to make a small refactoring to make all of the lines
+look the same. The central line that uses <code>letter</code> on each conditional is
+perhaps masking the pattern a bit.</p>
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">print_diamond</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'A'</span>
+    <span class="p">[</span><span class="n">pad_out</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">))]</span>
+  <span class="k">elsif</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'B'</span>
+    <span class="p">[</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'B'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'B'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)),</span>
+    <span class="p">]</span>
+  <span class="k">else</span>
+    <span class="p">[</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'B'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'B'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'C'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'C'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'B'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'B'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)),</span>
+    <span class="p">]</span>
+  <span class="k">end</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>So, now I want to remove the duplication inside one of the legs. I need some way
+of stepping through from <code>A</code> to the target letter, and then back to <code>A</code>.</p>
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">print_diamond</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'A'</span>
+    <span class="p">[</span><span class="n">pad_out</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">))]</span>
+  <span class="k">elsif</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'B'</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="n">letter</span><span class="p">)</span> <span class="o">+</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">letter</span><span class="p">).</span><span class="nf">reverse</span>
+    <span class="n">rows</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">row_letter</span><span class="o">|</span> <span class="n">pad_out</span><span class="p">(</span><span class="n">row_letter</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="n">row_letter</span><span class="p">))</span> <span class="p">}</span>
+
+    <span class="p">[</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'B'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'B'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)),</span>
+    <span class="p">]</span>
+  <span class="k">else</span>
+    <span class="p">[</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'B'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'B'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'C'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'C'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'B'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'B'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)),</span>
+    <span class="p">]</span>
+  <span class="k">end</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>There&rsquo;s another hunch! It&rsquo;s a bit tricky because it uses the difference between
+the ruby <code>..</code> range operator, and the <code>...</code> operator &mdash; using <code>..</code> means up
+to and including, and <code>...</code> means up to but not including. Let&rsquo;s see if it works
+&mdash; I&rsquo;ll just remove the old code for <code>B</code>.</p>
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">print_diamond</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'A'</span>
+    <span class="p">[</span><span class="n">pad_out</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">))]</span>
+  <span class="k">elsif</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'B'</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="n">letter</span><span class="p">)</span> <span class="o">+</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">letter</span><span class="p">).</span><span class="nf">reverse</span>
+    <span class="n">rows</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">row_letter</span><span class="o">|</span> <span class="n">pad_out</span><span class="p">(</span><span class="n">row_letter</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="n">row_letter</span><span class="p">))</span> <span class="p">}</span>
+  <span class="k">else</span>
+    <span class="p">[</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'B'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'B'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'C'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'C'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'B'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'B'</span><span class="p">)),</span>
+      <span class="n">pad_out</span><span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="s1">'A'</span><span class="p">)),</span>
+    <span class="p">]</span>
+  <span class="k">end</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>Great, so I can try the same for the <code>C</code> branch.</p>
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">print_diamond</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'A'</span>
+    <span class="p">[</span><span class="n">pad_out</span><span class="p">(</span><span class="n">letter</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="n">letter</span><span class="p">))]</span>
+  <span class="k">elsif</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'B'</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="n">letter</span><span class="p">)</span> <span class="o">+</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">letter</span><span class="p">).</span><span class="nf">reverse</span>
+    <span class="n">rows</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">row_letter</span><span class="o">|</span> <span class="n">pad_out</span><span class="p">(</span><span class="n">row_letter</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="n">row_letter</span><span class="p">))</span> <span class="p">}</span>
+  <span class="k">else</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="n">letter</span><span class="p">)</span> <span class="o">+</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">letter</span><span class="p">).</span><span class="nf">reverse</span>
+    <span class="n">rows</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">row_letter</span><span class="o">|</span> <span class="n">pad_out</span><span class="p">(</span><span class="n">row_letter</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="n">row_letter</span><span class="p">))</span> <span class="p">}</span>
+  <span class="k">end</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>Success! Time to remove the duplication and lose the <code>B</code> branch.</p>
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">print_diamond</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'A'</span>
+    <span class="p">[</span><span class="n">pad_out</span><span class="p">(</span><span class="n">letter</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="n">letter</span><span class="p">))]</span>
+  <span class="k">else</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="n">letter</span><span class="p">)</span> <span class="o">+</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">letter</span><span class="p">).</span><span class="nf">reverse</span>
+    <span class="n">rows</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">row_letter</span><span class="o">|</span> <span class="n">pad_out</span><span class="p">(</span><span class="n">row_letter</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="n">row_letter</span><span class="p">))</span> <span class="p">}</span>
+  <span class="k">end</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>Still works - so I&rsquo;m confident it will work for the <code>A</code> branch too, so I&rsquo;ll
+remove the conditional altogether.</p>
+<pre><code class="highlight ruby"><span class="k">def</span> <span class="nf">print_diamond</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+  <span class="n">rows</span> <span class="o">=</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="n">letter</span><span class="p">)</span> <span class="o">+</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">letter</span><span class="p">).</span><span class="nf">reverse</span>
+  <span class="n">rows</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">row_letter</span><span class="o">|</span> <span class="n">pad_out</span><span class="p">(</span><span class="n">row_letter</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="n">row_letter</span><span class="p">))</span> <span class="p">}.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>I think this is a good point to talk about how this approach has differed from
+the others. Like some of the other solutions I didn&rsquo;t do very up front thinking,
+but I didn&rsquo;t really break the problem down. I just started to write code &mdash;
+I think Sandi Metz would call it <a href="http://pawelduda.blogspot.co.uk/2014/06/practical-object-oriented-design-in.html">shameless</a> &mdash; and then looked
+for patterns.</p>
+
+<p>One of Sandi&rsquo;s key points from her OOD training is that it helps to look for
+simliar code, and extract the differences. This lets you make code that is
+nearly the same, actually be the same, and then you can tackle the duplication.</p>
+
+<p>By this point I&rsquo;d pretty much sketched out the algorithm. Its still not
+particularly nice, but it works and there&rsquo;s something to work with.</p>
+<pre><code class="highlight ruby"><span class="k">module</span> <span class="nn">PrintDiamond</span>
+  <span class="no">ALPHABET</span> <span class="o">=</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="s1">'Z'</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">print_diamond</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="n">letter</span><span class="p">)</span> <span class="o">+</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">letter</span><span class="p">).</span><span class="nf">reverse</span>
+    <span class="n">rows</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">row_letter</span><span class="o">|</span> <span class="n">pad_out</span><span class="p">(</span><span class="n">row_letter</span><span class="p">,</span> <span class="n">letter</span><span class="p">,</span> <span class="n">pad_inside</span><span class="p">(</span><span class="n">row_letter</span><span class="p">))</span> <span class="p">}.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+  <span class="k">def</span> <span class="nf">pad_inside</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">letter</span> <span class="o">==</span> <span class="s1">'A'</span>
+      <span class="n">letter</span>
+    <span class="k">else</span>
+      <span class="n">internal_padding</span> <span class="o">=</span> <span class="no">ALPHABET</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+      <span class="p">[</span><span class="n">letter</span><span class="p">,</span> <span class="s1">' '</span> <span class="o">*</span> <span class="n">internal_padding</span><span class="p">,</span> <span class="n">letter</span><span class="p">].</span><span class="nf">join</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">pad_out</span><span class="p">(</span><span class="n">letter</span><span class="p">,</span> <span class="n">mid_letter</span><span class="p">,</span> <span class="n">thing</span><span class="p">)</span>
+    <span class="n">padding</span> <span class="o">=</span> <span class="no">ALPHABET</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">mid_letter</span><span class="p">)</span> <span class="o">-</span> <span class="no">ALPHABET</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+    <span class="p">[</span><span class="s1">' '</span> <span class="o">*</span> <span class="n">padding</span><span class="p">,</span> <span class="n">thing</span><span class="p">,</span> <span class="s1">' '</span> <span class="o">*</span> <span class="n">padding</span><span class="p">].</span><span class="nf">join</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>I&rsquo;m concerned about that <code>if letter == &#39;A&#39;</code>, and I definitely sense there&rsquo;s an
+object or two waiting to leap out! I won&rsquo;t bore you with the step-by-step
+<a href="https://github.com/tooky/print-diamond/tree/refactoring">refactorings</a>, as this post is already pretty long. This was where
+I stopped though:</p>
+<pre><code class="highlight ruby"><span class="k">module</span> <span class="nn">PrintDiamond</span>
+  <span class="no">ALPHABET</span> <span class="o">=</span> <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="s1">'Z'</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">print_diamond</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+    <span class="no">Diamond</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">letter</span><span class="p">).</span><span class="nf">to_s</span>
+  <span class="k">end</span>
+
+  <span class="k">class</span> <span class="nc">Diamond</span>
+    <span class="kp">attr_reader</span> <span class="ss">:letter</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+      <span class="vi">@letter</span> <span class="o">=</span> <span class="n">letter</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">to_s</span>
+      <span class="n">rows</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">row_letter</span><span class="o">|</span> <span class="no">PaddedRow</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">row_letter</span><span class="p">,</span> <span class="n">letter</span><span class="p">)</span> <span class="p">}.</span><span class="nf">join</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">rows</span>
+      <span class="n">top</span> <span class="o">+</span> <span class="n">bottom</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">top</span>
+      <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="n">letter</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">bottom</span>
+      <span class="no">Array</span><span class="p">(</span><span class="s1">'A'</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">letter</span><span class="p">).</span><span class="nf">reverse</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">class</span> <span class="nc">Row</span>
+    <span class="kp">attr_reader</span> <span class="ss">:letter</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+      <span class="vi">@letter</span> <span class="o">=</span> <span class="n">letter</span>
+      <span class="n">create_chars</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">to_s</span>
+      <span class="vi">@chars</span><span class="p">.</span><span class="nf">join</span>
+    <span class="k">end</span>
+
+    <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">row_size</span>
+      <span class="c1"># 0 -&gt; 1, 1 -&gt; 3, 3 -&gt; 7, ...</span>
+      <span class="no">ALPHABET</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">create_chars</span>
+      <span class="vi">@chars</span> <span class="o">=</span> <span class="no">Array</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">row_size</span><span class="p">)</span> <span class="p">{</span> <span class="s1">' '</span> <span class="p">}</span>
+      <span class="vi">@chars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">letter</span>
+      <span class="vi">@chars</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">letter</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">class</span> <span class="nc">PaddedRow</span>
+    <span class="kp">attr_reader</span> <span class="ss">:diamond_letter</span><span class="p">,</span> <span class="ss">:row</span><span class="p">,</span> <span class="ss">:letter</span>
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">letter</span><span class="p">,</span> <span class="n">diamond_letter</span><span class="p">)</span>
+      <span class="vi">@row</span> <span class="o">=</span> <span class="no">Row</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+      <span class="vi">@letter</span> <span class="o">=</span> <span class="n">letter</span>
+      <span class="vi">@diamond_letter</span> <span class="o">=</span> <span class="n">diamond_letter</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">to_s</span>
+      <span class="p">[</span><span class="n">padding</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">padding</span><span class="p">].</span><span class="nf">join</span>
+    <span class="k">end</span>
+
+    <span class="kp">private</span>
+    <span class="k">def</span> <span class="nf">padding</span>
+      <span class="s1">' '</span> <span class="o">*</span> <span class="n">padding_size</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">padding_size</span>
+      <span class="no">ALPHABET</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">diamond_letter</span><span class="p">)</span> <span class="o">-</span> <span class="no">ALPHABET</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>I won&rsquo;t claim this as an example of TDD. I think this is what <a href="http://www.jbrains.ca/permalink/how-test-driven-development-works-and-more">J. B.
+Rainsberger</a> would call test-first development. The tests were written
+first, but they didn&rsquo;t influence the design particularly. I think it is an
+example of evolutionary design, and how having tests enables the refactoring
+that allows a design to emerge.</p>
 
   </section>
 </article>
 
 <ul id="suggested-reading">
+    <li class="suggested-reading-card">
+      <h2><a href="/connascence-and-inverting-dependencies/">Connascence and Inverting Dependencies</a></h2>
+      <p>Recently <a href="http://twitter.com/abernardes">Andre Bernardes</a> <a href="http://abernardes.github.io/2014/11/04/inverting-dependencies.html">wrote about inverting
+dependencies</a> and a refactoring that he made in the <a href="http://rom-rb.org">Ruby Object
+Mapper</a> codebase.</p>
+
+<p>It’s a great article and if you haven’t read it yet it won’t take you long.
+Go on, I can wait.</p>
+
+<p>The original code, however, doesn’t simply provide a great example of code...</p>
+      <a href="/connascence-and-inverting-dependencies/">Read more…</a>
+    </li>
     <li class="suggested-reading-card">
       <h2><a href="/next-kickstart-academy-podcast-show-with-liz-keogh-and-chris-matts/">Next Kickstart Academy Podcast Show with Liz Keogh and Chris Matts</a></h2>
       <p>Our next live Kickstart Academy podcast show will be on Monday, 1st
@@ -195,15 +548,6 @@ panel for his second appearance.</p>
 <p>
       <a href="/kickstart-academy-podcast-with-liz-keogh-and-corey-haines/">Read more…</a>
     </li>
-    <li class="suggested-reading-card">
-      <h2><a href="/kickstart-academy-podcast-with-corey-haines-and-sandi-metz/">Kickstart Academy Podcast with Corey Haines and Sandi Metz</a></h2>
-      <p>Last month we broadcast our 2nd live podcast. We were fortunate to be joined by
-<a href="https://twitter.com/coreyhaines">Corey Haines</a> &mdash; to discuss simple design &mdash; and by <a href="https://twitter.com/sandimetz/">Sandi
-Metz</a> &mdash; who was kind enough to return for a second show.</p>
-
-<p>
-      <a href="/kickstart-academy-podcast-with-corey-haines-and-sandi-metz/">Read more…</a>
-    </li>
 </ul>
 
     </div>
@@ -214,15 +558,18 @@ Metz</a> &mdash; who was kind enough to return for a second show.</p>
           Recent Articles
           <a href="/feed.xml" class="feed" title="Subscribe!"><i class="fa fa-rss"></i></a>
         </h2>
+          <li><a href="/test-first-diamonds/">Test first diamonds</a> <span>Dec  6</span></li>
           <li><a href="/connascence-and-inverting-dependencies/">Connascence and Inverting Dependencies</a> <span>Nov  7</span></li>
           <li><a href="/next-kickstart-academy-podcast-show-with-liz-keogh-and-chris-matts/">Next Kickstart Academy Podcast Show with Liz Keogh and Chris Matts</a> <span>Aug 21</span></li>
           <li><a href="/kickstart-academy-podcast-with-liz-keogh-and-corey-haines/">Kickstart Academy Podcast with Liz Keogh and Corey Haines</a> <span>Jul 31</span></li>
           <li><a href="/kickstart-academy-podcast-with-corey-haines-and-sandi-metz/">Kickstart Academy Podcast with Corey Haines and Sandi Metz</a> <span>Jul 29</span></li>
-          <li><a href="/using-charklock_holmes-on-heroku/">Using charklock_holmes on Heroku</a> <span>Jun 11</span></li>
       </ol>
 
       <ul id="tags">
         <h2>Tags</h2>
+          <li><a href="/tags/design/">Design</a></a></li>
+          <li><a href="/tags/kata/">Kata</a></a></li>
+          <li><a href="/tags/tdd/">TDD</a></a></li>
           <li><a href="/tags/apprenticeship/">apprenticeship</a></a></li>
           <li><a href="/tags/atdd/">atdd</a></a></li>
           <li><a href="/tags/bdd/">bdd</a></a></li>
