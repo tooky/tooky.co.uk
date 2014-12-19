@@ -73,10 +73,10 @@ He's now able to take an initialized object and using the `attr_writer
 tightly control what is returned. It allows him to ignor the _incidental detail_
 of creating a `Stat`.
 
-For me, though, this doesn't tackle the root problem. When tests are difficult to write
-they are a great indicator that there's something about our design that we
-should take another look at. Adding the setter method doesn't change the design
-in any meaningful way, its just a crutch to help write tests.
+When tests are difficult to write they are a great indicator that there's
+something about our design that we should take another look at. I'm not sure
+that adding the setter method really changes the design, it just hides a little
+complexity when writing our tests.
 
 Here's the sequence diagram for the original code:
 
