@@ -1,5 +1,5 @@
 ---
-title: 'Listen to your tests, but listen carefully.'
+title: 'Your tests want you to change your design'
 # date: TBD When publishing
 tags:
   - ruby
