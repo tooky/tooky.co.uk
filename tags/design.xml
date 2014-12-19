@@ -4,7 +4,209 @@
   <id>http://tooky.co.uk/</id>
   <link href="http://tooky.co.uk/tags/design/"/>
   <link href="http://tooky.co.uk/tags/design.xml" rel="self"/>
-  <updated>2014-11-07T00:00:00+00:00</updated>
+  <updated>2014-12-19T00:00:00+00:00</updated>
+  <entry>
+    <title>Your tests want you to change your design</title>
+    <link rel="alternate" href="http://tooky.co.uk/your-tests-want-you-to-change-your-design/"/>
+    <id>http://tooky.co.uk/your-tests-want-you-to-change-your-design/</id>
+    <published>2014-12-19T00:00:00+00:00</published>
+    <updated>2014-12-19T11:59:48+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;I came across an interesting post by &lt;a href="https://twitter.com/brandonhilkert"&gt;Brandon Hilkert&lt;/a&gt; looking at &lt;a href="http://brandonhilkert.com/blog/a-ruby-refactor-exploring-dependency-injection-options/"&gt;the
+differences between constructor and setter dependency injection&lt;/a&gt;. It&amp;rsquo;s
+a great introduction to the differences between the two, and his example
+illustrates them well. Please go and read it first.&lt;/p&gt;
+
+&lt;p&gt;Brandon&amp;rsquo;s example gets started when he realises that the tests he wants to write
+are difficult:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;[A] thing that bothered me was the difficulty simulating different pricing
+tiers and customer usage&amp;hellip;What if I wanted to change the ceiling of that
+tier next month? I&amp;rsquo;d have to come in here and adjust the stats being created
+until it totalled something above the adjustment. It just felt weird..&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;He uses this as an example of how we can use dependency injection to use
+different collaborators in tests so we get more control over the context our
+objects are running in.&lt;/p&gt;
+
+&lt;p&gt;The solution he settles on is to use setter injection:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="highlight ruby"&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;StripeEvent&lt;/span&gt;
+  &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;InvoiceCreated&lt;/span&gt;
+    &lt;span class="kp"&gt;attr_writer&lt;/span&gt; &lt;span class="ss"&gt;:usage_service&lt;/span&gt;
+    &lt;span class="kp"&gt;attr_reader&lt;/span&gt; &lt;span class="ss"&gt;:payload&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;payload&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="vi"&gt;@payload&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;payload&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;perform&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;created_at&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;14&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;days&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;ago&lt;/span&gt;
+        &lt;span class="no"&gt;Stripe&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;InvoiceItem&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+          &lt;span class="ss"&gt;customer: &lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;stripe_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="ss"&gt;amount: &lt;/span&gt;&lt;span class="n"&gt;additional_charges_in_cents&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="ss"&gt;currency: &lt;/span&gt;&lt;span class="s2"&gt;"usd"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+          &lt;span class="ss"&gt;description: &lt;/span&gt;&lt;span class="s2"&gt;"Usage charges"&lt;/span&gt;
+        &lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="k"&gt;end&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+
+    &lt;span class="kp"&gt;private&lt;/span&gt;
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;additional_charges_in_cents&lt;/span&gt;
+      &lt;span class="no"&gt;Billing&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Tier&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;usage&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;additional_charges_in_cents&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;usage&lt;/span&gt;
+      &lt;span class="n"&gt;usage_service&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;last_30_days&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;usage_service&lt;/span&gt;
+      &lt;span class="vi"&gt;@usage_service&lt;/span&gt; &lt;span class="o"&gt;||=&lt;/span&gt; &lt;span class="no"&gt;Billing&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Usage&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;user&lt;/span&gt;
+      &lt;span class="vi"&gt;@user&lt;/span&gt; &lt;span class="o"&gt;||=&lt;/span&gt; &lt;span class="no"&gt;User&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;find_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;stripe_id: &lt;/span&gt;&lt;span class="n"&gt;payload&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"data"&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s2"&gt;"object"&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s2"&gt;"customer"&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;He&amp;rsquo;s now able to take an initialized object and using the &lt;code&gt;attr_writer
+:usage_service&lt;/code&gt; he can swap in a stub implementation of the usage service and
+tightly control what is returned. It allows him to ignor the &lt;em&gt;incidental detail&lt;/em&gt;
+of creating a &lt;code&gt;Stat&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;When tests are difficult to write they are a great indicator that there&amp;rsquo;s
+something about our design that we should take another look at. I&amp;rsquo;m not sure
+that adding the setter method really changes the design, it just hides a little
+complexity when writing our tests.&lt;/p&gt;
+
+&lt;p&gt;Here&amp;rsquo;s the sequence diagram for the original code:&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="original sequence" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/listening_to_tests_1.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Using the setter to inject a usage service shortcuts creating the usage service,
+but is &lt;em&gt;only&lt;/em&gt; relevant in the tests &amp;mdash; in normal usage the design is
+&lt;em&gt;exactly&lt;/em&gt; the same.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="setter sequence" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/listening_to_tests_2.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;The tests were hinting that we had too many responsibilities, but this sequence
+diagram really highlights this:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Retrieve a user&lt;/li&gt;
+&lt;li&gt;Get the users usage for the last 30 days&lt;/li&gt;
+&lt;li&gt;Get the billing tier for that usage&lt;/li&gt;
+&lt;li&gt;Create an invoice item for the billing tier amount&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The last one is the most important. We want to create an additional invoice item
+for the user, based on their usage in the last 30 days., and 
+sequence diagram looked something like:&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="extracted dependencies sequence" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/listening_to_tests_3.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Based on this idea I changed the tests to focus the object on the responsibility
+we care about:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="highlight ruby"&gt;&lt;span class="n"&gt;describe&lt;/span&gt; &lt;span class="s2"&gt;"creating an invoice"&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="n"&gt;before&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="vi"&gt;@payload&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="s2"&gt;"data"&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s2"&gt;"object"&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+          &lt;span class="s2"&gt;"customer"&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="s2"&gt;"stripe_brandon"&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="n"&gt;let&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:billing_tier_service&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;double&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:billing_tier_service&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="n"&gt;let&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:level1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;double&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:tier&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:additional_charges_in_cents&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;1900&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="n"&gt;let&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:level2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;double&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:tier&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:additional_charges_in_cents&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;4900&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="s1"&gt;'adds invoice item based on usage'&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="n"&gt;allow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;billing_tier_service&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;to&lt;/span&gt; &lt;span class="n"&gt;receive&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:last_30_days_for_stripe_id&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;
+      &lt;span class="nf"&gt;with&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"stripe_brandon"&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;and_return&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;level1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;expect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="no"&gt;Stripe&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;InvoiceItem&lt;/span&gt; &lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;to&lt;/span&gt; &lt;span class="n"&gt;receive&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:create&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;with&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+      &lt;span class="ss"&gt;customer: &lt;/span&gt;&lt;span class="s2"&gt;"stripe_brandon"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="ss"&gt;amount: &lt;/span&gt;&lt;span class="mi"&gt;1900&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="ss"&gt;currency: &lt;/span&gt;&lt;span class="s2"&gt;"usd"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="ss"&gt;description: &lt;/span&gt;&lt;span class="s2"&gt;"Usage charges"&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="no"&gt;StripeEvent&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;InvoiceCreated&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="vi"&gt;@payload&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;billing_tier_service&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;perform&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="s1"&gt;'adds next level charge for usage'&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="n"&gt;allow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;billing_tier_service&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;to&lt;/span&gt; &lt;span class="n"&gt;receive&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:last_30_days_for_stripe_id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;with&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"stripe_brandon"&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;and_return&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;level2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;expect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="no"&gt;Stripe&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;InvoiceItem&lt;/span&gt; &lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;to&lt;/span&gt; &lt;span class="n"&gt;receive&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:create&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;with&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+      &lt;span class="ss"&gt;customer: &lt;/span&gt;&lt;span class="s2"&gt;"stripe_brandon"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="ss"&gt;amount: &lt;/span&gt;&lt;span class="mi"&gt;4900&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="ss"&gt;currency: &lt;/span&gt;&lt;span class="s2"&gt;"usd"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="ss"&gt;description: &lt;/span&gt;&lt;span class="s2"&gt;"Usage charges"&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="no"&gt;StripeEvent&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;InvoiceCreated&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;new&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="vi"&gt;@payload&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;billing_tier_service&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nf"&gt;perform&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We are injecting a new dependency, a &lt;code&gt;billing_tier_service&lt;/code&gt;. We&amp;rsquo;re imagining
+that this dependency will take on the responsibility of giving us back the
+correct billing tier for the customer that stripe has asked us for. Our tests
+will just check we creating the InvoiceItem correctly, and the resulting code
+is little simpler.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="highlight ruby"&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;StripeEvent&lt;/span&gt;
+  &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;InvoiceCreated&lt;/span&gt;
+    &lt;span class="kp"&gt;attr_reader&lt;/span&gt; &lt;span class="ss"&gt;:payload&lt;/span&gt;
+    &lt;span class="kp"&gt;attr_reader&lt;/span&gt; &lt;span class="ss"&gt;:billing_tier_service&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;payload&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;billing_tier_service&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;:some_sensible_default&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="vi"&gt;@payload&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;payload&lt;/span&gt;
+      &lt;span class="vi"&gt;@billing_tier_service&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;billing_tier_service&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;perform&lt;/span&gt;
+      &lt;span class="no"&gt;Stripe&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;InvoiceItem&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="ss"&gt;customer: &lt;/span&gt;&lt;span class="n"&gt;stripe_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="ss"&gt;amount: &lt;/span&gt;&lt;span class="n"&gt;additional_charges_in_cents&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="ss"&gt;currency: &lt;/span&gt;&lt;span class="s2"&gt;"usd"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="ss"&gt;description: &lt;/span&gt;&lt;span class="s2"&gt;"Usage charges"&lt;/span&gt;
+      &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+
+    &lt;span class="kp"&gt;private&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;additional_charges_in_cents&lt;/span&gt;
+      &lt;span class="n"&gt;tier&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;billing_tier_service&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;last_30_days_for_stripe_id&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stripe_id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="n"&gt;tier&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;additional_charges_in_cents&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;stripe_id&lt;/span&gt;
+      &lt;span class="n"&gt;payload&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"data"&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s2"&gt;"object"&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s2"&gt;"customer"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Obviously this leaves us with more work to do. We will still need to build the
+&lt;code&gt;billing_tier_service&lt;/code&gt;, to return the current tier for the customer. But this
+should be simpler, and focus purely on which level is returned based on usage.&lt;/p&gt;
+
+&lt;p&gt;The trade-off is that we now have to deal with more objects in our system, but
+each responsibility is in a single place, and our tests are isolated from
+incidental changes in other parts of the system, e.g. changing the tier pricing.&lt;/p&gt;
+
+&lt;p&gt;Test driven development is about listening to your tests. When something is hard
+to test it&amp;rsquo;s usually a good indicator that you should change something in your
+design. Use it as an opportunity to reevaluate design &amp;mdash; and don&amp;rsquo;t be
+afraid of breaking out some boxes and arrows on the whiteboard.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Connascence and Inverting Dependencies</title>
     <link rel="alternate" href="http://tooky.co.uk/connascence-and-inverting-dependencies/"/>
