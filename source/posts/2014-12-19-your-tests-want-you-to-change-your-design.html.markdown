@@ -1,12 +1,11 @@
 ---
-title: 'Your tests want you to change your design'
-# date: TBD When publishing
-tags:
-  - ruby
-  - tdd
-  - design
+:title: Your tests want you to change your design
+:tags:
+- ruby
+- tdd
+- design
+:date: 2014-12-19
 ---
-
 I came across an interesting post by [Brandon Hilkert][brandon] looking at [the
 differences between constructor and setter dependency injection][di-post]. It's
 a great introduction to the differences between the two, and his example
