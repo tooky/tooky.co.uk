@@ -10,21 +10,23 @@
     <link rel="alternate" href="http://tooky.co.uk/hands-on-with-cucumber-events-api/"/>
     <id>http://tooky.co.uk/hands-on-with-cucumber-events-api/</id>
     <published>2015-09-14T01:00:00+01:00</published>
-    <updated>2015-09-14T16:57:24+01:00</updated>
+    <updated>2015-09-14T17:18:37+01:00</updated>
     <author>
       <name>Steve Tooke</name>
     </author>
     <content type="html">&lt;p&gt;&lt;a href="https://cucumber.io/blog/2015/09/11/cucumber-2.1"&gt;Cucumber Ruby 2.1&lt;/a&gt; introduces the new &lt;a href="http://www.rubydoc.info/gems/cucumber/Cucumber/Events"&gt;Events API&lt;/a&gt; &amp;mdash; a simple way to find out what&amp;rsquo;s happening while Cucumber runs your features. Events are read-only and simplify the process of writing formatters, and other output tools.&lt;/p&gt;
 
+&lt;p&gt;I&amp;rsquo;ll illustate how to use the API with a worked example that streams Cucumber test results to a browser in real-time.&lt;/p&gt;
+
 &lt;h2&gt;Can you give me an example?&lt;/h2&gt;
 
-&lt;p&gt;As much as we love our console applications, we can get a much richer experience in a web browser. How could we get Cucumber to push information into a nice web UI, without losing the rich information available with the built-in formatters.&lt;/p&gt;
+&lt;p&gt;As much as we love our console applications, we can get a much richer experience in a web browser. How could we get Cucumber to push information into a nice web UI, without losing the rich information available with the built-in formatters?&lt;/p&gt;
 
 &lt;p&gt;Let&amp;rsquo;s build a super-simple example using the Events API that uses a websocket to update a web page while cucumber is running.&lt;/p&gt;
 
-&lt;p&gt;There&amp;rsquo;s lots of ways to run a websocket server – a favourite of mine is to use &lt;a href="https://github.com/joewalnes/websocketd"&gt;&lt;code&gt;websocketd&lt;/code&gt;&lt;/a&gt; because it&amp;rsquo;s &lt;em&gt;super&lt;/em&gt; simple. Give it an executable that reads &lt;code&gt;STDIN&lt;/code&gt; and write &lt;code&gt;STDOUT&lt;/code&gt; and your done!&lt;/p&gt;
+&lt;p&gt;There&amp;rsquo;s lots of ways to run a websocket server – a favourite of mine is to use &lt;a href="https://github.com/joewalnes/websocketd"&gt;&lt;code&gt;websocketd&lt;/code&gt;&lt;/a&gt; because it&amp;rsquo;s &lt;em&gt;super&lt;/em&gt; simple. Give it an executable that reads &lt;code&gt;STDIN&lt;/code&gt; and write &lt;code&gt;STDOUT&lt;/code&gt; and you&amp;rsquo;re done!&lt;/p&gt;
 
-&lt;p&gt;For our very simple websocket reporter we are going to use a UNIX &lt;a href="https://en.wikipedia.org/wiki/Named_pipe"&gt;named pipe&lt;/a&gt; to push information out of our cucumber process. To get these events out onto a websocket we need a very simple shell command that reads from a named pipe and echos back onto &lt;code&gt;STDOUT&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For our very simple websocket reporter we are going to use a UNIX &lt;a href="https://en.wikipedia.org/wiki/Named_pipe"&gt;named pipe&lt;/a&gt; to push information out of our cucumber process. To get these events out onto a websocket we need a shell command that reads from a named pipe and echos back onto &lt;code&gt;STDOUT&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;code&gt;subscriber.sh&lt;/code&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code class="highlight shell"&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
@@ -47,7 +49,7 @@ done&lt;/span&gt;
 
 &lt;h3&gt;Writing Cucumber Events to the pipe&lt;/h3&gt;
 
-&lt;p&gt;Let&amp;rsquo;s start by asking cucumber to write messages to the pipe, add the following to &lt;code&gt;features/support/env.rb&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s start by asking cucumber to write messages to the pipe. Add the following to &lt;code&gt;features/support/env.rb&lt;/code&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code class="highlight ruby"&gt;&lt;span class="no"&gt;EVENT_PIPE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"events"&lt;/span&gt;
 &lt;span class="k"&gt;unless&lt;/span&gt; &lt;span class="no"&gt;File&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;exist?&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="no"&gt;EVENT_PIPE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
   &lt;span class="sb"&gt;`mkfifo &lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="no"&gt;EVENT_PIPE&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
@@ -63,11 +65,11 @@ done&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;This should hook up cucumber to write to the same named pipe as &lt;code&gt;subscriber.sh&lt;/code&gt; will read from. With &lt;code&gt;subscriber.sh&lt;/code&gt; up and running, you should be able to run cucumber and see &lt;code&gt;started&lt;/code&gt; and &lt;code&gt;done&lt;/code&gt; output to the terminal by &lt;code&gt;subscriber.sh&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This doesn&amp;rsquo;t use the Events API yet, but we&amp;rsquo;ve got the plumbing in place now to write to the same named pipe as &lt;code&gt;subscriber.sh&lt;/code&gt; will read from. With &lt;code&gt;subscriber.sh&lt;/code&gt; up and running, you should be able to run cucumber and see &lt;code&gt;started&lt;/code&gt; and &lt;code&gt;done&lt;/code&gt; output to the terminal by &lt;code&gt;subscriber.sh&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;For our simple web-browser cucumber reporter we want to show each step that cucumber runs, and it&amp;rsquo;s result. We want cucumber to tell us when it starts to execute, when it starts to run each step, when it finishes a step (and what the result was) and when it&amp;rsquo;s finished executing.&lt;/p&gt;
+&lt;p&gt;For our simple web-browser cucumber reporter we want to show each step that cucumber runs, and its result. We want cucumber to tell us when it starts to execute, when it starts to run each step, when it finishes a step (and what the result was) and when it&amp;rsquo;s finished executing.&lt;/p&gt;
 
-&lt;p&gt;We want to send some formatted JSON that give us some information about the events:&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ll send some formatted JSON that give us some information about the events:&lt;/p&gt;
 &lt;pre&gt;&lt;code class="highlight javascript"&gt;&lt;span class="p"&gt;{&lt;/span&gt;
   &lt;span class="s2"&gt;"event"&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"event_name"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
   &lt;span class="s2"&gt;"data"&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt; &lt;span class="c1"&gt;//information about the event&lt;/span&gt;
@@ -92,7 +94,7 @@ done&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;The Cucumber Events API gives us access to what&amp;rsquo;s going on inside Cucumber while it&amp;rsquo;s running our features. We want to know when a step is going to be run, and what happened when it finished. Cucumber provides us the &lt;a href="http://www.rubydoc.info/gems/cucumber/Cucumber/Events/BeforeTestStep"&gt;&lt;code&gt;BeforeTestStep&lt;/code&gt;&lt;/a&gt; and &lt;a href="http://www.rubydoc.info/gems/cucumber/Cucumber/Events/AfterTestStep"&gt;&lt;code&gt;AfterTestStep&lt;/code&gt;&lt;/a&gt; events. To sign up to hear about these events we can use the cucumber &lt;code&gt;AfterConfiguration&lt;/code&gt; hook to get access to the current config, and add handlers for specific events with the &lt;code&gt;on_event&lt;/code&gt; method:&lt;/p&gt;
+&lt;p&gt;The Cucumber Events API gives us access to what&amp;rsquo;s going on inside Cucumber while it&amp;rsquo;s running our features. We want to know when a step is going to be run, and what happened when it finished. Cucumber provides us the &lt;a href="http://www.rubydoc.info/gems/cucumber/Cucumber/Events/BeforeTestStep"&gt;&lt;code&gt;BeforeTestStep&lt;/code&gt;&lt;/a&gt; and &lt;a href="http://www.rubydoc.info/gems/cucumber/Cucumber/Events/AfterTestStep"&gt;&lt;code&gt;AfterTestStep&lt;/code&gt;&lt;/a&gt; events. To hear about these events we can use the cucumber &lt;code&gt;AfterConfiguration&lt;/code&gt; hook to get access to the current config, and add handlers for specific events with the &lt;code&gt;on_event&lt;/code&gt; method:&lt;/p&gt;
 &lt;pre&gt;&lt;code class="highlight ruby"&gt;&lt;span class="no"&gt;AfterConfiguration&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
   &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;on_event&lt;/span&gt; &lt;span class="ss"&gt;:before_test_step&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;event&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
   &lt;span class="k"&gt;end&lt;/span&gt;
@@ -167,15 +169,15 @@ done&lt;/span&gt;
 
 &lt;p&gt;Then point your browser to [http://localhost:8080] and you should see:&lt;/p&gt;
 
-&lt;p&gt;&lt;img alt="websocketd devconsole" src="/images/websocketd-devconsole.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/websocketd-devconsole.png" /&gt;&lt;/p&gt;
 
 &lt;p&gt;Clicking the little &amp;ldquo;✔&amp;rdquo; in the top left will connect the &lt;code&gt;websocketd&lt;/code&gt;&amp;rsquo;s dev console to the running socket. Now if you &lt;code&gt;echo&lt;/code&gt; some text on to the named pipe, you will see it appear in the console on the web browser. Now running Cucumber again, you should see something like this in the web browser:&lt;/p&gt;
 
-&lt;p&gt;&lt;img alt="cucumber events appear in websocketd devconsole" src="/images/websocketd-devconsole-cuke.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="/images/websocketd-devconsole-cuke.png" /&gt;&lt;/p&gt;
 
 &lt;h3&gt;WebSocket Cucumber&lt;/h3&gt;
 
-&lt;p&gt;Finishing everything up, lets create a simple web-page that uses the websocket to get information from Cucumber as its running. Save this as &lt;code&gt;index.html&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Finishing everything up, lets create a simple web-page that uses the websocket to get information from Cucumber as it&amp;rsquo;s running. Save this as &lt;code&gt;index.html&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code class="highlight html"&gt;&lt;span class="cp"&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
 &lt;span class="nt"&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
 &lt;span class="nt"&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
@@ -287,7 +289,7 @@ done&lt;/span&gt;
 
 &lt;h2&gt;What can I use it for?&lt;/h2&gt;
 
-&lt;p&gt;The Events API is there for getting information out of Cucumber. It&amp;rsquo;s going to be the best way to write new formatters in future &amp;mdash; the old formatter API will be removed in Cucumber 3.0. If you&amp;rsquo;re looking for a way to contribute to Cucumber then rewriting some of the old &lt;a href="https://github.com/cucumber/cucumber-ruby/tree/master/lib/cucumber/formatter"&gt;formatters&lt;/a&gt; to use the new events API.&lt;/p&gt;
+&lt;p&gt;The Events API is there for getting information out of Cucumber. It&amp;rsquo;s going to be the best way to write new formatters in future &amp;mdash; the old formatter API will be removed in Cucumber 3.0. If you&amp;rsquo;re looking for a way to contribute to Cucumber then &lt;a href="https://github.com/cucumber/cucumber-ruby/issues/839"&gt;rewriting some of the old formatters&lt;/a&gt; to use the new events API would be a tremendous help.&lt;/p&gt;
 
 &lt;p&gt;Any questions please come and join us on our &lt;a href="https://gitter.im/cucumber/chat"&gt;gitter channel&lt;/a&gt; or the &lt;a href="https://groups.google.com/forum/#!forum/cukes"&gt;mailing list&lt;/a&gt;. All the code for this blog post is &lt;a href="https://github.com/tooky/cucumber-events"&gt;available here&lt;/a&gt;.&lt;/p&gt;
 </content>
