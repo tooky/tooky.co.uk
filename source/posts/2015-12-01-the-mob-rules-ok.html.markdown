@@ -1,10 +1,9 @@
 ---
-title: 'The Mob Rules, ok?'
-# date: TBD When publishing
-tags:
-  - mobprogramming
+:title: The Mob Rules, ok?
+:tags:
+- mobprogramming
+:date: 2015-12-01
 ---
-
 During the last 6 weeks or so, I've had the pleasure to be working on [Cucumber
 Pro](https://cucumber.io/pro) with the team at [Cucumber
 Limited](https://cucumber.io/). One of the key thing making this such a good
