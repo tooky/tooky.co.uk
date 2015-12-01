@@ -1,0 +1,291 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
+    <title>Steve Tooke - The Mob Rules, ok?</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:300italic,300|Source+Sans+Pro:300|Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <link href="/stylesheets/reset.css" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/highlight.css" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/blog.css" rel="stylesheet" type="text/css" />
+    <script src="/javascripts/track_outbound_links.js" type="text/javascript"></script>
+
+  </head>
+  <body>
+
+  <div id='site-header'>
+    <div id="site-header-wrapper">
+      <h1>
+        <a href="/">
+          Steve Tooke
+        </a>
+      </h1>
+      <h2>software development flavoured with agile, bdd, ruby and javascript</h2>
+    </div>
+  </div>
+  <div id='main-wrapper'>
+    <div id="main" role="main">
+        <article>
+    <header>
+      <h1>The Mob Rules, ok?</h1>
+      <section class="author">
+        <img class="avatar" src="/images/tooky-avatar.jpg">
+        <p class="byline">by Steve Tooke</p>
+        <time datetime="2015-12-01" itemprop="datePublished">December 1st, 2015</time>
+      </section>
+    </header>
+    <section class="article-body">
+      <p>During the last 6 weeks or so, I&rsquo;ve had the pleasure to be working on <a href="https://cucumber.io/pro">Cucumber
+Pro</a> with the team at <a href="https://cucumber.io/">Cucumber
+Limited</a>. One of the key thing making this such a good
+experience has been the way we&rsquo;ve been working. Mob Programming.</p>
+
+<h2>What is Mob Programming?</h2>
+
+<blockquote>
+<p>All the brilliant people working on the same thing, at the same time, in the
+same space, and on the same computer &mdash; <a href="https://twitter.com/woodyzuill">@woodyzuill</a></p>
+</blockquote>
+
+<p>Mob Programming is a term coined by Woody Zuill. It describes a practice that he
+and his team &ldquo;discovered&rdquo; while he was coaching at Hunter Industries. It&rsquo;s a way
+of working where the whole team gather around a single computer and work on
+a single problem together. The team take turns to &ldquo;drive&rdquo; the computer, while
+the other members of the team help to think through the problem and find
+solutions.</p>
+
+<h2>A Remote Mob</h2>
+
+<p>The Cucumber Pro team works remotely. We are geographically distributed
+(although we are usually in similar timezones). Obviously this makes sharing
+a computer more of a challenge, but we&rsquo;ve found a couple of solutions that are
+working well for us.</p>
+
+<p>The first thing is that the person driving always works on their computer. This
+allows everyone to use the tools they are most comfortable with and saves them
+from them having to deal with lag or other connection problems on input.</p>
+
+<p>To share the driver&rsquo;s computer with the rest of the team we have mostly used
+<a href="https://screenhero.com/">Screenhero</a>. Screenhero allows us to share a single
+computer with several other participants (I think we&rsquo;ve had up to 5 or 6).
+Unlike other screensharing technology it also gives each user a mouse pointer.
+This is <em>especially</em> useful when trying to point out where that misspelt
+variable is hiding. Screenhero also allows the navigators to type, which helps
+from time to time.</p>
+
+<p>While Screenhero does provide a voice channel, we generally prefer to use
+<a href="https://hangouts.google.com/">Google Hangouts</a> for voice and video. Partly
+because the sound is better, but really because being able to see each other is
+great!</p>
+
+<p>We haven&rsquo;t found a really good solution for a shared whiteboard yet. Most of the
+drawing we&rsquo;ve done has been on paper and shared with photographs. We&rsquo;ve also
+experimented with an <a href="http://www.ipevo.com/prods/Point-2-View-USB-Camera">iPEVO
+camera</a>. This lets you share
+a drawing live as it happens. We&rsquo;ve used it point to paper on the desktop, and
+with a whiteboard. This is a bit more of an interactive experience, but it still
+only allows one person to draw.</p>
+
+<h2>Mornings only</h2>
+
+<p>We decided that the Cucumber Pro mob would only convene in the mornings. This
+gives us 3.5 focussed hours where we all work together. These morning mob
+sessions are where we take design decisions. We discuss the work that&rsquo;s to be
+done.  Talk through the business, and find examples that we can use to
+illustrate them in our Cucumber features. Its also in these sessions that we
+write most of the code.</p>
+
+<p>Afternoons are more free-form. For a start everyone in the team has other
+responsibilities. So this leaves space for this work. Dealing with email,
+running a business, open-source, etc.</p>
+
+<p>But&hellip; it also leaves space for people to think, to read, to experiment, to fix
+little niggles, to automate tiresome tasks. This space is <em>invaluable</em>. We
+liberally use TODOs while we are mobbing. We use them in the same way we might
+note something we want to address later on an index card. Fixing TODOs in the
+afternoon has been quite common. Sometimes this is just tidying up and getting
+work out of the way, so the mob can focus on bigger tasks. Sometimes this is
+a spike to try out some idea before presenting it back to the mob.</p>
+
+<h2>Pull requests</h2>
+
+<p>We use <a href="https://github.com">Github&rsquo;s</a> <a href="https://help.github.com/articles/using-pull-requests/">pull
+requests</a> in a couple of
+different ways. Firstly, any work that people undertake outside of the mob (in
+the afternoon), is almost always done on a pull-request. This allows us to use
+GitHub as the communication channel about the code, and it means that work that
+is done indivdually is seen by someone else before its merged.</p>
+
+<p>We have also been using pull requests for work-in-progress. Not everyone on the
+Cucumber Pro team is available everyday. There&rsquo;s often someone away delivering
+training or consulting, or at a conference. Again pull requests let us use
+Github&rsquo;s great tooling for seeing changes to the code over time, and having
+asynchronous discussions with those who weren&rsquo;t able to join the mob.</p>
+
+<h2>Daily retrospective</h2>
+
+<p>We end every mob session with a short retrospective. We ask ourselves two
+questions:</p>
+
+<ul>
+<li>What have we learnt?</li>
+<li>What puzzles us?</li>
+</ul>
+
+<p>We use this as a chance to reflect on the work we have done, and how things
+went. We try to recognise things that have gone well so we can do more of them,
+and recognise problems early so that we can head them off.</p>
+
+<p>We also spend a few minutes thinking about the next steps, where the mob&rsquo;s focus
+should go next.</p>
+
+<p>We write all of this up in a file at the root of the project and commit it to
+the repository. This is helpful for the team members that weren&rsquo;t in the mob
+session. It helps to share what we&rsquo;ve learnt and our questions with them. It
+also marks where the mob finished that day.</p>
+
+<p>We&rsquo;re currently adding each retrospective at the top of a single file, and
+maintaining a history. I&rsquo;m confident that it will be useful to reflect back on
+how our thoughts and feelings about the project change over time.</p>
+
+<h2>Joy</h2>
+
+<p>Mob programming is a great way to build a team. I feel that we get a real sense
+that we&rsquo;re working together towards a common goal. We solve problems together.
+We learn together and we teach each other. By reflecting on each session, we
+learn more about how each of us likes to work, and how we can all help each
+other.</p>
+
+<p>The remote working lets us all be comfortable in our surroundings. We&rsquo;ve had
+<a href="https://twitter.com/mattwynne">Matt</a> join for a few hours while he&rsquo;s been in
+<a href="https://cucumber.io/events/cukeup-australia-2015">Australia</a>. The last couple
+of days <a href="https://twitter.com/aslak_hellesoy">Aslak</a> has been in the mob, with
+his new baby nestled in a sling &mdash; there is something really calming about
+hearing contented baby gurgles while your working.</p>
+
+<p>Remote collaboration is quite an intense way to work. I&rsquo;ve done quite a lot of
+remote pair programming and it can be quite draining. Keeping the afternoons
+free really helps to combat this.</p>
+
+<p>Working in the mob everyday is fantastic. I look forward to them because their
+fun, and I feel like we&rsquo;re growing as a team every day &mdash; but the afternoon
+space is just as important.</p>
+
+    </section>
+  </article>
+
+    </div>
+
+    <aside id="sidebar">
+      <ol id="recent-articles">
+        <h2>
+          Recent Articles
+          <a href="/feed.xml" class="feed" title="Subscribe!"><i class="fa fa-rss"></i></a>
+        </h2>
+          <li><a href="/the-mob-rules-ok/">The Mob Rules, ok?</a> <span>Dec  1</span></li>
+          <li><a href="/hands-on-with-cucumber-events-api/">Hands-on With the Cucumber Events API</a> <span>Sep 14</span></li>
+          <li><a href="/your-tests-want-you-to-change-your-design/">Your tests want you to change your design</a> <span>Dec 19</span></li>
+          <li><a href="/test-first-diamonds/">Test first diamonds</a> <span>Dec  6</span></li>
+          <li><a href="/connascence-and-inverting-dependencies/">Connascence and Inverting Dependencies</a> <span>Nov  7</span></li>
+      </ol>
+
+      <ul id="tags">
+        <h2>Tags</h2>
+          <li><a href="/tags/design/">Design</a></a></li>
+          <li><a href="/tags/kata/">Kata</a></a></li>
+          <li><a href="/tags/tdd/">TDD</a></a></li>
+          <li><a href="/tags/apprenticeship/">apprenticeship</a></a></li>
+          <li><a href="/tags/atdd/">atdd</a></a></li>
+          <li><a href="/tags/bdd/">bdd</a></a></li>
+          <li><a href="/tags/bletchley-park/">bletchley park</a></a></li>
+          <li><a href="/tags/charlock_holmes/">charlock_holmes</a></a></li>
+          <li><a href="/tags/chris-matts/">chris-matts</a></a></li>
+          <li><a href="/tags/coderetreat/">coderetreat</a></a></li>
+          <li><a href="/tags/connascence/">connascence</a></a></li>
+          <li><a href="/tags/corey-haines/">corey-haines</a></a></li>
+          <li><a href="/tags/craft/">craft</a></a></li>
+          <li><a href="/tags/craftsmanship/">craftsmanship</a></a></li>
+          <li><a href="/tags/cucumber/">cucumber</a></a></li>
+          <li><a href="/tags/cynefin/">cynefin</a></a></li>
+          <li><a href="/tags/deploymnent/">deploymnent</a></a></li>
+          <li><a href="/tags/design/">design</a></a></li>
+          <li><a href="/tags/dev/">dev</a></a></li>
+          <li><a href="/tags/development/">development</a></a></li>
+          <li><a href="/tags/eden/">eden</a></a></li>
+          <li><a href="/tags/environment/">environment</a></a></li>
+          <li><a href="/tags/fitnesse/">fitnesse</a></a></li>
+          <li><a href="/tags/git/">git</a></a></li>
+          <li><a href="/tags/github/">github</a></a></li>
+          <li><a href="/tags/hacks/">hacks</a></a></li>
+          <li><a href="/tags/heroku/">heroku</a></a></li>
+          <li><a href="/tags/javascript/">javascript</a></a></li>
+          <li><a href="/tags/jekyll/">jekyll</a></a></li>
+          <li><a href="/tags/kickstartac/">kickstartac</a></a></li>
+          <li><a href="/tags/libicu/">libicu</a></a></li>
+          <li><a href="/tags/liz-keogh/">liz-keogh</a></a></li>
+          <li><a href="/tags/macosx/">macosx</a></a></li>
+          <li><a href="/tags/mobprogramming/">mobprogramming</a></a></li>
+          <li><a href="/tags/oo/">oo</a></a></li>
+          <li><a href="/tags/oop/">oop</a></a></li>
+          <li><a href="/tags/pairing/">pairing</a></a></li>
+          <li><a href="/tags/podcast/">podcast</a></a></li>
+          <li><a href="/tags/practices/">practices</a></a></li>
+          <li><a href="/tags/project/">project</a></a></li>
+          <li><a href="/tags/retrospective/">retrospective</a></a></li>
+          <li><a href="/tags/ruby/">ruby</a></a></li>
+          <li><a href="/tags/sandi-metz/">sandi-metz</a></a></li>
+          <li><a href="/tags/sinatra/">sinatra</a></a></li>
+          <li><a href="/tags/software/">software</a></a></li>
+          <li><a href="/tags/solid/">solid</a></a></li>
+          <li><a href="/tags/specification-by-example/">specification-by-example</a></a></li>
+          <li><a href="/tags/tdd/">tdd</a></a></li>
+          <li><a href="/tags/tools/">tools</a></a></li>
+          <li><a href="/tags/training/">training</a></a></li>
+          <li><a href="/tags/vim/">vim</a></a></li>
+          <li><a href="/tags/xp/">xp</a></a></li>
+      </ul>
+
+      <div id="bio">
+        <img class="avatar" src="/images/tooky-avatar.jpg">
+        <h2>Steve Tooke</h2>
+        <p>
+        I am a programmer &mdash; consultant, trainer and coach &mdash;
+        passionate about improving my craft and helping others improve
+        theirs. I specialise in helping teams continue to deliver
+        valuable software by improving their team practices and
+        communication, and keeping their code maintainable.
+        </p>
+        <p>
+        I co-organised Bootstrapd, a non-profit conference for
+        bootstrapped startups in Europe. I am the co-founder of the
+        Software Craftsmanship UK user group, and the HampshiRB ruby
+        user group. I have spoken at the Scottish Ruby
+        Conference and have run workshops at the London Software
+        Craftsmanship Community. I am a member of the Cucumber core
+        team.
+        </p>
+        <p>
+        <a href="http://kickstartacademy.io">Kickstart Academy</a>
+        </p>
+      </div>
+    </aside>
+    <footer>
+      <div id='site-footer'>
+        <p>All content copyright Steve Tooke &copy; 2015 &middot; All rights reserved.</p>
+        <p>Find me on <a href="http://twitter.com/tooky">Twitter</a> | <a href="https://plus.google.com/+SteveTooke-Heavies/">Google+</a></a></p>
+    </div>
+    </footer>
+  </div>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-37664795-2', 'tooky.co.uk');
+    ga('send', 'pageview');
+
+  </script>
+  </body>
+</html>

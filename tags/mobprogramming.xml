@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Steve Tooke - mobprogramming</title>
+  <id>http://tooky.co.uk/</id>
+  <link href="http://tooky.co.uk/tags/mobprogramming/"/>
+  <link href="http://tooky.co.uk/tags/mobprogramming.xml" rel="self"/>
+  <updated>2015-12-01T00:00:00+00:00</updated>
+  <entry>
+    <title>The Mob Rules, ok?</title>
+    <link rel="alternate" href="http://tooky.co.uk/the-mob-rules-ok/"/>
+    <id>http://tooky.co.uk/the-mob-rules-ok/</id>
+    <published>2015-12-01T00:00:00+00:00</published>
+    <updated>2015-12-01T06:27:49+00:00</updated>
+    <author>
+      <name>Steve Tooke</name>
+    </author>
+    <content type="html">&lt;p&gt;During the last 6 weeks or so, I&amp;rsquo;ve had the pleasure to be working on &lt;a href="https://cucumber.io/pro"&gt;Cucumber
+Pro&lt;/a&gt; with the team at &lt;a href="https://cucumber.io/"&gt;Cucumber
+Limited&lt;/a&gt;. One of the key thing making this such a good
+experience has been the way we&amp;rsquo;ve been working. Mob Programming.&lt;/p&gt;
+
+&lt;h2&gt;What is Mob Programming?&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;All the brilliant people working on the same thing, at the same time, in the
+same space, and on the same computer &amp;mdash; &lt;a href="https://twitter.com/woodyzuill"&gt;@woodyzuill&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Mob Programming is a term coined by Woody Zuill. It describes a practice that he
+and his team &amp;ldquo;discovered&amp;rdquo; while he was coaching at Hunter Industries. It&amp;rsquo;s a way
+of working where the whole team gather around a single computer and work on
+a single problem together. The team take turns to &amp;ldquo;drive&amp;rdquo; the computer, while
+the other members of the team help to think through the problem and find
+solutions.&lt;/p&gt;
+
+&lt;h2&gt;A Remote Mob&lt;/h2&gt;
+
+&lt;p&gt;The Cucumber Pro team works remotely. We are geographically distributed
+(although we are usually in similar timezones). Obviously this makes sharing
+a computer more of a challenge, but we&amp;rsquo;ve found a couple of solutions that are
+working well for us.&lt;/p&gt;
+
+&lt;p&gt;The first thing is that the person driving always works on their computer. This
+allows everyone to use the tools they are most comfortable with and saves them
+from them having to deal with lag or other connection problems on input.&lt;/p&gt;
+
+&lt;p&gt;To share the driver&amp;rsquo;s computer with the rest of the team we have mostly used
+&lt;a href="https://screenhero.com/"&gt;Screenhero&lt;/a&gt;. Screenhero allows us to share a single
+computer with several other participants (I think we&amp;rsquo;ve had up to 5 or 6).
+Unlike other screensharing technology it also gives each user a mouse pointer.
+This is &lt;em&gt;especially&lt;/em&gt; useful when trying to point out where that misspelt
+variable is hiding. Screenhero also allows the navigators to type, which helps
+from time to time.&lt;/p&gt;
+
+&lt;p&gt;While Screenhero does provide a voice channel, we generally prefer to use
+&lt;a href="https://hangouts.google.com/"&gt;Google Hangouts&lt;/a&gt; for voice and video. Partly
+because the sound is better, but really because being able to see each other is
+great!&lt;/p&gt;
+
+&lt;p&gt;We haven&amp;rsquo;t found a really good solution for a shared whiteboard yet. Most of the
+drawing we&amp;rsquo;ve done has been on paper and shared with photographs. We&amp;rsquo;ve also
+experimented with an &lt;a href="http://www.ipevo.com/prods/Point-2-View-USB-Camera"&gt;iPEVO
+camera&lt;/a&gt;. This lets you share
+a drawing live as it happens. We&amp;rsquo;ve used it point to paper on the desktop, and
+with a whiteboard. This is a bit more of an interactive experience, but it still
+only allows one person to draw.&lt;/p&gt;
+
+&lt;h2&gt;Mornings only&lt;/h2&gt;
+
+&lt;p&gt;We decided that the Cucumber Pro mob would only convene in the mornings. This
+gives us 3.5 focussed hours where we all work together. These morning mob
+sessions are where we take design decisions. We discuss the work that&amp;rsquo;s to be
+done.  Talk through the business, and find examples that we can use to
+illustrate them in our Cucumber features. Its also in these sessions that we
+write most of the code.&lt;/p&gt;
+
+&lt;p&gt;Afternoons are more free-form. For a start everyone in the team has other
+responsibilities. So this leaves space for this work. Dealing with email,
+running a business, open-source, etc.&lt;/p&gt;
+
+&lt;p&gt;But&amp;hellip; it also leaves space for people to think, to read, to experiment, to fix
+little niggles, to automate tiresome tasks. This space is &lt;em&gt;invaluable&lt;/em&gt;. We
+liberally use TODOs while we are mobbing. We use them in the same way we might
+note something we want to address later on an index card. Fixing TODOs in the
+afternoon has been quite common. Sometimes this is just tidying up and getting
+work out of the way, so the mob can focus on bigger tasks. Sometimes this is
+a spike to try out some idea before presenting it back to the mob.&lt;/p&gt;
+
+&lt;h2&gt;Pull requests&lt;/h2&gt;
+
+&lt;p&gt;We use &lt;a href="https://github.com"&gt;Github&amp;rsquo;s&lt;/a&gt; &lt;a href="https://help.github.com/articles/using-pull-requests/"&gt;pull
+requests&lt;/a&gt; in a couple of
+different ways. Firstly, any work that people undertake outside of the mob (in
+the afternoon), is almost always done on a pull-request. This allows us to use
+GitHub as the communication channel about the code, and it means that work that
+is done indivdually is seen by someone else before its merged.&lt;/p&gt;
+
+&lt;p&gt;We have also been using pull requests for work-in-progress. Not everyone on the
+Cucumber Pro team is available everyday. There&amp;rsquo;s often someone away delivering
+training or consulting, or at a conference. Again pull requests let us use
+Github&amp;rsquo;s great tooling for seeing changes to the code over time, and having
+asynchronous discussions with those who weren&amp;rsquo;t able to join the mob.&lt;/p&gt;
+
+&lt;h2&gt;Daily retrospective&lt;/h2&gt;
+
+&lt;p&gt;We end every mob session with a short retrospective. We ask ourselves two
+questions:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;What have we learnt?&lt;/li&gt;
+&lt;li&gt;What puzzles us?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We use this as a chance to reflect on the work we have done, and how things
+went. We try to recognise things that have gone well so we can do more of them,
+and recognise problems early so that we can head them off.&lt;/p&gt;
+
+&lt;p&gt;We also spend a few minutes thinking about the next steps, where the mob&amp;rsquo;s focus
+should go next.&lt;/p&gt;
+
+&lt;p&gt;We write all of this up in a file at the root of the project and commit it to
+the repository. This is helpful for the team members that weren&amp;rsquo;t in the mob
+session. It helps to share what we&amp;rsquo;ve learnt and our questions with them. It
+also marks where the mob finished that day.&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;re currently adding each retrospective at the top of a single file, and
+maintaining a history. I&amp;rsquo;m confident that it will be useful to reflect back on
+how our thoughts and feelings about the project change over time.&lt;/p&gt;
+
+&lt;h2&gt;Joy&lt;/h2&gt;
+
+&lt;p&gt;Mob programming is a great way to build a team. I feel that we get a real sense
+that we&amp;rsquo;re working together towards a common goal. We solve problems together.
+We learn together and we teach each other. By reflecting on each session, we
+learn more about how each of us likes to work, and how we can all help each
+other.&lt;/p&gt;
+
+&lt;p&gt;The remote working lets us all be comfortable in our surroundings. We&amp;rsquo;ve had
+&lt;a href="https://twitter.com/mattwynne"&gt;Matt&lt;/a&gt; join for a few hours while he&amp;rsquo;s been in
+&lt;a href="https://cucumber.io/events/cukeup-australia-2015"&gt;Australia&lt;/a&gt;. The last couple
+of days &lt;a href="https://twitter.com/aslak_hellesoy"&gt;Aslak&lt;/a&gt; has been in the mob, with
+his new baby nestled in a sling &amp;mdash; there is something really calming about
+hearing contented baby gurgles while your working.&lt;/p&gt;
+
+&lt;p&gt;Remote collaboration is quite an intense way to work. I&amp;rsquo;ve done quite a lot of
+remote pair programming and it can be quite draining. Keeping the afternoons
+free really helps to combat this.&lt;/p&gt;
+
+&lt;p&gt;Working in the mob everyday is fantastic. I look forward to them because their
+fun, and I feel like we&amp;rsquo;re growing as a team every day &amp;mdash; but the afternoon
+space is just as important.&lt;/p&gt;
+</content>
+  </entry>
+</feed>

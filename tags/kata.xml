@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Steve Tooke - kata</title>
+  <id>http://tooky.co.uk/</id>
+  <link href="http://tooky.co.uk/tags/kata/"/>
+  <link href="http://tooky.co.uk/tags/kata.xml" rel="self"/>
+</feed>
