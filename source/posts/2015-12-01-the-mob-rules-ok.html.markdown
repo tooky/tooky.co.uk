@@ -1,5 +1,5 @@
 ---
-:title: The Mob Rules, ok?
+:title: The mob rules, ok?
 :tags:
 - mobprogramming
 :date: 2015-12-01
