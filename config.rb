@@ -4,6 +4,7 @@
 
 # Time.zone = "UTC"
 
+ignore "post.html"
 activate :blog do |blog|
   blog.permalink = ":title.html"
   blog.sources = "posts/:year-:month-:day-:title.html"
