@@ -133,5 +133,5 @@ remote pair programming and it can be quite draining. Keeping the afternoons
 free really helps to combat this.
 
 Working in the mob everyday is fantastic. I look forward to them because their
-fun, and I feel like we're growing as a team every day &mdash but the afternoon
+fun, and I feel like we're growing as a team every day &mdash; but the afternoon
 space is just as important.
