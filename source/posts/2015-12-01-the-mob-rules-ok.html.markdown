@@ -15,11 +15,11 @@ experience has been the way we've been working. Mob Programming.
 > same space, and on the same computer &mdash; [@woodyzuill](https://twitter.com/woodyzuill)
 
 Mob Programming is a term coined by Woody Zuill. It describes a practice that he
-and his team "discovered" while he was coaching at Hunter Industries. It
-describes a way of working where the whole team gather around a single computer
-and work on a single problem together. The team take turns to "drive" the
-computer, while the other members of the team help to think through the problem
-and find solutions.
+and his team "discovered" while he was coaching at Hunter Industries. It's a way
+of working where the whole team gather around a single computer and work on
+a single problem together. The team take turns to "drive" the computer, while
+the other members of the team help to think through the problem and find
+solutions.
 
 ## A Remote Mob
 
