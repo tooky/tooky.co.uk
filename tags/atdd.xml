@@ -73,7 +73,7 @@
     <link rel="alternate" href="http://tooky.co.uk/cucumber-and-full-stack-testing/"/>
     <id>http://tooky.co.uk/cucumber-and-full-stack-testing/</id>
     <published>2013-01-18T00:00:00+00:00</published>
-    <updated>2013-12-18T10:29:53+00:00</updated>
+    <updated>2017-09-18T09:11:29+01:00</updated>
     <author>
       <name>Steve Tooke</name>
     </author>
@@ -89,7 +89,7 @@
 
 &lt;p&gt;I&amp;rsquo;ve been talking about this with &lt;a href="https://twitter.com/mattwynne"&gt;Matt Wynne&lt;/a&gt; and he drew the following diagram:&lt;/p&gt;
 
-&lt;p&gt;&lt;img alt="Business Facing Acceptance Tests vs End-To-End Tests" src="https://dl.dropboxusercontent.com/u/41915/tooky-images/business-facing-vs-end-to-end.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Business Facing Acceptance Tests vs End-To-End Tests" src="https://www.dropbox.com/s/9urwnbofdbcwm82/business-facing-vs-end-to-end.png?dl=1" /&gt;&lt;/p&gt;
 
 &lt;p&gt;The circle on the left represents the tests that we would write in cucumber (or fitnesse). The circle on the right the tests which exercise the whole system end-to-end. In the centre we have the intersection &amp;mdash; our cucumber scenarios which we run end-to-end against the whole system.&lt;/p&gt;
 
