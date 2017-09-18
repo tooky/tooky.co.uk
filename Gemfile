@@ -9,6 +9,7 @@ gem "middleman-syntax"
 gem "middleman-deploy"
 gem "nokogiri"
 gem "redcarpet"
+gem "json", "~> 1.8"
 
 # For feed.xml.builder
 gem "builder", "~> 3.0"
