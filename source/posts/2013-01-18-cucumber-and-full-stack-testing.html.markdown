@@ -21,7 +21,7 @@ It's very easy to conflate these two concerns. I have worked on many systems whe
 
 I've been talking about this with [Matt Wynne](https://twitter.com/mattwynne) and he drew the following diagram:
 
-![Business Facing Acceptance Tests vs End-To-End Tests](https://dl.dropboxusercontent.com/u/41915/tooky-images/business-facing-vs-end-to-end.png)
+![Business Facing Acceptance Tests vs End-To-End Tests](https://www.dropbox.com/s/9urwnbofdbcwm82/business-facing-vs-end-to-end.png?dl=1)
 
 The circle on the left represents the tests that we would write in cucumber (or fitnesse). The circle on the right the tests which exercise the whole system end-to-end. In the centre we have the intersection &mdash; our cucumber scenarios which we run end-to-end against the whole system.
 
